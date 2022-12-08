@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="generator" content="pandoc">
+  <title>第6回 課題</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+<style type="text/css">
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+code {
+  white-space: pre-wrap;
+}
+
+span.smallcaps {
+  font-variant: small-caps;
+}
+
+span.underline {
+  text-decoration: underline;
+}
+
+div.column {
+  display: inline-block;
+  vertical-align: top;
+  width: 50%;
+}
+
+body {
+  font-size: 14pt;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN,
+    Arial, "メイリオ", Meiryo, sans-serif;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 2em;
+  background-color: #f8f8f8;
+  color: #232323;
+}
+
+hr {
+  height: 4px;
+  padding: 0;
+  margin: 6rem 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+  background:
+    url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC");
+}
+
+p,
+table {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  line-height: 2rem;
+  letter-spacing: 0.03rem;
+}
+
+strong {
+  text-decoration: none;
+  color: hsla(0, 75%, 55%, 1);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+  color: #232323;
+  letter-spacing: 0.05rem;
+  margin-top: 2rem;
+}
+
+h1 {
+  font-size: 2rem;
+  margin: 2rem auto 1rem;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+  margin: 2rem 0 1rem;
+}
+
+h5 {
+  font-size: 1.2rem;
+  margin: 2rem 0 1rem;
+}
+
+h6 {
+  font-size: 1.1rem;
+  margin: 2rem 0 1rem;
+}
+
+ul,
+ol {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  line-height: 1.6;
+  letter-spacing: 0.025rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding-left: 2rem;
+}
+
+ul li,
+ol li {
+  padding-left: .5rem;
+}
+
+ul ul,
+ol ul,
+ul ol,
+ol ol {
+  padding-left: 1.5rem;
+}
+
+table {
+  border-collapse: collapse;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  max-width: 100%;
+  width: 100% !important;
+  font-size: 1rem;
+  overflow: auto;
+}
+
+table th {
+  text-align: center;
+  font-weight: nomal;
+  background-color: #f0f0f0;
+  color: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+table tr {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+table td {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+a {
+  color: #5484c8;
+}
+
+.margin-clear {
+  margin-left: 0;
+}
+
+blockquote {
+  border-left: 4px #ddd solid;
+  padding: 0;
+  margin: 2rem;
+}
+
+blockquote * {
+  color: #999;
+}
+
+blockquote p {
+  padding: 0 1rem;
+  text-indent: 0;
+}
+
+img,
+iframe,
+figure {
+  max-width: 100%;
+}
+
+p img {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+pre,
+code,
+var,
+samp,
+kbd,
+.mono {
+  font-family: "Ricty Diminished", "Consolas", 'Courier New', Courier, Monaco, monospace;
+  line-height: 1.2;
+}
+
+table code,
+p code,
+ul code,
+ol code {
+  display: inline-block;
+  border: 1px solid #eaeaea;
+  background-color: rgb(119, 119, 119);
+  color: #f8f8f8;
+  white-space: nowrap;
+  border-radius: 2px;
+  display: inline-block;
+  padding-top: 6px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 0px;
+  margin: 0 4px;
+}
+
+pre code {
+  border: 1px solid #eaeaea;
+  background-color: #f5f5f5;
+  border-radius: 2px;
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  font-size: 1rem;
+}
+
+.highlight pre {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+div.sourceCode {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+div.sourceCode pre,
+div.sourceCode code {
+  background-color: transparent;
+  margin: 0;
+}
+
+pre code,
+pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+table.sourceCode,
+tr.sourceCode,
+td.lineNumbers,
+td.sourceCode {
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
+  border: none;
+}
+
+table.sourceCode pre {
+  padding: 2px;
+  margin: 0;
+  border: none;
+  color: inherit;
+}
+table.sourceCode code {
+  color: inherit;
+}
+
+table.sourceCode {
+  width: 100%;
+  line-height: 100%;
+}
+
+td.lineNumbers {
+  text-align: right;
+  color: #aaaaaa;
+  border-right: 1px solid #aaaaaa;
+}
+</style>
+</head>
+<body>
+  <header>
+  <h1 class="title">第6回 課題</h1>
+        </header>
+<blockquote>
+<p>オブジェクト指向プログラミングおよび演習1 第6回</p>
+<p>勇者は、武器を装備できるようにし、テキストメッセージをもっとユーザーに向けて親切な設計としましょう。</p>
+</blockquote>
+<h1 id="課題1-勇者は武器を装備できるようにする">課題1<br>勇者は武器を装備できるようにする</h1>
+<p>練習ついでなので、装備クラスから作成し、装備クラスを継承した武器クラスを作りましょう。
+今回は武器の追加を行いたいだけなので、装備クラスのように抽象化を行う意味は特にないです。</p>
+<h2 id="jpacaitk00000equipmentクラス">jp.ac.ait.k00000.Equipmentクラス</h2>
+<h3 id="フィールド">フィールド</h3>
+<ul>
+<li><code>private String name</code> - 名前</li>
+</ul>
+<h3 id="コンストラクタ">コンストラクタ</h3>
+<ul>
+<li><code>public Equipment(String name)</code>
+<ul>
+<li>初期値セット</li>
+</ul></li>
+<li><code>public Equipment()</code>
+<ul>
+<li>名前を「装備」で初期化</li>
+</ul></li>
+</ul>
+<h3 id="メソッド">メソッド</h3>
+<ul>
+<li><code>public String getName()</code> - 名前を返す</li>
+<li><code>public void setName(String name)</code> - 名前を設定する</li>
+</ul>
+<h2 id="jpacaitk00000weaponクラス">jp.ac.ait.k00000.Weaponクラス</h2>
+<p>Weaponクラスは、Equipmentクラスを親とします。</p>
+<h3 id="フィールド追加">フィールド（追加）</h3>
+<ul>
+<li><code>private int atk</code> - 攻撃力加算値</li>
+</ul>
+<h3 id="コンストラクタ-1">コンストラクタ</h3>
+<ul>
+<li><code>public Weapon(String name, int atk)</code>
+<ul>
+<li>初期値セット</li>
+<li><code>super(name)</code>のあとに<code>this.atk = atk</code></li>
+</ul></li>
+<li><code>public Weapon()</code>
+<ul>
+<li>名前を「武器」、攻撃力加算値「0」で初期化</li>
+</ul></li>
+</ul>
+<h3 id="メソッド追加">メソッド（追加）</h3>
+<ul>
+<li><code>public int getAtk()</code> - 攻撃力加算値を返す</li>
+<li><code>public void setAtk(int atk)</code> -
+攻撃力加算値を設定する</li>
+</ul>
+<h2 id="jpacaitk00000heroクラスに仕様変更">jp.ac.ait.k00000.Heroクラスに仕様変更</h2>
+<h3 id="フィールド追加-1">フィールド（追加）</h3>
+<ul>
+<li><code>private Weapon weapon = null</code> -
+武器（このフィールドがnullの場合、武器は未装備状態であるとする）</li>
+</ul>
+<h3 id="メソッド追加-1">メソッド（追加）</h3>
+<ul>
+<li><code>public Weapon getWeapon()</code> - 装備武器を返す</li>
+<li><code>public void setWeapon(Weapon weapon)</code> -
+装備武器を設定する</li>
+</ul>
+<h3 id="メソッド仕様変更">メソッド（仕様変更）</h3>
+<ul>
+<li><code>public int getAtk()</code>
+<ul>
+<li>武器が設定されている場合は親クラスにて保持している攻撃力に加えて武器の攻撃力加算値を足して返すようにする。</li>
+<li>武器が未設定の場合は、変更する前と同じ値が返される。</li>
+</ul></li>
+</ul>
+<h2 id="jpacaitk00000simplerpgクラスにて武器装備の処理を追加">jp.ac.ait.k00000.SimpleRPGクラスにて武器装備の処理を追加</h2>
+<p>勇者の生成後、任意の適当な武器を装備させてください。
+このとき、生成する武器の攻撃力加算値はあまり大きくしすぎないようにするとゲームのバランスを崩壊させずにすみます。</p>
+<hr />
+<br>
+<br>
+
+<h1 id="課題2-フレーバーテキストの修正">課題2<br>フレーバーテキストの修正</h1>
+<p>SimpleRPGクラスにて、ゲームの進行時に表示されるメッセージを、各自ストーリーを考えながら変更してください。</p>
+<p>どのような変更をしてもらっても構いませんが、ゲームの一連の流れを変えることはNGです。
+あくまでもストーリー進行を自分好みに変えることが課題となります。</p>
+<p>（ここで言うゲームの流れとは、勇者の名前決定や武器装備→敵の作成→戦闘開始→勇者や敵の行動→ゲーム終了といった一連の流れのことです。例えばストーリーの都合上勇者を回復させたい、敵が何度も復活するようにしたい、などの要望は今作成しているRPGではできません。どのように改修を行えばそういった機能を追加できるか考えるのは自由ですし、各自で進めてもらう分には問題ありませんが、提出する課題としてはそれはやらないようにしましょう）</p>
+<p>また、以下の修正は必須で入れるようにしましょう。</p>
+<ol type="1">
+<li>敵の名前の変更</li>
+<li>攻撃がミスした場合のメッセージの追加(講義内で作成したコードには、このメッセージは出ないようになっています)</li>
+<li>攻撃がクリティカルヒットした場合のメッセージの改変</li>
+<li>勇者及び敵が攻撃を行ったあとのメッセージ中に、攻撃対象だった勇者及び敵の残りHPを追加表示</li>
+</ol>
+<p>この課題2に正解はありませんが、配布資料と同じものまたはよく似たものをそのまま出すことは減点対象となります。
+必ず自分で考えたもので修正を行い、提出をしてください。</p>
+<p>また、提出された課題の内容は、教員及びTAさんには閲覧できる状態になります。
+特定の誰かを誹謗中傷するようなものだったり、良識の範囲から完全に逸脱するような行為、公序良俗に反する内容への改変はしないようご注意ください。</p>
+<hr />
+<br>
+<br>
+
+<h1 id="提出に関して">提出に関して</h1>
+<p>作成したjavaファイルが入ったsrcディレクトリをzip圧縮したものと、プロジェクトで作成したSimpleRPG.jarを提出してください。
+jar形式のファイルの作成方法は、第5回
+配布資料の「実行可能形式ファイルの作成」を参照してください。</p>
+<p>今回提出するファイルは以下の通りです。</p>
+<ol type="1">
+<li>IntelliJ
+IDEAのプロジェクトディレクトリにある<code>src</code>フォルダをzip圧縮したファイル</li>
+<li>自分の環境で生成した<code>SimpleRPG.jar</code>ファイル</li>
+</ol>
+</body>
+</html>

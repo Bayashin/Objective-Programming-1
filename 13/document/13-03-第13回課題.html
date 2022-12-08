@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="generator" content="pandoc">
+  <title>第13回課題</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+<style type="text/css">
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+code {
+  white-space: pre-wrap;
+}
+
+span.smallcaps {
+  font-variant: small-caps;
+}
+
+span.underline {
+  text-decoration: underline;
+}
+
+div.column {
+  display: inline-block;
+  vertical-align: top;
+  width: 50%;
+}
+
+body {
+  font-size: 14pt;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN,
+    Arial, "メイリオ", Meiryo, sans-serif;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 2em;
+  background-color: #f8f8f8;
+  color: #232323;
+}
+
+hr {
+  height: 4px;
+  padding: 0;
+  margin: 6rem 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+  background:
+    url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC");
+}
+
+p,
+table {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  line-height: 2rem;
+  letter-spacing: 0.03rem;
+}
+
+strong {
+  text-decoration: none;
+  color: hsla(0, 75%, 55%, 1);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+  color: #232323;
+  letter-spacing: 0.05rem;
+  margin-top: 2rem;
+}
+
+h1 {
+  font-size: 2rem;
+  margin: 2rem auto 1rem;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+  margin: 2rem 0 1rem;
+}
+
+h5 {
+  font-size: 1.2rem;
+  margin: 2rem 0 1rem;
+}
+
+h6 {
+  font-size: 1.1rem;
+  margin: 2rem 0 1rem;
+}
+
+ul,
+ol {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  line-height: 1.6;
+  letter-spacing: 0.025rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding-left: 2rem;
+}
+
+ul li,
+ol li {
+  padding-left: .5rem;
+}
+
+ul ul,
+ol ul,
+ul ol,
+ol ol {
+  padding-left: 1.5rem;
+}
+
+table {
+  border-collapse: collapse;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  max-width: 100%;
+  width: 100% !important;
+  font-size: 1rem;
+  overflow: auto;
+}
+
+table th {
+  text-align: center;
+  font-weight: nomal;
+  background-color: #f0f0f0;
+  color: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+table tr {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+table td {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+a {
+  color: #5484c8;
+}
+
+.margin-clear {
+  margin-left: 0;
+}
+
+blockquote {
+  border-left: 4px #ddd solid;
+  padding: 0;
+  margin: 2rem;
+}
+
+blockquote * {
+  color: #999;
+}
+
+blockquote p {
+  padding: 0 1rem;
+  text-indent: 0;
+}
+
+img,
+iframe,
+figure {
+  max-width: 100%;
+}
+
+p img {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+pre,
+code,
+var,
+samp,
+kbd,
+.mono {
+  font-family: "Ricty Diminished", "Consolas", 'Courier New', Courier, Monaco, monospace;
+  line-height: 1.2;
+}
+
+table code,
+p code,
+ul code,
+ol code {
+  display: inline-block;
+  border: 1px solid #eaeaea;
+  background-color: rgb(119, 119, 119);
+  color: #f8f8f8;
+  white-space: nowrap;
+  border-radius: 2px;
+  display: inline-block;
+  padding-top: 6px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 0px;
+  margin: 0 4px;
+}
+
+pre code {
+  border: 1px solid #eaeaea;
+  background-color: #f5f5f5;
+  border-radius: 2px;
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  font-size: 1rem;
+}
+
+.highlight pre {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+div.sourceCode {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+div.sourceCode pre,
+div.sourceCode code {
+  background-color: transparent;
+  margin: 0;
+}
+
+pre code,
+pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+table.sourceCode,
+tr.sourceCode,
+td.lineNumbers,
+td.sourceCode {
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
+  border: none;
+}
+
+table.sourceCode pre {
+  padding: 2px;
+  margin: 0;
+  border: none;
+  color: inherit;
+}
+table.sourceCode code {
+  color: inherit;
+}
+
+table.sourceCode {
+  width: 100%;
+  line-height: 100%;
+}
+
+td.lineNumbers {
+  text-align: right;
+  color: #aaaaaa;
+  border-right: 1px solid #aaaaaa;
+}
+</style>
+</head>
+<body>
+  <header>
+  <h1 class="title">第13回課題</h1>
+        </header>
+<blockquote>
+<p>オブジェクト指向プログラミングおよび演習1 第13回</p>
+<p>ソケット通信でテキストデータの送受信ができるようになると、HTTPサーバーが作成できます。</p>
+</blockquote>
+<h2 id="ソケット通信を利用したhttpサーバーを作成しよう">ソケット通信を利用したHTTPサーバーを作成しよう</h2>
+<h3 id="プロジェクト設定の指定">プロジェクト設定の指定</h3>
+<p>プロジェクト名: <code>SimpleHTTPServer</code> メインクラス名:
+<code>jp.ac.ait.k00000.SimpleHTTPServer</code>（k00000は自分の学籍番号に変更すること）</p>
+<p>クラスやパッケージ、その他ファイルの追加は、必要に応じて任意に追加すること。</p>
+<h3 id="簡単な説明">簡単な説明</h3>
+<p>ソケット通信を利用し、HTTPのリクエストデータを受け取りHTTPのレスポンスデータを返す簡易HTTPサーバーを作成します。</p>
+<p>HTTP(HyperText Transfar
+Protocol)は、データの送受信にテキストデータを使います。そのため、今回の講義で行った人工無脳サーバーと同じような仕組みでテキストデータを受け取り、そのデータを解析してHTML,CSS,JavaScriptをHTTPレスポンスの形式で返す仕組みを作成すれば簡単なHTTPサーバーができ上がります。</p>
+<p>せっかくHTTPサーバーを作成するので、クライアントはTCPMessageClientではなく、通常のWebブラウザをクライアントとして使用しましょう。</p>
+<p>自分のPCで、ポート番号を<code>12345</code>で起動したHTTPサーバープログラムにアクセスするのは、ブラウザでURLを<code>http://localhost:12345/</code>とすると（正常に動いていれば）Webページが表示されます。</p>
+<h3 id="詳細仕様">詳細仕様</h3>
+<p>サーバーの待受ポート番号は、<code>8088</code>番とします。</p>
+<p>HTTPのリクエストデータを受け取ったら、その1行目を判断します。</p>
+<p>通常のWebブラウザから送られるHTTPリクエストデータの1行目は以下のようになっています。</p>
+<pre><code>GET / HTTP/1.1</code></pre>
+<p>これをスペースで区切った3つの文字列を解析します。</p>
+<p>上のデータでは、<code>GET</code>はHTTPのリクエストメソッド、<code>/</code>はリクエストパス、
+<code>HTTP/1.1</code>は通信に使用するHTTPのバージョンを表します。</p>
+<p>今回のプログラムでは、2つめのリクエストパスを確認し、返信するデータを切り替えてもらいます。</p>
+<h4 id="データ切り替え仕様">データ切り替え仕様</h4>
+<h5 id="1-リクエストパスの末尾がcssjsじゃない場合以下のhtmlデータを返すようにしましょう">1.
+リクエストパスの末尾が、<code>.css</code>,<code>.js</code>じゃない場合、以下のHTMLデータを返すようにしましょう。</h5>
+<p><em><strong>3行目の空行が重要なので、忘れず入れるようにしましょう。</strong></em></p>
+<pre><code>HTTP/1.0 200 OK
+Content-Type: text/html
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;ja&quot;&gt;
+&lt;head&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;SimpleHTTPServer&lt;/title&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;main&gt;
+    &lt;h1&gt;このページはSimpleHTTPServerより生成されて返されています。&lt;/h1&gt;
+    &lt;p&gt;&lt;button class=&quot;fire&quot;&gt;Push!!&lt;/button&gt;&lt;/p&gt;
+    &lt;p class=&quot;copyright&quot;&gt;K00000 - 名前を入力&lt;/p&gt;
+  &lt;/main&gt;
+  &lt;script src=&quot;script.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>※ 学籍番号や、名前は自分のものに変えてください。</p>
+<h5 id="2-リクエストパスの末尾がcssだった場合以下のcssデータを返すようにしましょう">2.
+リクエストパスの末尾が、<code>.css</code>だった場合、以下のCSSデータを返すようにしましょう。</h5>
+<p><em><strong>3行目の空行が重要なので、忘れず入れるようにしましょう。</strong></em></p>
+<pre><code>HTTP/1.0 200 OK
+Content-Type: text/css
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+main {
+  height: 450px;
+  max-height: 90vh;
+  width: 800px;
+  max-width: 90vw;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 60px -10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+h1 {
+  padding: 0 3em;
+  margin-bottom: 2em;
+  text-align: center;
+}
+button {
+  font-size: 1.25em;
+  padding: 0.5em 1em;
+}
+.copyright {
+  margin-top: 20px;
+  text-decoration: underline;
+  font-style: italic;
+}</code></pre>
+<h5 id="3-リクエストパスの末尾がjsだった場合以下のjavascriptデータを返すようにしましょう">3.
+リクエストパスの末尾が、<code>.js</code>だった場合、以下のJavaScriptデータを返すようにしましょう。</h5>
+<p><em><strong>3行目の空行が重要なので、忘れず入れるようにしましょう。</strong></em></p>
+<pre><code>HTTP/1.0 200 OK
+Content-Type: text/javascript
+
+var btn = document.querySelector(&#39;button.fire&#39;);
+btn.addEventListener(&#39;click&#39;, function() {
+  alert(&#39;Hello, SimpleHTTPServer!!&#39;);
+});</code></pre>
+<h3 id="動作確認">動作確認</h3>
+<p>サーバープログラムを実行後、Webブラウザを起動し、<code>http://localhost:8088</code>へアクセスします。</p>
+<ol type="1">
+<li>HTMLがきちんと表示されているか</li>
+<li>スタイルが設定されているか（CSSが適用されているかの確認）</li>
+<li>ボタンをクリックしてアラートが表示されるか（JavaScriptが適用されているかの確認）</li>
+</ol>
+<p>上記3点を確認してください。</p>
+<h3 id="補足">補足</h3>
+<p>以下任意で行ってください。</p>
+<p>HTMLのデータやCSS、JavaScriptのプログラム等は、自由に改変してもらって良いです。</p>
+<p>HTML,CSS,JavaScriptのレスポンスデータは、プロジェクト内にディレクトリを作成し、ファイル読み込みによって返す仕組みにしてもよいです。</p>
+<h2 id="課題の提出について">課題の提出について</h2>
+<p>提出するファイルは、実行可能形式の
+<em><strong>jarファイル</strong></em>
+と、プロジェクトディレクトリを圧縮したものです。
+過去の資料を参考にして、jarファイルの生成を行ってください。</p>
+</body>
+</html>

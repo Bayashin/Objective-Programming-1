@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="generator" content="pandoc">
+  <title>条件分岐</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+<style type="text/css">
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+code {
+  white-space: pre-wrap;
+}
+
+span.smallcaps {
+  font-variant: small-caps;
+}
+
+span.underline {
+  text-decoration: underline;
+}
+
+div.column {
+  display: inline-block;
+  vertical-align: top;
+  width: 50%;
+}
+
+body {
+  font-size: 14pt;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN,
+    Arial, "メイリオ", Meiryo, sans-serif;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 2em;
+  background-color: #f8f8f8;
+  color: #232323;
+}
+
+hr {
+  height: 4px;
+  padding: 0;
+  margin: 6rem 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+  background:
+    url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC");
+}
+
+p,
+table {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  line-height: 2rem;
+  letter-spacing: 0.03rem;
+}
+
+strong {
+  text-decoration: none;
+  color: hsla(0, 75%, 55%, 1);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+  color: #232323;
+  letter-spacing: 0.05rem;
+  margin-top: 2rem;
+}
+
+h1 {
+  font-size: 2rem;
+  margin: 2rem auto 1rem;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+  margin: 2rem 0 1rem;
+}
+
+h5 {
+  font-size: 1.2rem;
+  margin: 2rem 0 1rem;
+}
+
+h6 {
+  font-size: 1.1rem;
+  margin: 2rem 0 1rem;
+}
+
+ul,
+ol {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  line-height: 1.6;
+  letter-spacing: 0.025rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding-left: 2rem;
+}
+
+ul li,
+ol li {
+  padding-left: .5rem;
+}
+
+ul ul,
+ol ul,
+ul ol,
+ol ol {
+  padding-left: 1.5rem;
+}
+
+table {
+  border-collapse: collapse;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  max-width: 100%;
+  width: 100% !important;
+  font-size: 1rem;
+  overflow: auto;
+}
+
+table th {
+  text-align: center;
+  font-weight: nomal;
+  background-color: #f0f0f0;
+  color: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+table tr {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+table td {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+a {
+  color: #5484c8;
+}
+
+.margin-clear {
+  margin-left: 0;
+}
+
+blockquote {
+  border-left: 4px #ddd solid;
+  padding: 0;
+  margin: 2rem;
+}
+
+blockquote * {
+  color: #999;
+}
+
+blockquote p {
+  padding: 0 1rem;
+  text-indent: 0;
+}
+
+img,
+iframe,
+figure {
+  max-width: 100%;
+}
+
+p img {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+pre,
+code,
+var,
+samp,
+kbd,
+.mono {
+  font-family: "Ricty Diminished", "Consolas", 'Courier New', Courier, Monaco, monospace;
+  line-height: 1.2;
+}
+
+table code,
+p code,
+ul code,
+ol code {
+  display: inline-block;
+  border: 1px solid #eaeaea;
+  background-color: rgb(119, 119, 119);
+  color: #f8f8f8;
+  white-space: nowrap;
+  border-radius: 2px;
+  display: inline-block;
+  padding-top: 6px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 0px;
+  margin: 0 4px;
+}
+
+pre code {
+  border: 1px solid #eaeaea;
+  background-color: #f5f5f5;
+  border-radius: 2px;
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  font-size: 1rem;
+}
+
+.highlight pre {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+div.sourceCode {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+div.sourceCode pre,
+div.sourceCode code {
+  background-color: transparent;
+  margin: 0;
+}
+
+pre code,
+pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+table.sourceCode,
+tr.sourceCode,
+td.lineNumbers,
+td.sourceCode {
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
+  border: none;
+}
+
+table.sourceCode pre {
+  padding: 2px;
+  margin: 0;
+  border: none;
+  color: inherit;
+}
+table.sourceCode code {
+  color: inherit;
+}
+
+table.sourceCode {
+  width: 100%;
+  line-height: 100%;
+}
+
+td.lineNumbers {
+  text-align: right;
+  color: #aaaaaa;
+  border-right: 1px solid #aaaaaa;
+}
+</style>
+</head>
+<body>
+  <header>
+  <h1 class="title">条件分岐</h1>
+        </header>
+<blockquote>
+<p>オブジェクト指向プログラミングおよび演習1 第2回</p>
+</blockquote>
+<p>プログラミングの最も重要で最もバグを出しやすい部分です。</p>
+<h1 id="if">if文による条件分岐</h1>
+<h2 id="if-">if – 基本的な書き方</h2>
+<p>括弧内の条件(<em>boolean型</em>)に合致する(true)の場合に、中括弧<code>{ }</code>内のブロックの処理を行う</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">if</span> ( 条件 ) {
+    ここは条件に合致した場合にのみ実行される
+}</code></pre></div>
+<p>中括弧のブロックは、実行する処理が1行の場合のみ省略が可能です。が、省略しない方が良いです。</p>
+<p>もし、条件に合致した場合に実行する処理が1行だけのときは、以下のように改行を挟まないようにするようにしましょう。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">if</span> ( 条件 ) ここは条件に合致した場合にのみ実行される</code></pre></div>
+<h3 id="if">if文の条件に使う比較演算子(関係演算子)</h3>
+<p>プリミティブ型に対して、等しい、異なる、大きい、小さいなどの評価を行う演算子</p>
+<p>比較演算子の結果は、boolean型となります。 結果がtrueである場合に、「条件に合致している」といえます。そのため、比較演算子を用いた両辺の比較だけでなく、関数呼び出しの戻り値を条件とするような使い方も可能です。</p>
+<p>等しいことを評価する <code>==</code> (関係演算子)は、 <code>=</code> (代入演算子)と間違えやすいので気を付けましょう。</p>
+<h4>比較演算子一覧</h4>
+<p>※両辺を比較する場合に使用し、演算子の結果はboolean型で戻ってきます。</p>
+<table>
+<thead>
+<tr class="header">
+<th>演算子</th>
+<th>例</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>==</code></td>
+<td><code>a == b</code></td>
+<td>aとbが等しいときtrue</td>
+</tr>
+<tr class="even">
+<td><code>!=</code></td>
+<td><code>a != b</code></td>
+<td>aとbが等しくないときtrue</td>
+</tr>
+<tr class="odd">
+<td><code>&gt;</code></td>
+<td><code>a &gt; b</code></td>
+<td>aがbより大きいときtrue</td>
+</tr>
+<tr class="even">
+<td><code>&lt;</code></td>
+<td><code>a &lt; b</code></td>
+<td>aがbより小さいきとtrue</td>
+</tr>
+<tr class="odd">
+<td><code>&gt;=</code></td>
+<td><code>a &gt;= b</code></td>
+<td>aがb以上のときtrue</td>
+</tr>
+<tr class="even">
+<td><code>&lt;=</code></td>
+<td><code>a &lt;= b</code></td>
+<td>aがb以下のときtrue</td>
+</tr>
+</tbody>
+</table>
+<h2 id="if-else-">if-else – どちらかを実行</h2>
+<p>ifの条件に合致しなかった場合のみ実行される処理を書ける</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">if</span> ( 条件 ) {
+    ここは条件に合致した場合にのみ実行される
+} <span class="kw">else</span> {
+    条件に合致しなかった場合にのみ実行される
+}</code></pre></div>
+<h2 id="if-elseif-else-">if-elseif-else – 複数の条件</h2>
+<p>条件に合致しなかった場合、再度評価を行うこともできる</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">if</span> ( 条件１ ) {
+    条件１に合致した場合にのみ実行される
+} <span class="kw">else</span> <span class="kw">if</span> ( 条件２ ) {
+    条件１に合致せず、条件２に合致した場合
+} <span class="kw">else</span> {
+    上記すべての条件に合致しなかった場合
+}</code></pre></div>
+<h2>比較演算子と論理演算子を組み合わせた複数条件指定</h2>
+<p>if文の条件は、条件１かつ条件２と言ったように、一つのif文で複数の条件を入れることが可能です。</p>
+<p>その時に使用する演算子が、論理演算子(ショートサーキット演算子)と呼ばれるものです。</p>
+<h4>論理演算子(ショートサーキット演算子)</h4>
+<p>※両辺ともbooleanの場合に使用します。</p>
+<table>
+<thead>
+<tr class="header">
+<th>演算子</th>
+<th>例</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>&amp;&amp;</code></td>
+<td><code>a &amp;&amp; b</code></td>
+<td>aとbの両方がtrueのときtrue</td>
+</tr>
+<tr class="even">
+<td><code>||</code></td>
+<td><code>a || b</code></td>
+<td>aとbのどちらかがtrueのときtrue</td>
+</tr>
+<tr class="odd">
+<td><code>!</code></td>
+<td><code>!a</code></td>
+<td>aがfalseのときtrue。逆になる</td>
+</tr>
+</tbody>
+</table>
+<h3 id="and">AND（〜かつ〜）</h3>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">if</span> ( 条件１ &amp;&amp; 条件２ ) {
+    条件１と条件２どちらにも合致した場合にのみ実行される
+}</code></pre></div>
+<h3 id="or">OR（〜または〜）</h3>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">if</span> ( 条件１ || 条件２ ) {
+    条件１か条件２のどちらかに合致した場合にのみ実行される
+}</code></pre></div>
+<h1 id="if-else">１行でif elseを実現する三項演算子</h1>
+<p>三項演算子は、if...else を１行で表現できる上に、式として扱えます。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(条件 ? <span class="st">&quot;true&quot;</span> : <span class="st">&quot;false&quot;</span>);
+<span class="co">//条件に合致していればtrueと表示されます。合致していなければfalseと表示されます。</span>
+
+<span class="co">//↑の処理と同じように書く場合↓</span>
+<span class="kw">if</span> ( 条件 ) {
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;true&quot;</span>);
+} <span class="kw">else</span> {
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;false&quot;</span>);
+}</code></pre></div>
+<p>式の中で条件分岐を実現できるため、なれないうちは、判断に苦しむかも知れませんが、なれてしまえばとても便利です。</p>
+<h1 id="switch">switch文による条件分岐</h1>
+<h2>一つの値に対する条件分岐</h2>
+<p>一つの式(変数でも演算子を用いた式でもよい)に対して、それぞれの値と等しいかを条件分岐したい場合には、以下のようにも書ける。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">switch</span> ( 式 ) {
+    <span class="kw">case</span> 値1:
+        式の結果が値1と等しい時に処理を実行
+        <span class="kw">break</span>;
+    <span class="kw">case</span> 値2:
+        式の結果が値2と等しい時に処理を実行
+        <span class="kw">break</span>;
+    <span class="kw">default</span>:
+        上記のどの値とも等しくない時に処理を実行
+        <span class="kw">break</span>;
+}</code></pre></div>
+<p>上記のコードは、以下のif…else if…elseと同義です。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">if</span> ( 式 == 値1 ) {
+    式の結果が値1と等しい時に処理を実行
+} <span class="kw">else</span> <span class="kw">if</span> ( 式 == 値2 ) {
+    式の結果が値2と等しい時に処理を実行
+} <span class="kw">else</span> {
+    上記のどの値とも等しくない時に処理を実行
+}</code></pre></div>
+<h3 id="switch">switch文の注意点</h3>
+<p>条件分岐後の処理を書いたら、break;でswitch文を抜けるようにしないといけない。</p>
+<p>以下の書き方を行った場合、<code>case 値1</code>で処理するべき以降の条件が意図したものと違ってしまいます。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">switch</span> ( 式 ) {
+    <span class="kw">case</span> 値1:
+        式の結果が値1と等しい時に処理を実行
+    <span class="kw">case</span> 値2:
+        式の結果が値1と等しい時と値2と等しい時に処理を実行
+        <span class="co">//↑本来は、「式の結果が値2と等しい時に処理を実行」のつもりで書いたが、</span>
+        <span class="co">// break;を忘れたことで意図しない条件が追加されてしまっている。</span>
+        <span class="kw">break</span>;
+    <span class="kw">default</span>:
+        上記のどの値とも等しくない時に処理を実行
+        <span class="kw">break</span>;
+}</code></pre></div>
+<p>この特性を利用して、以下のように応用することも可能です。</p>
+<p>複数の値で式を評価する</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">switch</span> ( 式 ) {
+    <span class="kw">case</span> 値1:
+    <span class="kw">case</span> 値2:
+        式の結果が値1か値2と等しい時に処理を実行
+        <span class="kw">break</span>;
+    <span class="kw">default</span>:
+        上記のどの値とも等しくない時に処理を実行
+        <span class="kw">break</span>;
+}</code></pre></div>
+<hr />
+<h1 id="string">String型の評価について</h1>
+<p>次のサンプルプログラムをよく見て、実行してみましょう。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> StringEval {
+  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {
+
+    <span class="bu">String</span> a = <span class="st">&quot;Hello&quot;</span>;
+    <span class="bu">String</span> b = <span class="st">&quot;Hello&quot;</span>;
+
+    <span class="kw">if</span> (a == b) {
+      <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;同じだよ！&quot;</span>);  <span class="co">// こっち</span>
+    } <span class="kw">else</span> {
+      <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;違うよ！&quot;</span>);
+    }
+
+    <span class="co">// a,b両方に処理を加えて値を変化させる</span>
+    a += <span class="dv">1</span>;
+    b += <span class="dv">1</span>;
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;a:&quot;</span> + a);
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;b:&quot;</span> + b);
+
+    <span class="kw">if</span> (a == b) {
+      <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;同じだよ！&quot;</span>);
+    } <span class="kw">else</span> {
+      <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;違うよ！&quot;</span>);   <span class="co">// こっち</span>
+    }
+  }
+}</code></pre></div>
+<p>変数<code>a</code>, <code>b</code>どちらも、値としては<code>&quot;Hello&quot;</code>, <code>&quot;Hello1&quot;</code>となっており、見た目上同じ文字列ですが、2つ目の条件分岐が意図しない結果になったと思います。</p>
+<p>Javaの言語仕様で注意してほしいのが、<strong><em>String型は唯一特別扱いされるクラス型</em></strong>であるということです。</p>
+<p>String型の初期化時点や、String型のリテラルは、どれも擬似的にプリミティブ型と同じような動作をします。しかし、値の変化が発生する処理を一度行われると、その変数は通常のクラス型変数と同じ動作をするように切り替わります。</p>
+<p>クラス型変数を変数に格納されている値を比べる演算子で比較したとしても、<code>true</code>になりません。 理由は、変数の格納されているデータはクラス型のインスタンスが格納されているメモリアドレスのみを保持しているからです。</p>
+<p>もう少し詳しく書くと、次のようになります。</p>
+<ol>
+<li>クラス型の変数宣言時、変数にはnullが初期値で代入されている</li>
+<li>new構文を用いてインスタンス化が行われた際にメモリ上へオブジェクトが展開される</li>
+<li>展開されたオブジェクトが格納されているメモリアドレスを変数が保持する</li>
+</ol>
+<p>ここで注意してほしいのが、メモリアドレスです。</p>
+<p>上記のプログラムについて、変数<code>a</code>, <code>b</code>のメモリアドレスが格納されている値が違うということを確認する方法はJavaにはありませんが、擬似的にハッシュ値を用いた比較を行うことで比較演算子で比較できないことが確認できます。次のプログラムを確認してみましょう。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> StringEval {
+  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {
+
+    <span class="co">// この初期化方法によって得られるString型は疑似プリミティブ</span>
+    <span class="bu">String</span> a = <span class="st">&quot;Hello&quot;</span>;
+    <span class="bu">String</span> b = <span class="st">&quot;Hello&quot;</span>;
+
+    <span class="co">// System.identityHashCode()によってハッシュ値を取得</span>
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;a:&quot;</span> + <span class="bu">System</span>.<span class="fu">identityHashCode</span>(a));
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;b:&quot;</span> + <span class="bu">System</span>.<span class="fu">identityHashCode</span>(b));
+    <span class="co">// この時点ではハッシュ値は同じ</span>
+
+    <span class="kw">if</span> (a == b) {
+      <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;同じだよ！&quot;</span>);  <span class="co">// こっち</span>
+    } <span class="kw">else</span> {
+      <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;違うよ！&quot;</span>);
+    }
+
+    <span class="co">// a,b両方に処理を加えて値を変化させる</span>
+    a += <span class="dv">1</span>;
+    b += <span class="dv">1</span>;
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;a:&quot;</span> + <span class="bu">System</span>.<span class="fu">identityHashCode</span>(a));
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;b:&quot;</span> + <span class="bu">System</span>.<span class="fu">identityHashCode</span>(b));
+    <span class="co">// 文字の連結によって、a,bの参照しているオブジェクトがそれぞれ計算された別のものへと変化した</span>
+
+    <span class="kw">if</span> (a == b) {
+      <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;同じだよ！&quot;</span>);
+    } <span class="kw">else</span> {
+      <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;違うよ！&quot;</span>);   <span class="co">// こっち</span>
+    }
+  }
+}</code></pre></div>
+<p>コメントにて説明を書きましたが、内部的な値(String型などのクラス型の場合メモリアドレス)をハッシュ値で見ることによって値が変化していることが分かります。</p>
+<h2 id="string">Stringなどのクラス型の比較方法</h2>
+<p><code>Object#equals</code>メソッドを使って比較しましょう。</p>
+<p>Javaにおけるすべてのクラス型のもととなっているObject型には、値を比較するためのメソッド<code>equals()</code>が用意されています。このメソッドは、インスタンス化されたオブジェクトと、引数で渡したオブジェクトの値となるもの同士を比較し、同じであれば<code>true</code>を返します。<br> (equals()メソッドは、インスタンス化されたオブジェクトでしか使用できません。初期化されていない(つまり変数の値がnullである状態の)時にequals()メソッドを呼び出すと、NullPointerExceptionと呼ばれる例外が発生します。※そのメソッドはインスタンス化されてないから呼び出せないよ！っていうエラーです。)</p>
+<p>これを使うことで、String型の文字列が同じかどうかを比較することが可能です。</p>
+<p>次のプログラムを確認してみましょう。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> StringEquals {
+  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {
+
+    <span class="bu">String</span> a = <span class="st">&quot;Hello&quot;</span>;
+    <span class="bu">String</span> b = <span class="st">&quot;Hello&quot;</span>;
+
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;a:&quot;</span> + <span class="bu">System</span>.<span class="fu">identityHashCode</span>(a));
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;b:&quot;</span> + <span class="bu">System</span>.<span class="fu">identityHashCode</span>(b));
+
+    <span class="kw">if</span> (a.<span class="fu">equals</span>(b)) {
+      <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;同じだよ！&quot;</span>);  <span class="co">// こっち</span>
+    } <span class="kw">else</span> {
+      <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;違うよ！&quot;</span>);
+    }
+
+    a += <span class="dv">1</span>;
+    b += <span class="dv">1</span>;
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;a:&quot;</span> + <span class="bu">System</span>.<span class="fu">identityHashCode</span>(a));
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;b:&quot;</span> + <span class="bu">System</span>.<span class="fu">identityHashCode</span>(b));
+
+    <span class="kw">if</span> (a.<span class="fu">equals</span>(b)) {
+      <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;同じだよ！&quot;</span>);  <span class="co">// こっち</span>
+    } <span class="kw">else</span> {
+      <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;違うよ！&quot;</span>);
+    }
+  }
+}</code></pre></div>
+<p>きちんと意図した結果になったと思います。</p>
+<p>このように、内部的な動作を知っておかないと現象を理解できない場合もありますが、<strong><em>文字列の比較はequals()を使う</em></strong>ということを必ず覚えておきましょう。</p>
+<p>ちなみに、「同じでない」を表現するには、<code>!a.equals(b)</code>が利用できます。</p>
+<h2 id="switchstringswitch">switch式の余談：Stringをswitch式で評価することもできる</h2>
+<p>JavaSDKのversion 7以降、switchの評価式にStringの文字列型を使用することができるようになりました。 文字列をより簡単に評価できる反面、評価するString型の変数が初期化されていない場合は例外が発生してしまうなどの注意点があります。 文字列をswitchしたい場合で評価する式の結果が判断に困るのなら、switch式の事前にnullとの比較(<code>target == null</code>)を行うなどの事前処理を行うか、最初からif-elseif-elseの形式で書いた方が安全です。</p>
+</body>
+</html>

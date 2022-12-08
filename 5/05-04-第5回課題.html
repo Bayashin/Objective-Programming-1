@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="generator" content="pandoc">
+  <title>第5回課題</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+<style type="text/css">
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+code {
+  white-space: pre-wrap;
+}
+
+span.smallcaps {
+  font-variant: small-caps;
+}
+
+span.underline {
+  text-decoration: underline;
+}
+
+div.column {
+  display: inline-block;
+  vertical-align: top;
+  width: 50%;
+}
+
+body {
+  font-size: 14pt;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN,
+    Arial, "メイリオ", Meiryo, sans-serif;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 2em;
+  background-color: #f8f8f8;
+  color: #232323;
+}
+
+hr {
+  height: 4px;
+  padding: 0;
+  margin: 6rem 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+  background:
+    url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC");
+}
+
+p,
+table {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  line-height: 2rem;
+  letter-spacing: 0.03rem;
+}
+
+strong {
+  text-decoration: none;
+  color: hsla(0, 75%, 55%, 1);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+  color: #232323;
+  letter-spacing: 0.05rem;
+  margin-top: 2rem;
+}
+
+h1 {
+  font-size: 2rem;
+  margin: 2rem auto 1rem;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+  margin: 2rem 0 1rem;
+}
+
+h5 {
+  font-size: 1.2rem;
+  margin: 2rem 0 1rem;
+}
+
+h6 {
+  font-size: 1.1rem;
+  margin: 2rem 0 1rem;
+}
+
+ul,
+ol {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  line-height: 1.6;
+  letter-spacing: 0.025rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding-left: 2rem;
+}
+
+ul li,
+ol li {
+  padding-left: .5rem;
+}
+
+ul ul,
+ol ul,
+ul ol,
+ol ol {
+  padding-left: 1.5rem;
+}
+
+table {
+  border-collapse: collapse;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  max-width: 100%;
+  width: 100% !important;
+  font-size: 1rem;
+  overflow: auto;
+}
+
+table th {
+  text-align: center;
+  font-weight: nomal;
+  background-color: #f0f0f0;
+  color: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+table tr {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+table td {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+a {
+  color: #5484c8;
+}
+
+.margin-clear {
+  margin-left: 0;
+}
+
+blockquote {
+  border-left: 4px #ddd solid;
+  padding: 0;
+  margin: 2rem;
+}
+
+blockquote * {
+  color: #999;
+}
+
+blockquote p {
+  padding: 0 1rem;
+  text-indent: 0;
+}
+
+img,
+iframe,
+figure {
+  max-width: 100%;
+}
+
+p img {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+pre,
+code,
+var,
+samp,
+kbd,
+.mono {
+  font-family: "Ricty Diminished", "Consolas", 'Courier New', Courier, Monaco, monospace;
+  line-height: 1.2;
+}
+
+table code,
+p code,
+ul code,
+ol code {
+  display: inline-block;
+  border: 1px solid #eaeaea;
+  background-color: rgb(119, 119, 119);
+  color: #f8f8f8;
+  white-space: nowrap;
+  border-radius: 2px;
+  display: inline-block;
+  padding-top: 6px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 0px;
+  margin: 0 4px;
+}
+
+pre code {
+  border: 1px solid #eaeaea;
+  background-color: #f5f5f5;
+  border-radius: 2px;
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  font-size: 1rem;
+}
+
+.highlight pre {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+div.sourceCode {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+div.sourceCode pre,
+div.sourceCode code {
+  background-color: transparent;
+  margin: 0;
+}
+
+pre code,
+pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+table.sourceCode,
+tr.sourceCode,
+td.lineNumbers,
+td.sourceCode {
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
+  border: none;
+}
+
+table.sourceCode pre {
+  padding: 2px;
+  margin: 0;
+  border: none;
+  color: inherit;
+}
+table.sourceCode code {
+  color: inherit;
+}
+
+table.sourceCode {
+  width: 100%;
+  line-height: 100%;
+}
+
+td.lineNumbers {
+  text-align: right;
+  color: #aaaaaa;
+  border-right: 1px solid #aaaaaa;
+}
+</style>
+</head>
+<body>
+  <header>
+  <h1 class="title">第5回課題</h1>
+        </header>
+<blockquote>
+<p>オブジェクト指向プログラミングおよび演習1 第5回</p>
+</blockquote>
+<h1 id="hit-and-blow">Hit and Blow</h1>
+<p>そこそこ有名な数当てゲームの「Hit and Blow」を作成します。</p>
+<p>ルールは、以下の通りです。</p>
+<ol>
+<li>出題者と回答者に分かれて行う。</li>
+<li>出題者は、重複した数を含まない 4 桁の数字(正解)を決める。</li>
+<li>回答者は、その 4 桁の数字(回答)を言い当てる。</li>
+<li>回答に対して、出題者はヒットとブローの数でヒントを与える。</li>
+<li>回答と正解を比べて、数と桁位置の両方が同じであることをヒットと呼び、数だけが同じで桁位置が異なることをブローと呼ぶ。たとえば、正解が 1234 で、回答が 1354 なら、出題者は「2 ヒット、1 ブロー」というヒントを与え、正解までこれを繰り返す。</li>
+<li>出題者と回答者は交代してゲームを行い、より少ない回答で正解を言い当てた方を勝ちとする。</li>
+</ol>
+<h2>課題用改変ルール</h2>
+<ol>
+<li>出題者は、プログラムが担当する。</li>
+<li>出題者は重複のないランダムな<code>3桁</code>の数字を決定する。</li>
+<li>出題者と回答者は交代しない。(1回遊んだら終わり)</li>
+</ol>
+<p>以上3点を改変ルールとして、課題に取り組みます。</p>
+<h1>課題のプロジェクト詳細</h1>
+<p><strong><em>以降、<code>k00000</code>の部分は、自分の学籍番号としてください。</em></strong></p>
+<ul>
+<li>プロジェクト名: <code>HitAndBlow</code></li>
+<li>メインクラス名: <code>jp.ac.ait.k00000.HitAndBlow</code></li>
+<li>パッケージ名: <code>jp.ac.ait.k00000</code></li>
+</ul>
+<h2>作成クラス一覧</h2>
+<ul>
+<li><code>jp.ac.ait.k00000.Answer</code>
+<ul>
+<li>答えを管理するクラス</li>
+<li>サンプルソースを後述します。そのまま使ってください。</li>
+</ul></li>
+<li><code>jp.ac.ait.k00000.Response</code>
+<ul>
+<li>試行の結果を保持するクラス</li>
+</ul></li>
+<li><code>jp.ac.ait.k00000.Manager</code>
+<ul>
+<li>ゲームを管理するクラス</li>
+</ul></li>
+<li><code>jp.ac.ait.k00000.StringUtilities</code>
+<ul>
+<li>文字列の便利操作クラス</li>
+<li>サンプルソースを後述します。そのまま使ってください。</li>
+</ul></li>
+<li><code>jp.ac.ait.k00000.HitAndBlow</code>
+<ul>
+<li>メインクラス</li>
+<li>ユーザーからの入力受け付けや、メッセージの表示などを担当</li>
+</ul></li>
+</ul>
+<hr />
+<h1 id="jp.ac.ait.k00000.answer"><code>jp.ac.ait.k00000.Answer</code></h1>
+<p>以下のサンプルソースをそのまま持っていってください。※packageの学籍番号を変えるのを忘れずに！</p>
+<p>解説は講義内で行います。文字列操作に関するヒントも含まれています。ソースコードをよく読み、参考にしてください。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">package</span><span class="im"> jp.ac.ait.k00000;</span>
+
+<span class="kw">import</span><span class="im"> java.util.Random;</span>
+
+<span class="kw">public</span> <span class="kw">class</span> Answer {
+
+  <span class="co">/**</span>
+   <span class="co">*</span> 数値の桁数<span class="co">(</span>final修飾子を使い、再代入を禁止させています。定数のようなものです<span class="co">)</span>
+   <span class="co">*/</span>
+  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">final</span> <span class="dt">int</span> DIGITS = <span class="dv">3</span>;
+
+  <span class="co">/**</span>
+   <span class="co">*</span> 答え<span class="co">(</span>文字列で管理しています<span class="co">)</span>
+   <span class="co">*/</span>
+  <span class="kw">private</span> <span class="bu">String</span> numbers;
+
+  <span class="co">/**</span>
+   <span class="co">*</span> コンストラクタで答えの初期化
+   <span class="co">*/</span>
+  <span class="kw">public</span> <span class="fu">Answer</span>() {
+    <span class="co">// 答えの生成を行う</span>
+    <span class="fu">randomize</span>();
+  }
+
+  <span class="co">/**</span>
+   <span class="co">*</span> 答えを取得する
+   <span class="co">* @</span>return
+   <span class="co">*/</span>
+  <span class="kw">public</span> <span class="bu">String</span> <span class="fu">get</span>() {
+    <span class="kw">return</span> numbers;
+  }
+
+  <span class="co">/**</span>
+   <span class="co">*</span> 答えをランダム並び替える
+   <span class="co">*/</span>
+  <span class="kw">public</span> <span class="dt">void</span> <span class="fu">randomize</span>() {
+    numbers = <span class="st">&quot;&quot;</span>; <span class="co">// 初期化</span>
+    <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">1</span>; i &lt;= DIGITS; i++) {
+      numbers += <span class="fu">getUniqueNumber</span>();
+    }
+  }
+
+  <span class="co">/**</span>
+   <span class="co">*</span> 答えの数値から、被っていない数値を取得する
+   <span class="co">*</span> <span class="co">(</span>内部的な利用のみを想定しているためprivateにしてあります。<span class="co">)</span>
+   <span class="co">* @</span>return
+   <span class="co">*/</span>
+  <span class="kw">private</span> <span class="dt">int</span> <span class="fu">getUniqueNumber</span>() {
+    <span class="bu">Random</span> r = <span class="kw">new</span> <span class="bu">Random</span>();
+    <span class="dt">boolean</span> isUnique = <span class="kw">true</span>;
+    <span class="dt">int</span> a = r.<span class="fu">nextInt</span>(<span class="dv">10</span>); <span class="co">// 0〜9のランダムな数値を取得</span>
+    <span class="kw">do</span> {
+      isUnique = <span class="kw">true</span>;
+      <span class="kw">for</span> (<span class="dt">char</span> c : numbers.<span class="fu">toCharArray</span>()) {
+        <span class="kw">if</span> (<span class="bu">Character</span>.<span class="fu">getNumericValue</span>(c) == a) {
+          isUnique = <span class="kw">false</span>;
+          a = r.<span class="fu">nextInt</span>(<span class="dv">10</span>); <span class="co">// 0〜9のランダムな数値を取得</span>
+          <span class="kw">break</span>;  <span class="co">// 直近のforを抜ける</span>
+        }
+      }
+    } <span class="kw">while</span>(!isUnique);
+    <span class="kw">return</span> a;
+  }
+}</code></pre></div>
+<hr />
+<h1 id="jp.ac.ait.k00000.response"><code>jp.ac.ait.k00000.Response</code></h1>
+<p>回答者が、回答を入力後、Managerにより結果の算出が行われ、このクラスのインスタンスで結果が返されます。</p>
+<p>主に、Hit,Blowの2つの値だけを保持するクラスです。</p>
+<h2>フィールド</h2>
+<ul>
+<li><code>private int hit;</code></li>
+<li><code>private int blow;</code></li>
+</ul>
+<h2>コンストラクタ</h2>
+<ul>
+<li><code>public Response(int hit, int blow)</code></li>
+<li><code>public Response()</code>
+<ul>
+<li><code>this(0, 0);</code>を呼び出す</li>
+</ul></li>
+</ul>
+<h2>メソッド</h2>
+<ul>
+<li><code>public int getHit()</code></li>
+<li><code>public void setHit(int hit)</code></li>
+<li><code>public int getBlow()</code></li>
+<li><code>public void setBlow(int blow)</code></li>
+</ul>
+<hr />
+<h1 id="jp.ac.ait.k00000.manager"><code>jp.ac.ait.k00000.Manager</code></h1>
+<p>ゲームの管理を行います。</p>
+<p>以下の機能を実装してください。</p>
+<h2 id="-1">フィールド</h2>
+<ul>
+<li><code>private int count;</code>
+<ul>
+<li>回答の試行回数をカウントします。</li>
+</ul></li>
+<li><code>priavte Answer answer;</code></li>
+</ul>
+<h2 id="-1">コンストラクタ</h2>
+<ul>
+<li><code>public Manager()</code>
+<ol>
+<li><code>count</code>に初期値0を代入</li>
+<li><code>answer</code>に<code>Answer</code>クラスをインスタンス化して代入</li>
+</ol></li>
+</ul>
+<h2 id="-1">メソッド</h2>
+<ul>
+<li><code>public int getCount()</code>
+<ol>
+<li><code>count</code>を返す</li>
+</ol></li>
+<li><code>public Answer getAnswer()</code>
+<ol>
+<li><code>answer</code>を返す</li>
+</ol></li>
+<li><code>public Response solve(String in)</code>
+<ol>
+<li><code>count</code>に1を足し、試行回数をカウントアップ</li>
+<li>Hit, Blowを計算し、<code>Response</code>のインスタンスで返します。
+<ul>
+<li>ここで、Blowの数に、Hitの数は含まれない点を注意してください。</li>
+</ul></li>
+</ol></li>
+</ul>
+<hr />
+<h1 id="jp.ac.ait.k00000.stringutilities"><code>jp.ac.ait.k00000.StringUtilities</code></h1>
+<p>文字列操作の便利クラスです。</p>
+<p>今回は文字列が符号(-記号など)なしの整数値のみで構成されている場合にtrueを返し、それ以外はfalseを返すクラスメソッドを持たせます。(これだけです。)</p>
+<p>HitAndBlowクラスのゲーム処理中に、標準入力から入力を待ち受け、その後このメソッドで整数値のみの文字列かどうかをチェックする際につかってください。</p>
+<h2 id="-2">フィールド</h2>
+<p>なし</p>
+<h2 id="-2">コンストラクタ</h2>
+<p>なし</p>
+<h2 id="-2">メソッド</h2>
+<ul>
+<li><code>public static boolean isUnsignedInteger(String val)</code>
+<ul>
+<li>文字列が、符号なしの整数値のみで構成されているかどうかを返すメソッド(直下にサンプルあり)</li>
+</ul></li>
+</ul>
+<h4 id="public-static-boolean-isunsignedintegerstring-val"><code>public static boolean isUnsignedInteger(String val)</code></h4>
+<p>このメソッドは、<code>static</code>であることに注意しましょう。 使用方法は、<code>jp.ac.ait.k00000.StringUtilities.isUnsignedInteger(&quot;数値文字列ならtrue&quot;)</code>という様に、インスタンス化を行わずに使用できます。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="co">/**</span>
+ <span class="co">*</span> 渡された文字列が正の整数かどうか
+ <span class="co">* </span><span class="kw">@param val </span>正の整数かどうか判断できない文字列
+ <span class="co">*</span> <span class="kw">@return </span>正の整数だった場合 true
+ <span class="co">*/</span>
+<span class="kw">public</span> <span class="dt">static</span> <span class="dt">boolean</span> <span class="fu">isUnsignedInteger</span>(<span class="bu">String</span> val) {
+  <span class="kw">if</span> ( val == <span class="kw">null</span> || val.<span class="fu">length</span>() == <span class="dv">0</span> ) <span class="kw">return</span> <span class="kw">false</span>;
+  <span class="kw">return</span> java.<span class="fu">util</span>.<span class="fu">regex</span>.<span class="fu">Pattern</span>.<span class="fu">compile</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">A[0-9]+</span><span class="sc">\\</span><span class="st">z&quot;</span>).<span class="fu">matcher</span>(val).<span class="fu">find</span>();
+}</code></pre></div>
+<hr />
+<h1 id="jp.ac.ait.k00000.hitandblow"><code>jp.ac.ait.k00000.HitAndBlow</code></h1>
+<p>メインクラスです。</p>
+<h2 id="-3">フィールド</h2>
+<p>なし</p>
+<h2 id="-3">コンストラクタ</h2>
+<p>なし</p>
+<h2 id="-3">メソッド</h2>
+<ul>
+<li><code>public static void main(String[] args)</code>
+<ul>
+<li>メインメソッド</li>
+</ul></li>
+</ul>
+<h2>メインメソッドの処理フロー</h2>
+<p>メインメソッドは以下の手順に従ってください。</p>
+<ol>
+<li><code>Manager</code>クラスを<code>app</code>などの名前の変数でインスタンス化する。
+<ul>
+<li>答えの生成など、ゲームの準備が整います。</li>
+</ul></li>
+<li>(デバッグ時のみ、1でインスタンス化したオブジェクトの<code>app.getAnswer().get()</code>で答え取得し画面に出力してください。 <strong><em>提出時にはこの出力を消しておきましょう。</em></strong> )</li>
+<li>ユーザー(回答者)から入力を受け付けます。
+<ul>
+<li><code>System.out.println(&quot;input &quot; + Answer.DIGITS + &quot; numbers :&quot;);</code>などのメッセージを差し込んでおくと、丁寧です。</li>
+</ul></li>
+<li>入力された文字列が、符号なし整数値のみで、かつ文字の長さが<code>Answer.DIGITS</code>と等しいかをチェックし、合致しない場合はエラーとしてプログラムを終了します。</li>
+<li><code>Manager</code>のインスタンスより、<code>solve(String value)</code>メソッドを呼び、<code>Response</code>のインスタンスを受け取ります。</li>
+<li>受け取った<code>Response</code>のインスタンスの<code>getHit()</code>の戻り値が、<code>Answer.DIGITS</code>と等しい場合、正解のメッセージと、試行回数(<code>Managerのインスタンス.getCount()</code>)を出力します。</li>
+<li>6.の条件に合致しない場合、<code>Response</code>のインスタンスの<code>getHit()</code>と<code>getBlow()</code>をHit,Blowの値として画面に出力し、3.に戻ります。</li>
+</ol>
+<h2>ゲームの終了条件</h2>
+<p>以下の2点です。</p>
+<ol>
+<li>正解を当てる
+<ul>
+<li>正解した旨と試行回数を表示して終わり</li>
+</ul></li>
+<li>入力を間違える
+<ul>
+<li>ゲームの進行に差し支える入力があった場合は、その旨を表示して即終了で良いです。</li>
+</ul></li>
+</ol>
+<h1>今回以降の提出物に関して</h1>
+<p>作成したクラスのJavaファイルと、生成したJarファイルをそのまま提出してください。</p>
+<p>*** ※パッケージによりディレクトリ構造が生成されていますが、ファイルのみでOKです。圧縮は必要ありません。 ***</p>
+</body>
+</html>

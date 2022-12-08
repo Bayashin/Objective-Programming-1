@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="generator" content="pandoc">
+  <title>クラス内クラスと匿名クラス</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+<style type="text/css">
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+code {
+  white-space: pre-wrap;
+}
+
+span.smallcaps {
+  font-variant: small-caps;
+}
+
+span.underline {
+  text-decoration: underline;
+}
+
+div.column {
+  display: inline-block;
+  vertical-align: top;
+  width: 50%;
+}
+
+body {
+  font-size: 14pt;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN,
+    Arial, "メイリオ", Meiryo, sans-serif;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 2em;
+  background-color: #f8f8f8;
+  color: #232323;
+}
+
+hr {
+  height: 4px;
+  padding: 0;
+  margin: 6rem 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+  background:
+    url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC");
+}
+
+p,
+table {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  line-height: 2rem;
+  letter-spacing: 0.03rem;
+}
+
+strong {
+  text-decoration: none;
+  color: hsla(0, 75%, 55%, 1);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+  color: #232323;
+  letter-spacing: 0.05rem;
+  margin-top: 2rem;
+}
+
+h1 {
+  font-size: 2rem;
+  margin: 2rem auto 1rem;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+  margin: 2rem 0 1rem;
+}
+
+h5 {
+  font-size: 1.2rem;
+  margin: 2rem 0 1rem;
+}
+
+h6 {
+  font-size: 1.1rem;
+  margin: 2rem 0 1rem;
+}
+
+ul,
+ol {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  line-height: 1.6;
+  letter-spacing: 0.025rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding-left: 2rem;
+}
+
+ul li,
+ol li {
+  padding-left: .5rem;
+}
+
+ul ul,
+ol ul,
+ul ol,
+ol ol {
+  padding-left: 1.5rem;
+}
+
+table {
+  border-collapse: collapse;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  max-width: 100%;
+  width: 100% !important;
+  font-size: 1rem;
+  overflow: auto;
+}
+
+table th {
+  text-align: center;
+  font-weight: nomal;
+  background-color: #f0f0f0;
+  color: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+table tr {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+table td {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+a {
+  color: #5484c8;
+}
+
+.margin-clear {
+  margin-left: 0;
+}
+
+blockquote {
+  border-left: 4px #ddd solid;
+  padding: 0;
+  margin: 2rem;
+}
+
+blockquote * {
+  color: #999;
+}
+
+blockquote p {
+  padding: 0 1rem;
+  text-indent: 0;
+}
+
+img,
+iframe,
+figure {
+  max-width: 100%;
+}
+
+p img {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+pre,
+code,
+var,
+samp,
+kbd,
+.mono {
+  font-family: "Ricty Diminished", "Consolas", 'Courier New', Courier, Monaco, monospace;
+  line-height: 1.2;
+}
+
+table code,
+p code,
+ul code,
+ol code {
+  display: inline-block;
+  border: 1px solid #eaeaea;
+  background-color: rgb(119, 119, 119);
+  color: #f8f8f8;
+  white-space: nowrap;
+  border-radius: 2px;
+  display: inline-block;
+  padding-top: 6px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 0px;
+  margin: 0 4px;
+}
+
+pre code {
+  border: 1px solid #eaeaea;
+  background-color: #f5f5f5;
+  border-radius: 2px;
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  font-size: 1rem;
+}
+
+.highlight pre {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+div.sourceCode {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+div.sourceCode pre,
+div.sourceCode code {
+  background-color: transparent;
+  margin: 0;
+}
+
+pre code,
+pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+table.sourceCode,
+tr.sourceCode,
+td.lineNumbers,
+td.sourceCode {
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
+  border: none;
+}
+
+table.sourceCode pre {
+  padding: 2px;
+  margin: 0;
+  border: none;
+  color: inherit;
+}
+table.sourceCode code {
+  color: inherit;
+}
+
+table.sourceCode {
+  width: 100%;
+  line-height: 100%;
+}
+
+td.lineNumbers {
+  text-align: right;
+  color: #aaaaaa;
+  border-right: 1px solid #aaaaaa;
+}
+</style>
+</head>
+<body>
+  <header>
+  <h1 class="title">クラス内クラスと匿名クラス</h1>
+        </header>
+<blockquote>
+<p>オブジェクト指向プログラミングおよび演習1 第9回</p>
+</blockquote>
+<h1>クラス内クラス</h1>
+<p>Javaのクラスは、クラスの中でも宣言可能です。</p>
+<p>クラス内クラスは、<strong><em>メンバクラス</em></strong> とも呼ばれ、メンバ変数や、メソッドと同様に宣言が可能なクラスです。</p>
+<p>クラス内クラスを作成する場合には、static修飾子のあるなしが大きく影響し、使用する際にも構文の違いがありますのでご注意ください。</p>
+<h2 id="static">static内部クラス</h2>
+<p>static内部クラスは外部クラスとなるメインのクラスの個々のインスタンスの変数は参照できません。 そのため、別ファイルに定義した通常のクラスと全く同じ扱いになります。</p>
+<p>staticが付いたからと言って、クラスのメンバがすべてstaticになるわけではありません。あくまでも通常のクラスと同じ扱いです。ご注意ください。</p>
+<p>内部にstaticなクラスを持つ外部クラス：<code>jp.ac.ait.oop1.StaticInnerClassOuter</code></p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">package</span><span class="im"> jp.ac.ait.oop1;</span>
+<span class="co">/**</span>
+ <span class="co">*</span> 外部クラス
+ <span class="co">*/</span>
+<span class="kw">public</span> <span class="kw">class</span> StaticInnerClassOuter {
+
+  <span class="co">/**</span>
+   <span class="co">*</span> staticな内部クラス
+   <span class="co">*/</span>
+  <span class="kw">public</span> <span class="dt">static</span> <span class="kw">class</span> <span class="bu">Result</span> {
+    <span class="kw">private</span> <span class="dt">int</span> x;
+    <span class="kw">private</span> <span class="dt">int</span> y;
+    <span class="kw">public</span> <span class="dt">int</span> <span class="fu">getX</span>() {
+      <span class="kw">return</span> x;
+    }
+    <span class="kw">public</span> <span class="dt">int</span> <span class="fu">getY</span>() {
+      <span class="kw">return</span> y;
+    }
+    <span class="kw">private</span> <span class="dt">void</span> <span class="fu">setX</span>(<span class="dt">int</span> x) {
+      <span class="kw">this</span>.<span class="fu">x</span> = x;
+    }
+    <span class="kw">private</span> <span class="dt">void</span> <span class="fu">setY</span>(<span class="dt">int</span> y) {
+      <span class="kw">this</span>.<span class="fu">y</span> = y;
+    }
+
+  }
+
+  <span class="co">/**</span>
+   <span class="co">*</span> 内部クラスのインスタンスを返す外部クラスのメソッド
+   <span class="co">*</span> y <span class="co">=</span> <span class="co">5x;</span>
+   <span class="co">* </span><span class="kw">@param x</span>
+   <span class="co">*</span> <span class="kw">@return </span>StaticInnerClassOuter<span class="co">.</span>Resultのインスタンス
+   <span class="co">*/</span>
+  <span class="kw">public</span> <span class="bu">Result</span> <span class="fu">f</span>(<span class="dt">int</span> x) {
+    <span class="bu">Result</span> r = <span class="kw">new</span> <span class="bu">Result</span>();
+    <span class="co">// setX, setY はprivate修飾子がついているが、同一クラス内なのでアクセス可能</span>
+    r.<span class="fu">setX</span>(x);
+    r.<span class="fu">setY</span>(<span class="dv">5</span> * x);
+    <span class="kw">return</span> r;
+  }
+}</code></pre></div>
+<p>staticな内部クラスは、<code>OuterClassName.InnerClassName instanceName = new OuterClassName.InnerClassName()</code>の形でインスタンス化できます。</p>
+<p>動作確認用クラス：<code>jp.ac.ait.oop1.InnerClassSample</code></p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">package</span><span class="im"> jp.ac.ait.oop1;</span>
+<span class="kw">public</span> <span class="kw">class</span> InnerClassSample {
+
+  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {
+    <span class="co">// newでのインスタンス化は↓のように行う</span>
+    StaticInnerClassOuter.<span class="fu">Result</span> r = <span class="kw">new</span> StaticInnerClassOuter.<span class="fu">Result</span>();
+
+    <span class="co">// 動作確認</span>
+    StaticInnerClassOuter a = <span class="kw">new</span> <span class="fu">StaticInnerClassOuter</span>();
+    StaticInnerClassOuter.<span class="fu">Result</span> result = a.<span class="fu">f</span>(<span class="dv">7</span>);
+    <span class="bu">System</span>.<span class="fu">out.printf</span>(<span class="st">&quot;f(</span><span class="sc">%d</span><span class="st">) = </span><span class="sc">%d%s</span><span class="st">&quot;</span>, result.<span class="fu">getX</span>(), result.<span class="fu">getY</span>(), <span class="bu">System</span>.<span class="fu">lineSeparator</span>());
+
+    StaticInnerClassOuter.<span class="fu">Result</span> result2 = a.<span class="fu">f</span>(<span class="dv">1</span>);
+    <span class="bu">System</span>.<span class="fu">out.printf</span>(<span class="st">&quot;f(</span><span class="sc">%d</span><span class="st">) = </span><span class="sc">%d%s</span><span class="st">&quot;</span>, result2.<span class="fu">getX</span>(), result2.<span class="fu">getY</span>(), <span class="bu">System</span>.<span class="fu">lineSeparator</span>());
+  }
+}</code></pre></div>
+<p>実行結果は以下のようになります。</p>
+<pre><code>f(7) = 35
+f(1) = 5</code></pre>
+<p>別ファイルで定義すればいいじゃん。とお思いになる気持ちもわかります。</p>
+<p>メリットは、上記のサンプルのように、このクラスのメソッドの戻り値クラスですよ、ということをちゃんと示すことができる点です。対してデメリットはコードが複雑になるところです。staticなのにstaticじゃないかのような動作をしてしまう点もデメリットですね。</p>
+<h2 id="static">staticではない内部クラス</h2>
+<p>内部クラスから、外部クラスのメンバにアクセスできるようになります。</p>
+<p>ただし、内部クラスのインスタンスを生成するために、必ず外部クラスのインスタンスを経由する制約が付きます。</p>
+<p>サンプルソースを御覧ください。</p>
+<p>内部にstaticでないクラスを持つ外部クラス：<code>jp.ac.ait.oop1.NonStaticInnerClassOuter</code></p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">package</span><span class="im"> jp.ac.ait.oop1;</span>
+<span class="co">/**</span>
+ <span class="co">*</span> Staticじゃない内部クラスを持つ外部クラス
+ <span class="co">*/</span>
+<span class="kw">public</span> <span class="kw">class</span> NonStaticInnerClassOuter {
+  <span class="kw">private</span> <span class="dt">int</span> x;
+  <span class="kw">private</span> <span class="dt">int</span> y;
+  <span class="co">/**</span>
+   <span class="co">*</span> staticでない内部クラス
+   <span class="co">*/</span>
+  <span class="kw">public</span> <span class="kw">class</span> <span class="bu">Result</span> {
+    <span class="kw">public</span> <span class="dt">int</span> <span class="fu">getX</span>() {
+      <span class="co">// 外部クラスのメンバを参照可能</span>
+      <span class="kw">return</span> x;
+    }
+    <span class="kw">public</span> <span class="dt">int</span> <span class="fu">getY</span>() {
+      <span class="co">// 外部クラスのメンバを参照可能</span>
+      <span class="kw">return</span> y;
+    }
+  }
+
+  <span class="co">/**</span>
+   <span class="co">*</span> 内部クラスのインスタンスを返す外部クラスのメソッド
+   <span class="co">*</span> y <span class="co">=</span> <span class="co">5x;</span>
+   <span class="co">* </span><span class="kw">@param x</span>
+   <span class="co">*</span> <span class="kw">@return </span>new NonStaticInnerClassOuter<span class="co">().</span>new Resultのインスタンス
+   <span class="co">*/</span>
+  <span class="kw">public</span> <span class="bu">Result</span> <span class="fu">f</span>(<span class="dt">int</span> x) {
+    <span class="bu">Result</span> r = <span class="kw">new</span> <span class="bu">Result</span>();
+    <span class="co">// setX, setYは外部クラスのものでよい</span>
+    <span class="fu">setX</span>(x);
+    <span class="fu">setY</span>(<span class="dv">5</span> * x);
+    <span class="kw">return</span> r;
+  }
+  <span class="kw">public</span> <span class="dt">void</span> <span class="fu">setX</span>(<span class="dt">int</span> x) {
+    <span class="kw">this</span>.<span class="fu">x</span> = x;
+  }
+  <span class="kw">public</span> <span class="dt">void</span> <span class="fu">setY</span>(<span class="dt">int</span> y) {
+    <span class="kw">this</span>.<span class="fu">y</span> = y;
+  }
+}</code></pre></div>
+<p>staticでない内部クラスは、<code>OuterClassName.InnerClassName instanceName = new OuterClassName.InnerClassName()</code>の形ではインスタンス化できません。</p>
+<p>動作確認用クラス：<code>jp.ac.ait.oop1.InnerClassSample</code></p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">package</span><span class="im"> jp.ac.ait.oop1;</span>
+<span class="kw">public</span> <span class="kw">class</span> InnerClassSample {
+  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {
+    <span class="co">// 内部クラスのResultをnewで生成する場合には、外部クラスのインスタンスを経由させないとできない。</span>
+    NonStaticInnerClassOuter b = <span class="kw">new</span> <span class="fu">NonStaticInnerClassOuter</span>();
+    NonStaticInnerClassOuter.<span class="fu">Result</span> rb = b.<span class="fu">new</span> <span class="bu">Result</span>();
+
+    <span class="co">// 動作確認</span>
+    NonStaticInnerClassOuter.<span class="fu">Result</span> rb1 = b.<span class="fu">f</span>(<span class="dv">7</span>);
+    <span class="bu">System</span>.<span class="fu">out.printf</span>(<span class="st">&quot;RB1: f(</span><span class="sc">%d</span><span class="st">) = </span><span class="sc">%d%s</span><span class="st">&quot;</span>, rb1.<span class="fu">getX</span>(), rb1.<span class="fu">getY</span>(), <span class="bu">System</span>.<span class="fu">lineSeparator</span>());
+
+    NonStaticInnerClassOuter.<span class="fu">Result</span> rb2 = b.<span class="fu">f</span>(<span class="dv">1</span>);
+    <span class="bu">System</span>.<span class="fu">out.printf</span>(<span class="st">&quot;RB2: f(</span><span class="sc">%d</span><span class="st">) = </span><span class="sc">%d%s</span><span class="st">&quot;</span>, rb2.<span class="fu">getX</span>(), rb2.<span class="fu">getY</span>(), <span class="bu">System</span>.<span class="fu">lineSeparator</span>());
+
+    <span class="co">// rb, rb1のデータも変更されています。</span>
+    <span class="bu">System</span>.<span class="fu">out.printf</span>(<span class="st">&quot;RB : f(</span><span class="sc">%d</span><span class="st">) = </span><span class="sc">%d%s</span><span class="st">&quot;</span>, rb.<span class="fu">getX</span>(), rb.<span class="fu">getY</span>(), <span class="bu">System</span>.<span class="fu">lineSeparator</span>());
+    <span class="bu">System</span>.<span class="fu">out.printf</span>(<span class="st">&quot;RB1: f(</span><span class="sc">%d</span><span class="st">) = </span><span class="sc">%d%s</span><span class="st">&quot;</span>, rb1.<span class="fu">getX</span>(), rb1.<span class="fu">getY</span>(), <span class="bu">System</span>.<span class="fu">lineSeparator</span>());
+
+    <span class="co">// ↓こんな感じにするとrb, rb1, rb2のメソッドの戻り値も変わります</span>
+    b.<span class="fu">setX</span>(<span class="dv">10</span>);
+    <span class="bu">System</span>.<span class="fu">out.printf</span>(<span class="st">&quot;RB : f(</span><span class="sc">%d</span><span class="st">) = </span><span class="sc">%d%s</span><span class="st">&quot;</span>, rb.<span class="fu">getX</span>(), rb.<span class="fu">getY</span>(), <span class="bu">System</span>.<span class="fu">lineSeparator</span>());
+    <span class="bu">System</span>.<span class="fu">out.printf</span>(<span class="st">&quot;RB1: f(</span><span class="sc">%d</span><span class="st">) = </span><span class="sc">%d%s</span><span class="st">&quot;</span>, rb1.<span class="fu">getX</span>(), rb1.<span class="fu">getY</span>(), <span class="bu">System</span>.<span class="fu">lineSeparator</span>());
+    <span class="bu">System</span>.<span class="fu">out.printf</span>(<span class="st">&quot;RB2: f(</span><span class="sc">%d</span><span class="st">) = </span><span class="sc">%d%s</span><span class="st">&quot;</span>, rb2.<span class="fu">getX</span>(), rb2.<span class="fu">getY</span>(), <span class="bu">System</span>.<span class="fu">lineSeparator</span>());
+  }
+}</code></pre></div>
+<p>メリットは、内部クラスのインスタンスは外部クラスのインスタンスのメンバにアクセスする事ができる点で、デメリットは、外部クラスのインスタンスによって内部クラスのインスタンスを生成するため外部クラスのインスタンスの状態により別途生成したはずのインスタンスの状態が共有された状態になる点です。</p>
+<p>そもそもですが、staticでない内部クラスを作らなければ実現できない状況というのが考えにくく、通常通り外部クラスのメンバだけで何とかしたほうが良いと思われます。</p>
+<p>※正直ややこしいため、staticな内部クラスを使う方が予期せぬ状態変化がなく扱いやすいです。</p>
+<h2>内部クラスまとめ</h2>
+<ul>
+<li>内部クラスを作りたいときにはstatic修飾子をつけよう。</li>
+<li>enumもクラスなので、staticな内部enumも作れます。（これが便利なんです）</li>
+</ul>
+<p>　</p>
+<p>　</p>
+<p>　</p>
+<hr />
+<h1>匿名クラス</h1>
+<p>匿名クラス(無名クラスとも呼ばれる)は、メソッド内部のステートメント中でインターフェイスに対する実装クラスを作成しその場限りで使い捨てを行うクラスです。</p>
+<p>匿名クラスには、インターフェイスが必須です。</p>
+<p>サンプルソースを御覧ください。</p>
+<p>インターフェイス: <code>jp.ac.ait.oop1.InterfaceSample</code></p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">package</span><span class="im"> jp.ac.ait.oop1;</span>
+<span class="co">/**</span>
+ <span class="co">*</span> サンプルインターフェイス
+ <span class="co">*/</span>
+<span class="kw">public</span> <span class="kw">interface</span> InterfaceSample {
+  <span class="dt">void</span> <span class="fu">print</span>();
+  <span class="dt">int</span> <span class="fu">retDouble</span>(<span class="dt">int</span> a);
+}</code></pre></div>
+<p>メインクラス: <code>jp.ac.ait.oop1.AnonymousInnerClassSample</code></p>
+<p>メインメソッド内で匿名クラスを生成し、その動作確認を行います。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">package</span><span class="im"> jp.ac.ait.oop1;</span>
+<span class="kw">public</span> <span class="kw">class</span> AnonymousInnerClassSample {
+  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {
+    InterfaceSample app = <span class="kw">new</span> <span class="fu">InterfaceSample</span>() {
+      <span class="at">@Override</span>
+      <span class="kw">public</span> <span class="dt">void</span> <span class="fu">print</span>() {
+        <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Hello, Anonymous inner class!!&quot;</span>);
+      }
+      <span class="at">@Override</span>
+      <span class="kw">public</span> <span class="dt">int</span> <span class="fu">retDouble</span>(<span class="dt">int</span> a) {
+        <span class="kw">return</span> (a * <span class="dv">2</span>);
+      }
+    };
+
+    <span class="co">// 匿名クラスの動作確認</span>
+    app.<span class="fu">print</span>(); <span class="co">// Hello, Anonymous inner class!!</span>
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(app.<span class="fu">retDouble</span>(<span class="dv">10</span>)); <span class="co">// 20</span>
+  }
+}</code></pre></div>
+<p>匿名クラスのメリットは、インターフェイスの実装クラスをファイル分割により分ける必要がない点です。</p>
+<p>単純に使い捨てが可能で、たった一度しか使用しないようなクラスの場合でインターフェイスがすでに定義されているなら、匿名クラスを使用する選択肢が出てきます。</p>
+<p>デメリットは特にありません。</p>
+<h2>ラムダを用いた匿名クラスの簡略表記</h2>
+<p>ラムダとは、簡単に言ってしまえば匿名クラスを簡単に書くための構文です。</p>
+<p>こういった既存の構文を簡単に書けるようにする構文のことを糖衣構文(シンタックスシュガー)と呼びます。(Javaのラムダは、厳密にいうとシンタックスシュガーとは異なり、ラムダで書かれたコードと匿名クラスで書かれたコードではコンパイル時に生成されるオブジェクトの形式が違います。簡単に言うと並列処理化が可能な場合かってに並列処理化されてしまう点などがあります。)</p>
+<p>※ラムダはJava8から追加された新機能です。</p>
+<p>ラムダを用いたサンプルを以下に示します。</p>
+<p>インターフェイス: <code>jp.ac.ait.oop1.FunctionalInterfaceSample</code></p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">package</span><span class="im"> jp.ac.ait.oop1;</span>
+<span class="co">/**</span>
+ <span class="co">*</span> 関数型インターフェイスのサンプル
+ <span class="co">*</span>
+ <span class="co">*</span> <span class="co">@</span>FunctionalInterfaceアノテーションをつけると、「これは関数型インターフェイスであり、
+ <span class="co">*</span> 抽象メソッドをたった<span class="co">1つ</span>しか持たない関数的な動作を行うこと」をコンパイラに伝えられます。
+ <span class="co">*</span> <span class="co">2つ</span>以上抽象メソッドをもたせようとするとコンパイルエラーになります。
+ <span class="co">*/</span>
+<span class="at">@FunctionalInterface</span>
+<span class="kw">public</span> <span class="kw">interface</span> FunctionalInterfaceSample {
+  <span class="dt">void</span> <span class="fu">print</span>();
+}</code></pre></div>
+<p>メインクラス: <code>jp.ac.ait.oop1.AnonymousInnerClassSample</code></p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">package</span><span class="im"> jp.ac.ait.oop1;</span>
+<span class="kw">public</span> <span class="kw">class</span> AnonymousInnerClassSample {
+  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {
+    <span class="co">// ラムダによる匿名クラスの宣言</span>
+    FunctionalInterfaceSample f = () -&gt; {
+      <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Hello, Functional Anonymous inner class!!&quot;</span>);
+    };
+
+    <span class="co">/* ↑の書き方は、↓を簡略化して書いた書き方で、処理内容は同じです。</span>
+<span class="co">    FunctionalInterfaceSample f = new FunctionalInterfaceSample() {</span>
+<span class="co">      @Override</span>
+<span class="co">      public void print() {</span>
+<span class="co">        System.out.println(&quot;Hello, Functional Anonymous inner class!!&quot;);</span>
+<span class="co">      }</span>
+<span class="co">    };</span>
+<span class="co">    */</span>
+
+    f.<span class="fu">print</span>(); <span class="co">// Hello, Functional Anonymous inner class!!</span>
+  }
+}</code></pre></div>
+<p>このように簡略化した表記方法が、ラムダと呼ばれるものです。</p>
+<p>ラムダには他にも、Java8から追加された強力な<code>StreamAPI</code>,<code>Function&lt;T, R&gt;</code>,<code>Consumer&lt;T&gt;</code>,<code>Predicate&lt;T&gt;</code>を使ったものなどが有名ですが、この講義では説明を割愛させていただきます。</p>
+<p>以下ちょっとだけ。</p>
+<ul>
+<li><code>Function&lt;引数型 T, 戻り値型 R&gt;</code>
+<ul>
+<li>単一の引数を受け、戻り値を返すラムダ。二つの引数を受けるBiFunctionもある。</li>
+</ul></li>
+<li><code>UnaryOperator&lt;型 T&gt;</code>
+<ul>
+<li>引数型と戻り値型が同じラムダ。 Functionの引数型と戻り値型に同じ物を入れたもの。</li>
+<li>BiFunctionに対応するのはBinaryOperator。</li>
+</ul></li>
+<li><code>Consumer&lt;引数型 T&gt;</code>
+<ul>
+<li>単一の引数を受け、戻り値を返さない。引数を消費するだけのまさにConsumer（消費者）。二つ引数を受けるBiConsumerがいる。</li>
+</ul></li>
+<li><code>Supplier&lt;戻り値型 R&gt;</code>
+<ul>
+<li>消費者がいれば提供者もいる。引数なしで戻り値を返すラムダ。</li>
+</ul></li>
+<li><code>Predicate&lt;引数型 T&gt;</code>
+<ul>
+<li>単一の引数を受けてBooleanを返すラムダ。主にstream.filter()で使う。こっちも二つの引数を受けるBiPredicateがいる。</li>
+</ul></li>
+</ul>
+<p>サンプルは以下</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="co">/*</span>
+<span class="co">import java.util.function.Consumer;</span>
+<span class="co">import java.util.function.UnaryOperator;</span>
+<span class="co">import java.util.function.Function;</span>
+<span class="co">import java.util.function.Predicate;</span>
+<span class="co">import java.util.function.Supplier;</span>
+<span class="co">import java.time.LocalDateTime;</span>
+<span class="co">*/</span>
+
+<span class="co">// Function&lt;T, R&gt;</span>
+Function&lt;<span class="bu">String</span>, <span class="bu">Integer</span>&gt; getLength = s -&gt; s.<span class="fu">length</span>();
+<span class="dt">int</span> len = getLength.<span class="fu">apply</span>(<span class="st">&quot;text&quot;</span>);
+
+<span class="co">// UnaryOperator&lt;T&gt;</span>
+UnaryOperator&lt;<span class="bu">String</span>&gt; echo = s -&gt; s;
+<span class="bu">String</span> s = echo.<span class="fu">apply</span>(<span class="st">&quot;hoge&quot;</span>);
+
+<span class="co">// Consumer</span>
+Consumer sayHello = name -&gt; <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Hello, &quot;</span> + name);
+sayHello.<span class="fu">accept</span>(<span class="st">&quot;John&quot;</span>);
+
+<span class="co">// Supplier&lt;T&gt;</span>
+Supplier&lt;LocalDateTime&gt; getNow = () -&gt; LocalDateTime.<span class="fu">now</span>();
+LocalDateTime now = getNow.<span class="fu">get</span>();
+
+<span class="co">// Predicate&lt;T&gt;</span>
+<span class="bu">Predicate</span>&lt;<span class="bu">List</span>&gt; isAllOK = l -&gt; !l.<span class="fu">contains</span>(<span class="bu">Boolean</span>.<span class="fu">FALSE</span>);
+isAllOK.<span class="fu">test</span>(<span class="bu">Arrays</span>.<span class="fu">asList</span>(<span class="kw">true</span>, <span class="kw">false</span>, <span class="kw">true</span>));</code></pre></div>
+<p>今回の講義では、<code>Collections.sort(List&lt;T&gt;, Comparator&lt;? super T&gt;)</code>をラムダで実装するコレクションの簡易ソートで使用する方法をお教えします。ぜひ使い方を覚えておいてください。</p>
+</body>
+</html>

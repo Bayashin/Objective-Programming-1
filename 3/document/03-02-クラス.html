@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="generator" content="pandoc">
+  <title>クラス</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+<style type="text/css">
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+code {
+  white-space: pre-wrap;
+}
+
+span.smallcaps {
+  font-variant: small-caps;
+}
+
+span.underline {
+  text-decoration: underline;
+}
+
+div.column {
+  display: inline-block;
+  vertical-align: top;
+  width: 50%;
+}
+
+body {
+  font-size: 14pt;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN,
+    Arial, "メイリオ", Meiryo, sans-serif;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 2em;
+  background-color: #f8f8f8;
+  color: #232323;
+}
+
+hr {
+  height: 4px;
+  padding: 0;
+  margin: 6rem 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+  background:
+    url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC");
+}
+
+p,
+table {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  line-height: 2rem;
+  letter-spacing: 0.03rem;
+}
+
+strong {
+  text-decoration: none;
+  color: hsla(0, 75%, 55%, 1);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+  color: #232323;
+  letter-spacing: 0.05rem;
+  margin-top: 2rem;
+}
+
+h1 {
+  font-size: 2rem;
+  margin: 2rem auto 1rem;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+  margin: 2rem 0 1rem;
+}
+
+h5 {
+  font-size: 1.2rem;
+  margin: 2rem 0 1rem;
+}
+
+h6 {
+  font-size: 1.1rem;
+  margin: 2rem 0 1rem;
+}
+
+ul,
+ol {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  line-height: 1.6;
+  letter-spacing: 0.025rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding-left: 2rem;
+}
+
+ul li,
+ol li {
+  padding-left: .5rem;
+}
+
+ul ul,
+ol ul,
+ul ol,
+ol ol {
+  padding-left: 1.5rem;
+}
+
+table {
+  border-collapse: collapse;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  max-width: 100%;
+  width: 100% !important;
+  font-size: 1rem;
+  overflow: auto;
+}
+
+table th {
+  text-align: center;
+  font-weight: nomal;
+  background-color: #f0f0f0;
+  color: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+table tr {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+table td {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+a {
+  color: #5484c8;
+}
+
+.margin-clear {
+  margin-left: 0;
+}
+
+blockquote {
+  border-left: 4px #ddd solid;
+  padding: 0;
+  margin: 2rem;
+}
+
+blockquote * {
+  color: #999;
+}
+
+blockquote p {
+  padding: 0 1rem;
+  text-indent: 0;
+}
+
+img,
+iframe,
+figure {
+  max-width: 100%;
+}
+
+p img {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+pre,
+code,
+var,
+samp,
+kbd,
+.mono {
+  font-family: "Ricty Diminished", "Consolas", 'Courier New', Courier, Monaco, monospace;
+  line-height: 1.2;
+}
+
+table code,
+p code,
+ul code,
+ol code {
+  display: inline-block;
+  border: 1px solid #eaeaea;
+  background-color: rgb(119, 119, 119);
+  color: #f8f8f8;
+  white-space: nowrap;
+  border-radius: 2px;
+  display: inline-block;
+  padding-top: 6px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 0px;
+  margin: 0 4px;
+}
+
+pre code {
+  border: 1px solid #eaeaea;
+  background-color: #f5f5f5;
+  border-radius: 2px;
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  font-size: 1rem;
+}
+
+.highlight pre {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+div.sourceCode {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+div.sourceCode pre,
+div.sourceCode code {
+  background-color: transparent;
+  margin: 0;
+}
+
+pre code,
+pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+table.sourceCode,
+tr.sourceCode,
+td.lineNumbers,
+td.sourceCode {
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
+  border: none;
+}
+
+table.sourceCode pre {
+  padding: 2px;
+  margin: 0;
+  border: none;
+  color: inherit;
+}
+table.sourceCode code {
+  color: inherit;
+}
+
+table.sourceCode {
+  width: 100%;
+  line-height: 100%;
+}
+
+td.lineNumbers {
+  text-align: right;
+  color: #aaaaaa;
+  border-right: 1px solid #aaaaaa;
+}
+</style>
+</head>
+<body>
+  <header>
+  <h1 class="title">クラス</h1>
+        </header>
+<blockquote>
+<p>オブジェクト指向プログラミングおよび演習1 第3回</p>
+</blockquote>
+<h1>メソッドとデータを関連付けて再利用する</h1>
+<h2>クラスとは</h2>
+<p><strong><em>「データの⼊れ物(状態)」と「処理」をまとめる</em></strong> 機能です。</p>
+<p>現実世界でも、何らかの処理は、何らかの状態に依存することが多いです。 この状態と処理を関連付けてまとめ、一つの設計図としておき、それを実体化して利用することで再利用を行えるようにすることが目的です。</p>
+<p>Javaは、クラスベースのオブジェクト指向言語です。 このクラスありきでオブジェクト指向設計を実現する言語ですので、このクラスの考え方がとても重要になってきます。</p>
+<h3 id="c">C言語との照らし合わせ</h3>
+<p>C言語の構造体(struct)では、名前を持った変数を複数まとめて一つの変数として扱う機能があります。 構造体は単にデータの入れ物としての役割しかありませんが、データ同士を関連付けて管理できるメリットがあります。</p>
+<p>Javaにおけるクラスは、この構造体に関数を追加したもの。とイメージすると想像しやすくなります。</p>
+<h2>クラスはオブジェクトの設計図</h2>
+<p>何らかの状態は実体化(インスタンス化)されたオブジェクトごとに異なります。</p>
+<p>何らかの状態に対する処理内容(メソッド)はどの状態においても変わりがありません。 ただし、その処理によって得られる結果(戻り値)は状態によって異なります。</p>
+<p>クラスは、どんな状態をどのように管理するかを先に決めておきます。これにより、それをもとにそれぞれのオブジェクトを生成することが可能です。</p>
+<h2>クラスを宣言する</h2>
+<p>クラスの宣言（フィールドの宣言や、メソッドの宣言も含みます）には、以下の構文を使います。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> クラス名 {
+  <span class="co">// クラス内変数（フィールド）</span>
+  修飾子 型名 フィールド名;
+
+  <span class="co">// クラスのメソッド</span>
+  修飾子 戻り値の型 メソッド名(引数1の型 引数1名, 引数2の型 引数2名) {
+    処理
+    <span class="kw">return</span> 戻り値;
+  }
+}</code></pre></div>
+<h3 id="25">第2回の課題5を例に実際に書いてみよう</h3>
+<p>第2回の課題5では、5教科の点数と名前を別の配列に格納し、その合計点を算出してソートするプログラムを作成しました。</p>
+<p>この課題の生徒の5教科の点数をもっと有用に管理できるようにしてみます。</p>
+<h4>生徒情報と点数を管理するクラスを作成する</h4>
+<p>課題では、生徒の名前と点数は別々の配列情報として管理されていました。</p>
+<p>この状態だと、点数の並び替えを行った場合に”ずれないように気をつけて”生徒の名前の配列も同様に並び替える必要があります。 これでは、構築を少しでも間違えると別の生徒の点数が当て込まれてしまう危険性があります。</p>
+<p>そこで提案したいのが、生徒の情報と点数の情報をまとめて管理してはどうか。ということです。</p>
+<p>まず、生徒情報と点数を管理するクラス<code>Score</code>を作成します。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> Score {
+}</code></pre></div>
+<p>このクラスには、生徒の名前である<code>name</code>をString型で、5教科の点数<code>subjects</code>をintの配列でもたせます。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> Score {
+  <span class="bu">String</span> name = <span class="st">&quot;&quot;</span>;
+  <span class="dt">int</span>[] subjects = <span class="kw">new</span> <span class="dt">int</span>[<span class="dv">5</span>];
+}</code></pre></div>
+<p>これで、<code>Score</code>クラスは生徒名と点数を一つの型で管理できるようになりました。 追加した<code>name</code>、<code>subjects</code>はいわゆる状態に当たります。これらをクラスの<strong><em>フィールド</em></strong>と呼びます。</p>
+<h4>実際に作成したクラスを使ってみる</h4>
+<p>先程作成した<code>Score</code>クラスには、<code>main</code>メソッドを作成していません。 <code>main</code>メソッドは、実際に動かしたいプログラムにのみ追加します。<code>Scores</code>はあくまでデータの取りまとめの役割を担ってもらいたいので、あえて<code>main</code>メソッドは作成しません。そのかわりに、生徒の成績を取りまとめるクラスを作成して、そちらに<code>main</code>メソッドを持たせましょう。</p>
+<p><code>ScoresManager</code>クラスを作成します。<code>main</code>メソッドのみ用意し、<code>Score</code>クラスの実体として一人の生徒のデータを作成したうえで合計点の算出と出力を行います。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> ScoresManager {
+  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {
+    Score s = <span class="kw">new</span> <span class="fu">Score</span>(); <span class="co">// 新しく生徒を作成</span>
+    s.<span class="fu">name</span> = <span class="st">&quot;佐藤一郎&quot;</span>;  <span class="co">// 名前の設定</span>
+    s.<span class="fu">subjects</span> = <span class="kw">new</span> <span class="dt">int</span>[]{<span class="dv">100</span>, <span class="dv">30</span>, <span class="dv">90</span>, <span class="dv">10</span>, <span class="dv">60</span>};  <span class="co">// 配列を生成して渡す</span>
+
+    <span class="co">// 合計点の算出</span>
+    <span class="dt">int</span> sum = <span class="dv">0</span>;
+    <span class="kw">for</span> (<span class="dt">int</span> subject : s.<span class="fu">subjects</span>) {
+      sum += subject;
+    }
+
+    <span class="co">// 名前と合計点の出力</span>
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(s.<span class="fu">name</span> + <span class="st">&quot;:&quot;</span> + sum);
+  }
+}</code></pre></div>
+<p>実行結果は次のようになります。</p>
+<pre><code>佐藤一郎:290</code></pre>
+<h4>合計点の算出と名前と合計点の文字列を生成するメソッドの作成</h4>
+<p><code>ScoresManager</code>の<code>main</code>に作成した合計点の算出と出力用データの生成を<code>Score</code>クラスに任せるようにしましょう。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> Score {
+  <span class="bu">String</span> name = <span class="st">&quot;&quot;</span>;
+  <span class="dt">int</span>[] subjects = <span class="kw">new</span> <span class="dt">int</span>[<span class="dv">5</span>];
+
+  <span class="co">// 合計点の算出</span>
+  <span class="kw">public</span> <span class="dt">int</span> <span class="fu">getSubjectsSummary</span>() {
+    <span class="dt">int</span> sum = <span class="dv">0</span>;
+    <span class="kw">for</span> (<span class="dt">int</span> subject : subjects) {
+      sum += subject;
+    }
+    <span class="kw">return</span> sum;
+  }
+
+  <span class="co">// 「名前:合計点」の文字列を生成</span>
+  <span class="kw">public</span> <span class="bu">String</span> <span class="fu">getScoreInfo</span>() {
+    <span class="kw">return</span> name + <span class="st">&quot;:&quot;</span> + <span class="fu">getSubjectsSummary</span>();
+  }
+}</code></pre></div>
+<p>この変更により、合計点の算出や、出力形式を<code>ScoresManager</code>の<code>main</code>メソッドで行わなくて良くなりました。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> ScoresManager {
+  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {
+    Score s = <span class="kw">new</span> <span class="fu">Score</span>(); <span class="co">// 新しく生徒を作成</span>
+    s.<span class="fu">name</span> = <span class="st">&quot;佐藤一郎&quot;</span>;  <span class="co">// 名前の設定</span>
+    s.<span class="fu">subjects</span> = <span class="kw">new</span> <span class="dt">int</span>[]{<span class="dv">100</span>, <span class="dv">30</span>, <span class="dv">90</span>, <span class="dv">10</span>, <span class="dv">60</span>};  <span class="co">// 配列を生成して渡す</span>
+
+    <span class="co">// 名前と合計点の出力</span>
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(s.<span class="fu">getScoreInfo</span>());
+  }
+}</code></pre></div>
+<p>出力結果は変わりません。</p>
+<p>これで、<code>ScoresManager</code>の<code>main</code>メソッドでの合計点算出処理などを細かく指定することなく書け、シンプルな構成になりました。</p>
+<p>クラスを作成して処理をお願いすることは、<code>main</code>メソッドのごちゃつきを抑え、シンプルでバグの発生確率を低下させる目的があります。</p>
+<p>今回のような簡単なプログラムでは、逆にコード記述量が増えてしまっていて回りくどく手間が掛かっているように見えてしまいます。しかし、クラスを細く分割し、それぞれのクラスの役割を果たすように設計・構築することで、責任の所在を明らかにでき、大規模なプロジェクトの場合はその恩恵を多大に得られます。</p>
+<h1>まとめ</h1>
+<ol>
+<li>クラスは、<strong><em>フィールド(状態)</em></strong> や、<strong><em>メソッド(処理)</em></strong> を1つにまとめることができる。
+<ul>
+<li>状態と処理をまとめることで、より整然としたプログラムの構成を考え、実現することができる。</li>
+</ul></li>
+<li>オブジェクト指向プログラミング言語では、クラスを変数の型としてそのまま利用することができる。
+<ul>
+<li>変数の型として使用する場合、プリミティブな変数や特殊なString型と異なり、<code>new</code>演算子により新規作成し代入する手順が必要となる。</li>
+</ul></li>
+</ol>
+</body>
+</html>

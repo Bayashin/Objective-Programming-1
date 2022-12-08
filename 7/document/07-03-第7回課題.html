@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="generator" content="pandoc">
+  <title>第7回課題</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+<style type="text/css">
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+code {
+  white-space: pre-wrap;
+}
+
+span.smallcaps {
+  font-variant: small-caps;
+}
+
+span.underline {
+  text-decoration: underline;
+}
+
+div.column {
+  display: inline-block;
+  vertical-align: top;
+  width: 50%;
+}
+
+body {
+  font-size: 14pt;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN,
+    Arial, "メイリオ", Meiryo, sans-serif;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 2em;
+  background-color: #f8f8f8;
+  color: #232323;
+}
+
+hr {
+  height: 4px;
+  padding: 0;
+  margin: 6rem 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+  background:
+    url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC");
+}
+
+p,
+table {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  line-height: 2rem;
+  letter-spacing: 0.03rem;
+}
+
+strong {
+  text-decoration: none;
+  color: hsla(0, 75%, 55%, 1);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+  color: #232323;
+  letter-spacing: 0.05rem;
+  margin-top: 2rem;
+}
+
+h1 {
+  font-size: 2rem;
+  margin: 2rem auto 1rem;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+  margin: 2rem 0 1rem;
+}
+
+h5 {
+  font-size: 1.2rem;
+  margin: 2rem 0 1rem;
+}
+
+h6 {
+  font-size: 1.1rem;
+  margin: 2rem 0 1rem;
+}
+
+ul,
+ol {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  line-height: 1.6;
+  letter-spacing: 0.025rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding-left: 2rem;
+}
+
+ul li,
+ol li {
+  padding-left: .5rem;
+}
+
+ul ul,
+ol ul,
+ul ol,
+ol ol {
+  padding-left: 1.5rem;
+}
+
+table {
+  border-collapse: collapse;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  max-width: 100%;
+  width: 100% !important;
+  font-size: 1rem;
+  overflow: auto;
+}
+
+table th {
+  text-align: center;
+  font-weight: nomal;
+  background-color: #f0f0f0;
+  color: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+table tr {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+table td {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+a {
+  color: #5484c8;
+}
+
+.margin-clear {
+  margin-left: 0;
+}
+
+blockquote {
+  border-left: 4px #ddd solid;
+  padding: 0;
+  margin: 2rem;
+}
+
+blockquote * {
+  color: #999;
+}
+
+blockquote p {
+  padding: 0 1rem;
+  text-indent: 0;
+}
+
+img,
+iframe,
+figure {
+  max-width: 100%;
+}
+
+p img {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+pre,
+code,
+var,
+samp,
+kbd,
+.mono {
+  font-family: "Ricty Diminished", "Consolas", 'Courier New', Courier, Monaco, monospace;
+  line-height: 1.2;
+}
+
+table code,
+p code,
+ul code,
+ol code {
+  display: inline-block;
+  border: 1px solid #eaeaea;
+  background-color: rgb(119, 119, 119);
+  color: #f8f8f8;
+  white-space: nowrap;
+  border-radius: 2px;
+  display: inline-block;
+  padding-top: 6px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 0px;
+  margin: 0 4px;
+}
+
+pre code {
+  border: 1px solid #eaeaea;
+  background-color: #f5f5f5;
+  border-radius: 2px;
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  font-size: 1rem;
+}
+
+.highlight pre {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+div.sourceCode {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+div.sourceCode pre,
+div.sourceCode code {
+  background-color: transparent;
+  margin: 0;
+}
+
+pre code,
+pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+table.sourceCode,
+tr.sourceCode,
+td.lineNumbers,
+td.sourceCode {
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
+  border: none;
+}
+
+table.sourceCode pre {
+  padding: 2px;
+  margin: 0;
+  border: none;
+  color: inherit;
+}
+table.sourceCode code {
+  color: inherit;
+}
+
+table.sourceCode {
+  width: 100%;
+  line-height: 100%;
+}
+
+td.lineNumbers {
+  text-align: right;
+  color: #aaaaaa;
+  border-right: 1px solid #aaaaaa;
+}
+</style>
+</head>
+<body>
+  <header>
+  <h1 class="title">第7回課題</h1>
+        </header>
+<blockquote>
+<p>オブジェクト指向プログラミングおよび演習1 第7回</p>
+<p>抽象クラスについて学んだことを活かし、SimpleRPGをもっと扱いやすいものにブラッシュアップしましょう
+インターフェイスを用いて、勇者の職業を追加し、その職業に合わせた特殊行動が行えるよう機能追加しましょう</p>
+</blockquote>
+<h1 id="課題1-抽象クラス抽象メソッドを用いた抽象化">課題1<br>抽象クラス・抽象メソッドを用いた抽象化</h1>
+<h2 id="1-characterbaseクラスの抽象クラス化">1.
+CharacterBaseクラスの抽象クラス化</h2>
+<p>前回の課題で作成したHero,Enemy両方の親クラスである<code>CharacterBase</code>クラスは、それ自体が親クラスとしての役割しかありません。</p>
+<p>このクラスを個別にインスタンス化することはないため、このクラスを抽象クラスに変更しましょう。</p>
+<h2 id="2-characterbaseクラスのattackメソッドを抽象メソッド化">2.
+CharacterBaseクラスのattackメソッドを抽象メソッド化</h2>
+<p>CharacterBaseを継承したHero,Enemy両方のクラスでの主な違いは、Heroクラスにてオーバーライドしている攻撃を行う処理<code>AttackResult attack(CharacterBase target)</code>です。
+現時点では、Enemy側にも何らかの処理を加える想定で考え、このメソッドは親クラスで処理を決定させずに、継承を行った2つのクラスにて詳しい処理内容が決定されるよう抽象メソッドに変えましょう。</p>
+<p>※Enemyクラスは、現在のCharacterBaseクラスのattackメソッドの内容そのままでOKです。</p>
+<hr />
+<br>
+<br>
+
+<h1 id="課題2-インターフェイスを用いた勇者の職業を追加">課題2<br>インターフェイスを用いた勇者の職業を追加</h1>
+<h2 id="1-iherojobインターフェイスの作成">1.
+IHeroJobインターフェイスの作成</h2>
+<p>新規クラスの作成より、新規クラス名入力ウィンドウにて、名前:<code>IHeroJob</code>,
+種類:<code>Interface</code>を選び、「OK」ボタンで新規にインターフェイスを作成します。</p>
+<p>IHeroJobのインターフェイスは、以下の内容を使用します。</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a> <span class="co">*</span> <span class="co">勇者の職業を定義するインターフェイス</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a> <span class="co">*/</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">interface</span> IHeroJob <span class="op">{</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">/**</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>     <span class="co">*</span> <span class="co">勇者の職業名を返します</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>     <span class="co">*</span> <span class="co">(主にメッセージ表示で使ってください)</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">     * @</span>return <span class="co">職業名</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>     <span class="co">*/</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">String</span> <span class="fu">getJobName</span><span class="op">();</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="co">/**</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>     <span class="co">*</span> <span class="co">勇者の職業個別の特殊行動の名前を返します</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>     <span class="co">*</span> <span class="co">(主にメッセージ表示で使ってください)</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">     * @</span>return <span class="co">特殊行動名</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>     <span class="co">*/</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="bu">String</span> <span class="fu">getSpecialAttackName</span><span class="op">();</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="co">/**</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>     <span class="co">*</span> <span class="co">特殊行動</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co">     * @</span>param target <span class="co">行動対象(基本は</span>Enemy<span class="co">を渡すが便宜上</span>CharacterBase<span class="co">のインスタンスとする)</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>     <span class="co">*</span> <span class="co">@</span>return <span class="co">攻撃結果(行動の内容に関わらず攻撃結果クラスを返す)</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>     <span class="co">*/</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    AttackResult <span class="fu">specialAttack</span><span class="op">(</span>CharacterBase target<span class="op">);</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>これらそれぞれのメソッドの詳細は、下記の通りです。
+(インターフェイス宣言時、<code>public abstract</code>等の修飾子は書きません。)</p>
+<ol type="1">
+<li><code>public String getJobName()</code>
+<ul>
+<li>職業名を返します。</li>
+<li><code>return &quot;自分で考えた職業名をここに&quot;;</code>
+で良いです。実装側でもフィールドは不要です。</li>
+</ul></li>
+<li><code>public String getSpecialAttackName()</code>
+<ul>
+<li>その職業の特殊行動名を返します。</li>
+<li><code>return &quot;自分で考えた特殊行動名をここに&quot;;</code>
+で良いです。実装側でもフィールドは不要です。</li>
+</ul></li>
+<li><code>public AttackResult specialAttack(CharacterBase target)</code>
+<ul>
+<li>その職業の特殊行動を行います。</li>
+<li><code>Hero</code>クラスの<code>attack()</code>メソッドを参考に実装を行うと良いでしょう。</li>
+<li>今回は、各自で考えた特殊行動を行っていただきますが、「勇者を回復する」、「勇者にダメージを与える」などの処理を入れる場合、SimpleRPGやAttackResult側も少なからず変更する必要があるため注意してください。課題を進めることだけに着目するなら、「特定条件を追加して敵に何らかのダメージを与える」処理がもっとも実装しやすいでしょう。</li>
+</ul></li>
+</ol>
+<p>インターフェイスは、あくまでもインターフェイスで、処理の中身の実装はここでは行いません。</p>
+<h2 id="2-職業クラスの追加">2. 職業クラスの追加</h2>
+<p>新規に<code>Hero</code>クラスを親とした職業クラスを作成し、そのクラスは<code>IHeroJob</code>インターフェイスを実装させます。</p>
+<p>新規クラスは、クラス名、メソッド実装内容ともに、各自で自由に考え実装を行います。ただし、<code>Hero</code>クラスを親としているため、コンストラクタ等の実装は必ず行ってください。</p>
+<p>職業クラスは、<strong>最低2つ</strong>自分で追加してください。</p>
+<h3 id="サンプル剣士クラスの追加">[サンプル]剣士クラスの追加</h3>
+<p>以下のコードは、こちらで用意したサンプル職業です。
+これをそのまま使い課題提出することは避けましょう。</p>
+<p>クラス名: <code>SwordFighter</code></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span><span class="im"> jp</span><span class="op">.</span><span class="im">ac</span><span class="op">.</span><span class="im">ait</span><span class="op">.</span><span class="im">k00000</span><span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">util</span><span class="op">.</span><span class="im">Random</span><span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> SwordFighter <span class="kw">extends</span> Hero <span class="kw">implements</span> IHeroJob <span class="op">{</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">SwordFighter</span><span class="op">(</span><span class="bu">String</span> name<span class="op">,</span> <span class="dt">int</span> hp<span class="op">,</span> <span class="dt">int</span> atk<span class="op">,</span> <span class="dt">int</span> def<span class="op">,</span> <span class="dt">int</span> agi<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        <span class="kw">super</span><span class="op">(</span>name<span class="op">,</span> hp<span class="op">,</span> atk<span class="op">,</span> def<span class="op">,</span> agi<span class="op">);</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Override</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="bu">String</span> <span class="fu">getJobName</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">&quot;剣士&quot;</span><span class="op">;</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Override</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="bu">String</span> <span class="fu">getSpecialAttackName</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">&quot;全力攻撃&quot;</span><span class="op">;</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">/**</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>     <span class="co">*</span> <span class="co">剣士の全力攻撃は50％の確率で成功し、成功時は必ずクリティカルヒット、ダメージ量は3倍となる</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="co">     * @</span>param target <span class="co">行動対象(基本的に敵が渡されます)</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>     <span class="co">*</span> <span class="co">@</span>return <span class="co">行動結果</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>     <span class="co">*/</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Override</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> AttackResult <span class="fu">specialAttack</span><span class="op">(</span>CharacterBase target<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 引数の攻撃対象に対して与えることのできるダメージを算出</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 与えるダメージ = 自身の攻撃力 - 敵の防御力 / 2 (小数点以下切り上げ) に、-3〜+3のランダムな値を加算</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> damage <span class="op">=</span> <span class="op">(</span><span class="dt">int</span><span class="op">)</span><span class="bu">Math</span><span class="op">.</span><span class="fu">ceil</span><span class="op">((</span><span class="dt">double</span><span class="op">)</span><span class="kw">this</span><span class="op">.</span><span class="fu">getAtk</span><span class="op">()</span> <span class="op">-</span> <span class="op">(</span>target<span class="op">.</span><span class="fu">getDef</span><span class="op">()</span> <span class="op">/</span> <span class="fl">2.0</span><span class="op">))</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>                <span class="op">+</span> <span class="op">(</span><span class="kw">new</span> java<span class="op">.</span><span class="fu">util</span><span class="op">.</span><span class="fu">Random</span><span class="op">().</span><span class="fu">nextInt</span><span class="op">(</span><span class="dv">7</span><span class="op">)</span> <span class="op">-</span> <span class="dv">3</span><span class="op">);</span> <span class="co">// ← −3〜+3のランダムな値</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> successRate <span class="op">=</span> <span class="dv">50</span><span class="op">;</span>  <span class="co">// 攻撃成功率</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 上記成功判定で攻撃が成功する(それ以外は失敗)</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span><span class="kw">new</span> <span class="bu">Random</span><span class="op">().</span><span class="fu">nextInt</span><span class="op">(</span><span class="dv">100</span><span class="op">)</span> <span class="op">&gt;=</span> successRate<span class="op">)</span> <span class="op">{</span> <span class="co">// 失敗判定</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>            AttackResult ret <span class="op">=</span> <span class="kw">new</span> <span class="fu">AttackResult</span><span class="op">();</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>            ret<span class="op">.</span><span class="fu">damage</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>   <span class="co">// ダメージ処理をしないで0を返す</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> ret<span class="op">;</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 攻撃成功時は常に3倍のダメージ</span></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>        damage <span class="op">*=</span> <span class="dv">3</span><span class="op">;</span></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 引数の攻撃対象がダメージを受ける</span></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>        <span class="dt">boolean</span> isBattleEnd <span class="op">=</span> target<span class="op">.</span><span class="fu">receiveDamage</span><span class="op">(</span>damage<span class="op">);</span></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 攻撃を行ったことによる行動結果を生成して返す</span></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>        AttackResult ret <span class="op">=</span> <span class="kw">new</span> <span class="fu">AttackResult</span><span class="op">();</span></span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>        ret<span class="op">.</span><span class="fu">damage</span> <span class="op">=</span> damage<span class="op">;</span></span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>isBattleEnd<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>            <span class="co">// 戦闘終了の条件を満たす場合、勇者の勝利となる</span></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>            ret<span class="op">.</span><span class="fu">state</span> <span class="op">=</span> AttackResult<span class="op">.</span><span class="fu">BATTLE_END</span><span class="op">;</span></span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> ret<span class="op">;</span></span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Override</span></span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="bu">String</span> <span class="fu">toString</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>        <span class="co">// デバッグ用に職業メッセージを追加しておきます。</span></span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="kw">super</span><span class="op">.</span><span class="fu">toString</span><span class="op">()</span> <span class="op">+</span> <span class="st">&quot;, &quot;</span> <span class="op">+</span> <span class="kw">this</span><span class="op">.</span><span class="fu">getJobName</span><span class="op">()</span> <span class="op">+</span> <span class="st">&quot;(&quot;</span> <span class="op">+</span> <span class="kw">this</span><span class="op">.</span><span class="fu">getSpecialAttackName</span><span class="op">()</span> <span class="op">+</span> <span class="st">&quot;)&quot;</span><span class="op">;</span></span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 id="3-勇者の職業決定フローの追加">3. 勇者の職業決定フローの追加</h2>
+<p>勇者の生成を行うタイミングで、職業クラスのオブジェクトを<code>Hero</code>のオブジェクトとして扱うようにしましょう。</p>
+<p>職業決定の方法は各自で作成する処理フローに合わせて以下のどれかで実装してください。</p>
+<ul>
+<li>職業は勇者生成時にランダムに決定</li>
+<li>ユーザー(プレイヤー)にどの職業が良いかを入力させる</li>
+<li>名前の長さ ÷ 用意した職業の数 の余りの数値で職業振り分け</li>
+</ul>
+<p>修正する箇所は、<code>SimpleRPG</code>クラスの<code>Hero createHero(String name)</code>メソッドを変更します。
+ここで、戻り値は、各職業クラスの親である<code>Hero</code>から変更しないでください。</p>
+<h2 id="4-simplerpgの勇者の行動選択処理を変更">4.
+SimpleRPGの勇者の行動選択処理を変更</h2>
+<p>現状、勇者の行動選択は、「1で攻撃、それ以外で逃亡」となっています。</p>
+<p>これを、「1で攻撃、<em><strong>2でその職業の特殊行動</strong></em>、それ以外で逃亡」とします。
+ユーザーに表示するメッセージには、特殊行動名が適切に出力されていることが望ましいです。</p>
+<h2 id="5-実際に特殊行動を行わせる処理の追加">5.
+実際に特殊行動を行わせる処理の追加</h2>
+<p>この時、SimpleRPGでは<code>Hero</code>クラスのオブジェクトとして勇者を行動させていますが、中身は、各職業の機能が追加された職業クラスのオブジェクトです。</p>
+<p>以下のように、職業クラスへのダウンキャストを行うことで、Heroオブジェクトを各職業クラスへと認識させ直したオブジェクトに変換できます。</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 職業の取得 (変数heroはHeroのインスタンス)</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>IHeroJob job <span class="op">=</span> <span class="op">(</span>IHeroJob<span class="op">)</span>hero<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">// このとき、上記4をすっ飛ばして実装を行うと、職業クラスのインスタンスではなくHeroクラスのインスタンスが渡されてしまう。</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">// 必ずIHeroJobを実装した勇者の職業クラスを使ってHeroのインスタンスを生成したものを渡してください。</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">// きちんとできているかをチェックするには、 if (hero instanceof IHeroJob) {} が使えます。</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">// 特殊行動を行う場合は、jobからメソッドを呼び出しましょう。</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>AttackResult res <span class="op">=</span> job<span class="op">.</span><span class="fu">specialAttack</span><span class="op">(</span>enemy<span class="op">);</span></span></code></pre></div>
+<h1 id="6-最終的な動作確認を行いましょう">6.
+最終的な動作確認を行いましょう</h1>
+<p>SimpleRPGは、一旦ここまでの機能追加で終わります。</p>
+<p>正しい動作が行われているか、きちんと動作確認を行いましょう。</p>
+<hr />
+<h1 id="課題の提出について">課題の提出について</h1>
+<p>動作の確認を行い、問題がなければ（フロー通りの動きができていれば）作成したプロジェクトのsrcディレクトリを圧縮したものと、実行可能形式(<code>SimpleRPG.jar</code>)ファイルをアップロードしてください。</p>
+<p>提出するファイルは以下の通りです。</p>
+<ol type="1">
+<li><code>src</code>フォルダをzip圧縮したファイル</li>
+<li><code>SimpleRPG.jar</code>ファイル</li>
+</ol>
+</body>
+</html>

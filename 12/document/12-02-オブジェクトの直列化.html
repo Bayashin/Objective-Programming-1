@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="generator" content="pandoc">
+  <title>オブジェクトの直列化(Serialize)</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+<style type="text/css">
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+code {
+  white-space: pre-wrap;
+}
+
+span.smallcaps {
+  font-variant: small-caps;
+}
+
+span.underline {
+  text-decoration: underline;
+}
+
+div.column {
+  display: inline-block;
+  vertical-align: top;
+  width: 50%;
+}
+
+body {
+  font-size: 14pt;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN,
+    Arial, "メイリオ", Meiryo, sans-serif;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 2em;
+  background-color: #f8f8f8;
+  color: #232323;
+}
+
+hr {
+  height: 4px;
+  padding: 0;
+  margin: 6rem 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+  background:
+    url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC");
+}
+
+p,
+table {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  line-height: 2rem;
+  letter-spacing: 0.03rem;
+}
+
+strong {
+  text-decoration: none;
+  color: hsla(0, 75%, 55%, 1);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+  color: #232323;
+  letter-spacing: 0.05rem;
+  margin-top: 2rem;
+}
+
+h1 {
+  font-size: 2rem;
+  margin: 2rem auto 1rem;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+  margin: 2rem 0 1rem;
+}
+
+h5 {
+  font-size: 1.2rem;
+  margin: 2rem 0 1rem;
+}
+
+h6 {
+  font-size: 1.1rem;
+  margin: 2rem 0 1rem;
+}
+
+ul,
+ol {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  line-height: 1.6;
+  letter-spacing: 0.025rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding-left: 2rem;
+}
+
+ul li,
+ol li {
+  padding-left: .5rem;
+}
+
+ul ul,
+ol ul,
+ul ol,
+ol ol {
+  padding-left: 1.5rem;
+}
+
+table {
+  border-collapse: collapse;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  max-width: 100%;
+  width: 100% !important;
+  font-size: 1rem;
+  overflow: auto;
+}
+
+table th {
+  text-align: center;
+  font-weight: nomal;
+  background-color: #f0f0f0;
+  color: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+table tr {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+table td {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+a {
+  color: #5484c8;
+}
+
+.margin-clear {
+  margin-left: 0;
+}
+
+blockquote {
+  border-left: 4px #ddd solid;
+  padding: 0;
+  margin: 2rem;
+}
+
+blockquote * {
+  color: #999;
+}
+
+blockquote p {
+  padding: 0 1rem;
+  text-indent: 0;
+}
+
+img,
+iframe,
+figure {
+  max-width: 100%;
+}
+
+p img {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+pre,
+code,
+var,
+samp,
+kbd,
+.mono {
+  font-family: "Ricty Diminished", "Consolas", 'Courier New', Courier, Monaco, monospace;
+  line-height: 1.2;
+}
+
+table code,
+p code,
+ul code,
+ol code {
+  display: inline-block;
+  border: 1px solid #eaeaea;
+  background-color: rgb(119, 119, 119);
+  color: #f8f8f8;
+  white-space: nowrap;
+  border-radius: 2px;
+  display: inline-block;
+  padding-top: 6px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 0px;
+  margin: 0 4px;
+}
+
+pre code {
+  border: 1px solid #eaeaea;
+  background-color: #f5f5f5;
+  border-radius: 2px;
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  font-size: 1rem;
+}
+
+.highlight pre {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+div.sourceCode {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+div.sourceCode pre,
+div.sourceCode code {
+  background-color: transparent;
+  margin: 0;
+}
+
+pre code,
+pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+table.sourceCode,
+tr.sourceCode,
+td.lineNumbers,
+td.sourceCode {
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
+  border: none;
+}
+
+table.sourceCode pre {
+  padding: 2px;
+  margin: 0;
+  border: none;
+  color: inherit;
+}
+table.sourceCode code {
+  color: inherit;
+}
+
+table.sourceCode {
+  width: 100%;
+  line-height: 100%;
+}
+
+td.lineNumbers {
+  text-align: right;
+  color: #aaaaaa;
+  border-right: 1px solid #aaaaaa;
+}
+</style>
+</head>
+<body>
+  <header>
+  <h1 class="title">オブジェクトの直列化(Serialize)</h1>
+        </header>
+<blockquote>
+<p>オブジェクト指向プログラミングおよび演習1 第12回</p>
+<p>Javaのオブジェクトをバイナリに変換してそのまま保存する方法を学びましょう</p>
+</blockquote>
+<h1 id="オブジェクトをファイル化する">オブジェクトをファイル化する</h1>
+<p>Javaには、インスタンス化してメモリ上に展開されているオブジェクトをファイルとしてそのままバイナリデータ化できます。</p>
+<p>その手法を <strong>シリアライズ(直列化)</strong> と呼びます。</p>
+<p>シリアライズを用いることで、インスタンス化されたオブジェクトをそのままファイル保存し、そのファイルを読み込ませることで再度保存時のインスタンスの状態に戻すことができます。</p>
+<p>データをバイナリデータに変換させることをシリアライズと呼び、それを読み込んでもとに戻すことをデシリアライズと呼びます。</p>
+<p>シリアライズは、たとえば、ネットワークプログラミングなどを行う場合に異なる機器同士において同一システム内で同じインスタンスを共有したい場合などによく使われます。</p>
+<p>例えとして、RPGを作る際のセーブデータなどをファイル保存しておきたい状況を考えると、セーブデータとして保存しておきたい内容をフィールドで持たせたクラスを作成します。<br />
+その上でゲームプレイ中に起きた状態の変化をそのセーブデータクラスのインスタンスに設定し、ゲーム終了時点でシリアライズによりバイナリで保存しておくなどの用途が考えられます。
+（※この手法はあまり一般的でないです。）</p>
+<h2 id="シリアライズの基本的な使い方">シリアライズの基本的な使い方</h2>
+<p>オブジェクトをシリアライズに対応させるには、クラスに<code>java.io.Serializable</code>インターフェイスを実装します。</p>
+<p>仮に、RPGの勇者クラスをシリアライズに対応させるには以下のように<code>implements</code>構文を追加しましょう。</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">io</span><span class="op">.</span><span class="im">Serializable</span><span class="op">;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Hero <span class="kw">implements</span> <span class="bu">Serializable</span> <span class="op">{</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">Hero</span><span class="op">(</span><span class="bu">String</span> name<span class="op">,</span> <span class="dt">int</span> hp<span class="op">,</span> <span class="dt">int</span> atk<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">name</span> <span class="op">=</span> name<span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">hp</span> <span class="op">=</span> hp<span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">atk</span> <span class="op">=</span> atk<span class="op">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="bu">String</span> name<span class="op">;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">int</span> hp<span class="op">;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">int</span> atk<span class="op">;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">int</span> def<span class="op">;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>こうして<code>java.io.Serializable</code>を実装したクラスは、<code>java.io.ObjectOutputStream</code>や<code>java.io.ObjectInputStream</code>を用いることで、インスタンス化されてメモリ上に展開されているオブジェクトをストリーム経由でファイルに書き込みでき、そのファイルを読み込んでオブジェクトの状態をもとに戻すことができるようになります。</p>
+<p>では、実際にHeroクラスのインスタンスをファイルに保存し、読み込みを行い別のインスタンスとして生成するサンプルソースを提示します。</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">//import java.io.IOException;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">//import java.io.InvalidClassException;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">//import java.io.ObjectInputStream;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">//import java.io.ObjectOutputStream;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">//import java.nio.file.Files;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">//import java.nio.file.Path;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>Hero h <span class="op">=</span> <span class="kw">new</span> <span class="fu">Hero</span><span class="op">(</span><span class="st">&quot;たろう&quot;</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">50</span><span class="op">);</span> <span class="co">//引数はテキトーです。</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">//書き出し処理</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span> <span class="op">(</span><span class="bu">ObjectOutputStream</span> oos <span class="op">=</span> <span class="kw">new</span> <span class="bu">ObjectOutputStream</span><span class="op">(</span>Files<span class="op">.</span><span class="fu">newOutputStream</span><span class="op">(</span>Path<span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="st">&quot;taro.dat&quot;</span><span class="op">))))</span> <span class="op">{</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">//Object書き出し</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  oos<span class="op">.</span><span class="fu">writeObject</span><span class="op">(</span>h<span class="op">);</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="co">//強制保存</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  oos<span class="op">.</span><span class="fu">flush</span><span class="op">();</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">IOException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">throw</span> <span class="kw">new</span> <span class="fu">UncheckedIOException</span><span class="op">(</span>e<span class="op">);</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co">//読み込み処理(書き込んだデータを流れでそのまま読み込みます。※本来は、別の機器の別のプログラムだったり、同じプログラムでも読み込みのタイミングがずれていたりします。)</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span> <span class="op">(</span><span class="bu">ObjectInputStream</span> ois <span class="op">=</span> <span class="kw">new</span> <span class="bu">ObjectInputStream</span><span class="op">(</span>Files<span class="op">.</span><span class="fu">newInputStream</span><span class="op">(</span>Path<span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="st">&quot;taro.dat&quot;</span><span class="op">))))</span> <span class="op">{</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">//ObjectをHeroにキャストして読み込み</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    Hero h2 <span class="op">=</span> <span class="op">(</span>Hero<span class="op">)</span>ois<span class="op">.</span><span class="fu">readObject</span><span class="op">();</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>h2<span class="op">.</span><span class="fu">name</span><span class="op">);</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>h2<span class="op">.</span><span class="fu">hp</span><span class="op">);</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>h2<span class="op">.</span><span class="fu">atk</span><span class="op">);</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">ClassNotFoundException</span> <span class="op">|</span> <span class="bu">InvalidClassException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;データファイルが壊れている可能性があります。&quot;</span><span class="op">);</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">IOException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">throw</span> <span class="kw">new</span> <span class="fu">UncheckedIOException</span><span class="op">(</span>e<span class="op">);</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>これでインスタンスをファイルに保存、読み込みできるようになります。</p>
+<h2 id="serializableインターフェイスを実装するということは">Serializableインターフェイスを実装するということは</h2>
+<p>単に、インスタンスをシリアライズできるようにする。という意味合いではありません。</p>
+<p>Serializableインターフェイスの中身を見るとわかりますが、メソッドなどの定義はなく、単に目印としてのインターフェイスであることがわかります。<br />
+(こういうインターフェイスを「マーカーインターフェイス」と呼ばれることもあります。)</p>
+<p>これが意味することとは、<strong>「このクラスはJavaの仕様にしたがっており、シリアライズしても問題ないクラスです。」</strong>
+ということを明示的にしているだけであって、「シリアライズしてください」という意味ではないことに注意してください。</p>
+<h2 id="シリアライズの注意点">シリアライズの注意点</h2>
+<p>非常に便利なシリアライズからのファイル保存ですが、注意点もあります。</p>
+<p>たとえば、HeroクラスがWeaponクラスのインスタンスをフィールドとして保持している場合、Weaponクラスも<code>java.io.Serializable</code>を実装していないと、書き込みや読み込みの際に<code>java.io.NotSerializableException</code>が発生してしまい、正常に処理を行うことができません。</p>
+<p>なので、<em><strong>シリアライズしたいクラスにはすべて</strong></em><code>java.io.Serializable</code>を実装しておきましょう。</p>
+<p>ただ、Heroクラスが<code>java.io.Serializable</code>を実装しているWeaponクラスのインスタンスを保持している場合は、Heroクラスのインスタンスをシリアライズするだけで、Weaponクラスのインスタンスも同時にシリアライズされます。
+個別にシリアライズして保存する必要がないので便利ですね。</p>
+<p>しかし、Weaponクラス自体、こちらで手を加えることができない場合もあります。
+その場合は、シリアライズしたいクラスにて、シリアライズ非対応なクラス型のフィールドに<code>transient</code>修飾子をつけると、そのフィールドはシリアライズの対象から外れます。
+これにより、<code>java.io.NotSerializableException</code>は発生しなくなります。
+例外は発生しなくなりましたが、<code>transient</code>修飾子が設定されたフィールドに関しては、書き込んだデータには保持されておりません。
+シリアライズされたデータを読み込んでも、そのフィールドはnullが代入されてしまいます。
+データを保持したい場合は、フィールドに指定するクラスにも<code>Serializable</code>インターフェイスを実装しましょう。</p>
+<p>他にも注意点があります。</p>
+<p>シリアライズの際に気を付けなければならない点をまとめると…</p>
+<ol type="1">
+<li><code>java.io.Serializable</code>を実装していないクラス型のフィールドはシリアライズの対象にならない（プリミティブ型のフィールドは除く）</li>
+<li>static修飾子が付いている静的なフィールドはシリアライズの対象にならない</li>
+<li>transient修飾子が付いているシリアライズ対象外となるフィールドはシリアライズの対象にならない</li>
+</ol>
+<p>transientフィールドとstaticフィールドはシリアライズの際に無視されます。デシリアライズ後、transientフィールドとfinalでないstaticフィールドはnullになります。
+finalかつstaticなフィールドは、初期化の代入演算子により初期値が与えられ、本来なら必ず値を持ちます。そのためわざわざデータを保持しなくても良いはずです。</p>
+<h2 id="serialversionuid">serialVersionUID</h2>
+<p>Javaのシリアライズは、オブジェクトをバイトのストリームに変換するプロセスで、ファイルへの保存やネットワーク上での送信などの処理を行うことができます。
+デシリアライズはその逆の処理で、バイトのストリームをバイナリオブジェクトに変換することです。</p>
+<p>シリアライズの間、Javaランタイムはシリアライズ可能な各クラスにバージョン番号を関連付けます。
+この番号は<code>serialVersionUID</code>と呼ばれ、デシリアライズの際に、シリアライズされたオブジェクトの保存する側と読み取る側において、互換性があるバージョンかどうかを確認するために使用されます。
+読み取り側がデシリアライズする際、対応するクラスと異なる<code>serialVersionUID</code>を持つオブジェクトのクラスを読み込んだ場合、デシリアライズは<code>InvalidClassException</code>の例外を送出します。</p>
+<h3 id="1-java-serialversionuid構文">1. Java serialVersionUID構文</h3>
+<p>シリアライズ可能なクラスは、static final
+long型の<code>serialVersionUID</code>とい名前でフィールドを宣言することで、自身のserialVersionUIDを明示的に宣言できます。</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">private</span> <span class="dt">static</span> <span class="dt">final</span> <span class="dt">long</span> serialVersionUID <span class="op">=</span> <span class="dv">1L</span><span class="op">;</span></span></code></pre></div>
+<p>ここで、serialVersionUIDは現在開発中のこのクラスのバージョンを表し、クラスのフィールドが追加されるなどの変更により、以前のバージョンとの後方互換性がなくなった場合にこれをインクリメントする必要があります。</p>
+<p>また、serialVersionUIDを宣言しない場合、以下のような警告が発生します。</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">警告:</span> [serial] シリアライズ可能なクラスSerializableには、serialVersionUIDが定義されていません</span></code></pre></div>
+<p>この警告を意図的に無視したい場合は、<code>@SuppressWarnings(&quot;serial&quot;)</code>をクラス宣言の直前に入れておくことで回避できますが、オススメしません。
+自分が作成しているクラスの使われ方をきちんとイメージして、適切なserialVersionUIDを設定しましょう。</p>
+<h3 id="2-serialversionuidの生成方法">2. serialVersionUIDの生成方法</h3>
+<p>serialVersionUIDは、指定がなかったらJVMにより自動生成されます。</p>
+<p>Javaで、自動生成されるUIDはクラス名、実装されたインターフェイス、すべてのpublicとprotectedのメンバーに基づいて生成されます。（公式ドキュメントでは明言されていないため、事実確認の必要性があります）
+これらのいずれかを何らかの方法で変更すると、内部的に保持されているserialVersionUIDは自動的に変更されます。</p>
+<p>しかし、このserialVersionUIDの自動計算は、Javaコンパイラがコンパイルする際の内部変更に、非常に敏感です。
+異なる環境でコンパイルしただけで、異なるserialVersionUIDを生成されるため、デシリアライズ時に予期しない<code>InvalidClassException</code>を送出させる可能性があります。
+すべてのシリアライズ可能なクラスは明示的にserialVersionUID値を宣言することが強く推奨されています。</p>
+<p>したがって、異なるJavaコンパイラの実装間で一貫したserialVersionUID値を保証するために、シリアライズ可能なクラスは、明示的にserialVersionUID値を宣言する必要があります。
+明示的なserialVersionUIDの宣言は、宣言したクラスのみに適用されるため、可能な限りserialVersionUIDのprivate修飾子を使用することを強く推奨します。
+また、serialVersionUIDフィールドは継承されません。</p>
+<p>そもそもシリアライズは、一時的にデータをキャッシュなどに書き込んだり、ネットワーク経由で他のプログラムに送って情報を利用したりすることの方がはるかに一般的です。
+シリアライズされたデータを長期間保存し、それありきでシステムを構築することは、あまり一般的ではありません。（上で書いた、ゲームのセーブデータの話は一般的でないということです。）</p>
+<p>一時的な用途でシリアライズを利用する場合、私たちは後方互換性を完璧に維持することはあまり意味がありません。
+ネットワークを経由したり、別の機器上でデシリアライズする場合に、互換性があるかをチェックすることを容易にするため、serialVersionUIDはそのまま維持し、変更しないようにしなければいけません。
+また、別の機器上のそれぞれのアプリケーションで、クラスに互換性のなくなってしまうような変更を加えた場合は、serialVersionUIDは忘れずに更新してください。</p>
+<h3 id="3-serialversionuidのまとめ">3. serialVersionUIDのまとめ</h3>
+<p>serialVersionUIDの計算は、フィールドだけでなく、implementやコンストラクタなど、クラスの他の側面にも基づいて行われます。
+そのため、後方互換性を維持するためには、serialVersionUIDフィールドを明示的に宣言することがベストプラクティスです。</p>
+<p>もし、シリアライズ可能なクラスを大幅に変更する必要があり、以前のバージョンと互換性がなくなってしまうことが予想される場合、きちんとserialVersionUIDをインクリメントしましょう。</p>
+<hr />
+<h1 id="ファイル処理まとめ">ファイル処理まとめ</h1>
+<p>前回の講義内容を含めのまとめです。</p>
+<p>ファイル処理を使うことで、プログラム中のデータを「<strong>永続化</strong>」することが可能です。</p>
+<p>テキストデータ形式でのファイル処理は、ファイルの構造を仕様で策定しておくことで異なる機器同士とのデータのやり取りが可能となります。
+また、テキストデータ形式の場合は、同一機器であっても別のシステムとの連携によく使われており、単純にテキストであることから文字コードの扱いに気をつけさえすれば柔軟にデータの受け渡しが可能となります。
+単純にデータの保存だけでなく、他のシステムとの連携を考えた場合は、テキストデータで保存しておくことが望ましいです。</p>
+<p>今回のシリアライズによる永続化は、あまり一般的な使い方ではありませんが、インスタンスの状態を保存して永続化させることができます。
+シリアライズの有用な使いかたとして、システム構築の際にはファイルを使った同一プログラムや同一システム内のデータのやり取りなどに使われます。
+ネットワークプログラミングなどを勉強した後に、バイナリデータを送受信できる仕組みを作成すれば、シリアライズされたデータをやり取りすることで簡単にインスタンスの共有が可能となります。</p>
+<p>また、永続化に関しては、単純にファイル処理だけでなくデータベースなどの別のサービスを使う方法も考えられます。
+時間の都合上、この講義ではデータベースの取り扱いについては触れておりませんが、システム開発においてデータベースはとても重要な位置にあります。
+システム開発、プログラミングの勉強を進めるに当たって、どこかで必ずデータベース勉強する機会を設けるようにしましょう。</p>
+<p>テキストデータ、バイナリデータ、状況に応じて使い分けが必要ですが、ローカルに単純なデータを単純な仕組みで保持するには、やはりファイル処理が良いように思います。</p>
+</body>
+</html>

@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="generator" content="pandoc">
+  <title>カプセル化とアクセス制限</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+<style type="text/css">
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+code {
+  white-space: pre-wrap;
+}
+
+span.smallcaps {
+  font-variant: small-caps;
+}
+
+span.underline {
+  text-decoration: underline;
+}
+
+div.column {
+  display: inline-block;
+  vertical-align: top;
+  width: 50%;
+}
+
+body {
+  font-size: 14pt;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN,
+    Arial, "メイリオ", Meiryo, sans-serif;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 2em;
+  background-color: #f8f8f8;
+  color: #232323;
+}
+
+hr {
+  height: 4px;
+  padding: 0;
+  margin: 6rem 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+  background:
+    url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC");
+}
+
+p,
+table {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  line-height: 2rem;
+  letter-spacing: 0.03rem;
+}
+
+strong {
+  text-decoration: none;
+  color: hsla(0, 75%, 55%, 1);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+  color: #232323;
+  letter-spacing: 0.05rem;
+  margin-top: 2rem;
+}
+
+h1 {
+  font-size: 2rem;
+  margin: 2rem auto 1rem;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+  margin: 2rem 0 1rem;
+}
+
+h5 {
+  font-size: 1.2rem;
+  margin: 2rem 0 1rem;
+}
+
+h6 {
+  font-size: 1.1rem;
+  margin: 2rem 0 1rem;
+}
+
+ul,
+ol {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  line-height: 1.6;
+  letter-spacing: 0.025rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding-left: 2rem;
+}
+
+ul li,
+ol li {
+  padding-left: .5rem;
+}
+
+ul ul,
+ol ul,
+ul ol,
+ol ol {
+  padding-left: 1.5rem;
+}
+
+table {
+  border-collapse: collapse;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  max-width: 100%;
+  width: 100% !important;
+  font-size: 1rem;
+  overflow: auto;
+}
+
+table th {
+  text-align: center;
+  font-weight: nomal;
+  background-color: #f0f0f0;
+  color: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+table tr {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+table td {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+a {
+  color: #5484c8;
+}
+
+.margin-clear {
+  margin-left: 0;
+}
+
+blockquote {
+  border-left: 4px #ddd solid;
+  padding: 0;
+  margin: 2rem;
+}
+
+blockquote * {
+  color: #999;
+}
+
+blockquote p {
+  padding: 0 1rem;
+  text-indent: 0;
+}
+
+img,
+iframe,
+figure {
+  max-width: 100%;
+}
+
+p img {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+pre,
+code,
+var,
+samp,
+kbd,
+.mono {
+  font-family: "Ricty Diminished", "Consolas", 'Courier New', Courier, Monaco, monospace;
+  line-height: 1.2;
+}
+
+table code,
+p code,
+ul code,
+ol code {
+  display: inline-block;
+  border: 1px solid #eaeaea;
+  background-color: rgb(119, 119, 119);
+  color: #f8f8f8;
+  white-space: nowrap;
+  border-radius: 2px;
+  display: inline-block;
+  padding-top: 6px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 0px;
+  margin: 0 4px;
+}
+
+pre code {
+  border: 1px solid #eaeaea;
+  background-color: #f5f5f5;
+  border-radius: 2px;
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  font-size: 1rem;
+}
+
+.highlight pre {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+div.sourceCode {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+div.sourceCode pre,
+div.sourceCode code {
+  background-color: transparent;
+  margin: 0;
+}
+
+pre code,
+pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+table.sourceCode,
+tr.sourceCode,
+td.lineNumbers,
+td.sourceCode {
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
+  border: none;
+}
+
+table.sourceCode pre {
+  padding: 2px;
+  margin: 0;
+  border: none;
+  color: inherit;
+}
+table.sourceCode code {
+  color: inherit;
+}
+
+table.sourceCode {
+  width: 100%;
+  line-height: 100%;
+}
+
+td.lineNumbers {
+  text-align: right;
+  color: #aaaaaa;
+  border-right: 1px solid #aaaaaa;
+}
+</style>
+</head>
+<body>
+  <header>
+  <h1 class="title">カプセル化とアクセス制限</h1>
+        </header>
+<blockquote>
+<p>オブジェクト指向プログラミングおよび演習1 第4回</p>
+<p>フィールド、メソッド、クラスにアクセス制限を設けます。</p>
+</blockquote>
+<h1>カプセル化</h1>
+<p>カプセルとは、薬のカプセルと同じで、何かを中に入れて密閉する入れ物のようなものです。カプセル化と言うことは、何かを外から見えないように密閉することを指します。</p>
+<p>では、オブジェクト指向プログラミングにおけるカプセル化とは何でしょう？</p>
+<p>それは、クラスやメソッド、フィールドなどを外から見えないようにしてしまおう。ということです。</p>
+<h2>カプセル化は必要？</h2>
+<p>必要です。</p>
+<p>クラスのフィールドについてお話しましょう。</p>
+<p>クラスのフィールド(メンバ変数)に他から直接アクセスできてしまうと、値に対して何も制限を入れることができません。</p>
+<p>例えば、整数値として1から10までの値が設定されることしか想定していないフィールドがあった場合、それに対して何も制限を加えないと、-5などの適当な値を入れることが可能となります。 そのクラスが持つメソッドでは、1から10の値が入れられることしか想定していなかったとしたら、-5などの値は、想定の範囲外の値となってしまい、正常な動作ができません。これがいわゆるバグと呼ばれるものですね。</p>
+<p>そういった事態を防ぐためには、外部から自由に値を設定できないようにして、想定していない値が入らないようにする必要が出てきます。</p>
+<p>もう少し詳しい例を挙げましょう。</p>
+<p>例えば、みなさんの体重は、自分で意図する値に変えたり、他人から操作することはできるでしょうか？ (おんぶしてもらうとかで、体重計の重量は変えられると思いますが、それは個人の体重を直接操作していることにはなりません。)</p>
+<p>自分の体重を変えるためには、「何かを食べた」「排泄した」「汗をかいた」などの動作をした時に限られるはずです。 体重の値を意図するように操作することは不可能と言っていいでしょう。</p>
+<p>Javaで簡単に表現してみましょう。</p>
+<p>ファイル名: <code>Human.java</code></p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> Human {
+    <span class="co">// 体重</span>
+    <span class="dt">double</span> weight;
+
+    <span class="co">// その他Humanに備わっているであろう値は省略します。</span>
+}</code></pre></div>
+<p>ファイル名: <code>HumanTest.java</code></p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HumanTest {
+    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {
+
+        Human me = <span class="kw">new</span> <span class="fu">Human</span>();
+        me.<span class="fu">weight</span> = <span class="fl">70.0</span>;
+
+        <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;体重は、&quot;</span> + me.<span class="fu">weight</span> + <span class="st">&quot;[kg]です。&quot;</span>);
+    }
+}</code></pre></div>
+<p>実行すると以下のように結果が出力されます。</p>
+<pre><code>$ javac HumanTest.java
+$ java HumanTest
+体重は、70.0[kg]です。</code></pre>
+<p>HumanTestのmainメソッドにて、体重を自由に変えてみましょう。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HumanTest {
+    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {
+
+        Human me = <span class="kw">new</span> <span class="fu">Human</span>();
+        me.<span class="fu">weight</span> = <span class="fl">70.0</span>;
+
+        <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;体重は、&quot;</span> + me.<span class="fu">weight</span> + <span class="st">&quot;[kg]です。&quot;</span>);
+        <span class="co">//値を操作出来る場合</span>
+        me.<span class="fu">weight</span> = <span class="fl">30.0</span>;
+        <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;体重は自由に変化します。今は、&quot;</span> + me.<span class="fu">weight</span> + <span class="st">&quot;[kg]です。&quot;</span>);
+    }
+}</code></pre></div>
+<p>実行結果は以下のようになります。</p>
+<pre><code>$ javac HumanTest.java
+$ java HumanTest
+体重は、70.0[kg]です。
+体重は自由に変化します。今は、30.0[kg]です。</code></pre>
+<p>プログラム的には、そういうものだと言ってしまえばそれまでですが、現実的に考えれば人間の体重を自由に操作できるなんて不可能ですね。 「それを操作しないようにしてください」と注意書きをしておけば特に不都合がないように思うかもしれませんが、そういった「注意書きがなくても操作できないようにしてしまおう」というのがカプセル化と呼ばれる手法です。</p>
+<p>Humanクラスを例にすれば、最初から<code>weight</code>が操作できなければよいのです。</p>
+<p>では、どのようにカプセル化を行うかを見て行きましょう。</p>
+<p>※上記プログラムは以降でも使います。</p>
+<h1>アクセス修飾子</h1>
+<p>カプセル化のためには、アクセス修飾子と呼ばれる修飾子をクラス、メソッド、フィールドの定義時に合わせて設定します。</p>
+<p>以下に、アクセス修飾子の一覧を示します。（※パッケージはクラスをまとめて管理するためのもので、後々の講義で取り上げます。）</p>
+<table>
+<thead>
+<tr class="header">
+<th>アクセス修飾子</th>
+<th>制限範囲(どこからアクセスできるか)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>public</td>
+<td>どこからでもアクセス可能</td>
+</tr>
+<tr class="even">
+<td>指定なし</td>
+<td>同じパッケージ内からのみ</td>
+</tr>
+<tr class="odd">
+<td>protected</td>
+<td>同じパッケージ内からと、サブクラスからのみ</td>
+</tr>
+<tr class="even">
+<td>private</td>
+<td>そのクラス内からのみ</td>
+</tr>
+</tbody>
+</table>
+<h2>アクセス修飾子が使えるところ</h2>
+<p>アクセス修飾子が使える場所は以下のとおりです。</p>
+<ul>
+<li>クラス</li>
+<li>メソッド</li>
+<li>フィールド</li>
+<li>コンストラクタ(後でやります)</li>
+</ul>
+<h3>アクセス修飾子を付ける場所</h3>
+<p>クラスにアクセス修飾子を付ける場合は以下のようにします。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java">[アクセス修飾子] クラス名 {
+    [アクセス修飾子] フィールド名;
+
+    [アクセス修飾子] クラス名() {
+        <span class="co">//これはコンストラクタの書式です。</span>
+    }
+
+    [アクセス修飾子] メソッド名() {
+
+    }
+}</code></pre></div>
+<p>クラスをprivateやprotectedにするパターンとして考えられるのは、クラス内にクラスを宣言する場合ですね。 ちなみに、Javaではクラス内にクラスを宣言することが可能です。(クラス内クラス)</p>
+<h4 id="public">クラスをpublicにする場合の注意点</h4>
+<p>public クラス名 とする場合、「クラス名.java」としてクラスごとにjavaファイルを分ける必要があります。(Javaの仕様上そうしないとコンパイルできません。)</p>
+<p>一つのjavaファイル内に複数のpublicクラスがあるjavaファイルはコンパイルエラーとなります。</p>
+<p>では、他のpublicなクラスを使用するクラスをjavacでコンパイルした時はどうなるか？と言うと、javacコンパイラは依存関係もすべて検査したうえでコンパイルしてくれます。 そのため、ファイルが別になっていても、mainメソッドを保持するjavaファイルのコンパイルのみでOKです。(ただし、メインメソッドを持つクラス内で使用されているpublicクラスが見つからない場合は、コンパイルエラーとなります)</p>
+<p>また、他の場所にあるクラスファイルを指定することで、同一のディレクトリ内にないクラスを使用することも可能です。そういった場合は、「クラスパス」と呼ばれる、クラスはここに入っています。という情報を付与してコンパイル、実行する必要があります。</p>
+<h2>アクセス修飾子を使ってみる</h2>
+<p>先ほどのHumanクラスに以下のような変更を加えてみましょう。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> Human {
+
+    <span class="co">//体重(初期値を70.0kgとしておく)</span>
+    <span class="kw">private</span> <span class="dt">double</span> weight = <span class="fl">70.0</span>;
+
+    <span class="co">//他の値は省略します。</span>
+
+    <span class="co">//体重の取得のみ行います。</span>
+    <span class="kw">public</span> <span class="dt">double</span> <span class="fu">getWeight</span>() {
+      <span class="kw">return</span> <span class="kw">this</span>.<span class="fu">weight</span>;
+    }
+
+    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">eat</span>(Food f) {
+
+      <span class="co">//食べ物を食べたことによる何らかの処理がありますが省略します。</span>
+
+      <span class="co">//食べ物を食べたことによる体重の増加</span>
+      <span class="kw">this</span>.<span class="fu">weight</span> += f.<span class="fu">weight</span>;
+
+    }
+}</code></pre></div>
+<p>新規追加ファイル: <code>Food.java</code></p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> Food {
+    <span class="kw">public</span> <span class="dt">double</span> weight;
+}</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HumanTest {
+    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {
+
+        Human me = <span class="kw">new</span> <span class="fu">Human</span>();
+        <span class="co">//me.weight = 70.0; //直接操作することはできません。</span>
+
+        <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;体重は、&quot;</span> + me.<span class="fu">getWeight</span>() + <span class="st">&quot;[kg]です。&quot;</span>);
+
+        Food rice = <span class="kw">new</span> <span class="fu">Food</span>();
+        rice.<span class="fu">weight</span> = <span class="fl">0.5</span>;
+
+        me.<span class="fu">eat</span>(rice);
+
+        <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;ご飯食べました！</span><span class="sc">\n</span><span class="st">今は、&quot;</span> + me.<span class="fu">getWeight</span>() + <span class="st">&quot;[kg]です。&quot;</span>);
+
+    }
+}</code></pre></div>
+<p>変更点は、以下のとおりです。</p>
+<ul>
+<li>食べ物クラスとして、Foodを新たに作成しています。</li>
+<li>体重のフィールドをprivateとし、外部から操作できないようにしています。
+<ul>
+<li>それに合わせて、体重の値のみを取得できるアクセサメソッドを用意します。</li>
+</ul></li>
+<li>体重を外部から操作できなくなったので、体重の初期値を70.0とします。</li>
+<li>メインメソッドにて体重を直接操作せず、食べ物を食べることで体重に変化を与えます。</li>
+</ul>
+<p>実行結果は以下のようになります。</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="ex">javac</span> HumanTest.java
+$ <span class="ex">java</span> HumanTest
+体重は、<span class="ex">70.0</span>[kg]です。
+ご飯食べました！
+今は、<span class="ex">70.5</span>[kg]です。</code></pre></div>
+<h3 id="this">クラスの自分自身のフィールドやメソッドにアクセスする<code>this</code></h3>
+<p>上記コード中にある<code>this</code>は、そのクラス自身が持つフィールドやメソッドに対してアクセスするために使用します。 引数名や変数名がフィールドと同じ名前であった場合でも、フィールドにアクセスしたい場合には、<code>this.フィールド名</code>とすることで、自分自身のフィールドに対してアクセスすることが可能です。</p>
+<h3>隠蔽されたフィールドに対してアクセスする機能を提供するメソッド</h3>
+<p>オブジェクト指向言語では、フィールドは基本的に隠蔽しておくことが多いです。 これは、状態を外部から直接操作されることをなくす目的があります。</p>
+<p>ただ、隠蔽されたフィールド、つまり<code>private</code>や<code>protected</code>修飾子がついたフィールドに対して外部から取得、設定等の直接操作することができないのは不自由を伴います。</p>
+<p>そういった場合に、メソッドとして<code>getフィールド名</code>, <code>setフィールド名</code>と言ったフィールドに対してアクセスできる機能を提供するものを用意します。これらのメソッドを<strong>アクセサメソッド</strong> と呼びます。</p>
+<p>アクセサメソッドは、単純にフィールドに対してアクセスできる機能を提供するだけでなく、状態の変化に伴う他の処理を後から拡張できる拡張性を持たせることができます。</p>
+<p>できるかぎり、フィールドは隠蔽し、それぞれのフィールドに対してアクセサメソッドを用意する癖をつけましょう。そして、アクセサメソッドを用意する理由も良く考えておきましょう。</p>
+<h1>まとめ</h1>
+<p><strong>カプセル化</strong> とは、データや機能にアクセス制限をかけ、使用方法を説明することなく意図しない動作をさせないようにすること</p>
+<p>また、外部からアクセス出来なくさせることを、 <strong>隠蔽</strong> と呼びます。</p>
+<p>オブジェクト指向プログラミングでは、完成された<strong>部品作り</strong>が主題です。 自分で作成した部品(クラス)を誰が使っても意図したとおりの動きをすることが目標となります。 まずは、触れてほしくない部分や、クラスの利用者からみて不要となる部分を隠蔽し、適切にカプセル化を行いましょう。</p>
+</body>
+</html>

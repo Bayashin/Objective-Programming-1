@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="generator" content="pandoc">
+  <title>JavaにおけるGUIアプリケーション開発</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+<style type="text/css">
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+code {
+  white-space: pre-wrap;
+}
+
+span.smallcaps {
+  font-variant: small-caps;
+}
+
+span.underline {
+  text-decoration: underline;
+}
+
+div.column {
+  display: inline-block;
+  vertical-align: top;
+  width: 50%;
+}
+
+body {
+  font-size: 14pt;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN,
+    Arial, "メイリオ", Meiryo, sans-serif;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 2em;
+  background-color: #f8f8f8;
+  color: #232323;
+}
+
+hr {
+  height: 4px;
+  padding: 0;
+  margin: 6rem 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+  background:
+    url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC");
+}
+
+p,
+table {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  line-height: 2rem;
+  letter-spacing: 0.03rem;
+}
+
+strong {
+  text-decoration: none;
+  color: hsla(0, 75%, 55%, 1);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+  color: #232323;
+  letter-spacing: 0.05rem;
+  margin-top: 2rem;
+}
+
+h1 {
+  font-size: 2rem;
+  margin: 2rem auto 1rem;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+  margin: 2rem 0 1rem;
+}
+
+h5 {
+  font-size: 1.2rem;
+  margin: 2rem 0 1rem;
+}
+
+h6 {
+  font-size: 1.1rem;
+  margin: 2rem 0 1rem;
+}
+
+ul,
+ol {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  line-height: 1.6;
+  letter-spacing: 0.025rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding-left: 2rem;
+}
+
+ul li,
+ol li {
+  padding-left: .5rem;
+}
+
+ul ul,
+ol ul,
+ul ol,
+ol ol {
+  padding-left: 1.5rem;
+}
+
+table {
+  border-collapse: collapse;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  max-width: 100%;
+  width: 100% !important;
+  font-size: 1rem;
+  overflow: auto;
+}
+
+table th {
+  text-align: center;
+  font-weight: nomal;
+  background-color: #f0f0f0;
+  color: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+table tr {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+table td {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+a {
+  color: #5484c8;
+}
+
+.margin-clear {
+  margin-left: 0;
+}
+
+blockquote {
+  border-left: 4px #ddd solid;
+  padding: 0;
+  margin: 2rem;
+}
+
+blockquote * {
+  color: #999;
+}
+
+blockquote p {
+  padding: 0 1rem;
+  text-indent: 0;
+}
+
+img,
+iframe,
+figure {
+  max-width: 100%;
+}
+
+p img {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+pre,
+code,
+var,
+samp,
+kbd,
+.mono {
+  font-family: "Ricty Diminished", "Consolas", 'Courier New', Courier, Monaco, monospace;
+  line-height: 1.2;
+}
+
+table code,
+p code,
+ul code,
+ol code {
+  display: inline-block;
+  border: 1px solid #eaeaea;
+  background-color: rgb(119, 119, 119);
+  color: #f8f8f8;
+  white-space: nowrap;
+  border-radius: 2px;
+  display: inline-block;
+  padding-top: 6px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 0px;
+  margin: 0 4px;
+}
+
+pre code {
+  border: 1px solid #eaeaea;
+  background-color: #f5f5f5;
+  border-radius: 2px;
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  font-size: 1rem;
+}
+
+.highlight pre {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+div.sourceCode {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+div.sourceCode pre,
+div.sourceCode code {
+  background-color: transparent;
+  margin: 0;
+}
+
+pre code,
+pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+table.sourceCode,
+tr.sourceCode,
+td.lineNumbers,
+td.sourceCode {
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
+  border: none;
+}
+
+table.sourceCode pre {
+  padding: 2px;
+  margin: 0;
+  border: none;
+  color: inherit;
+}
+table.sourceCode code {
+  color: inherit;
+}
+
+table.sourceCode {
+  width: 100%;
+  line-height: 100%;
+}
+
+td.lineNumbers {
+  text-align: right;
+  color: #aaaaaa;
+  border-right: 1px solid #aaaaaa;
+}
+</style>
+</head>
+<body>
+  <header>
+  <h1 class="title">JavaにおけるGUIアプリケーション開発</h1>
+        </header>
+<blockquote>
+<p>オブジェクト指向プログラミングおよび演習1 第14回</p>
+<p>JavaでのGUIアプリケーション開発についての概要をまとめた資料です</p>
+</blockquote>
+<h1 id="java-gui">1. Java GUIアプリケーション開発のライブラリ</h1>
+<p>簡単な紹介の情報しか書いていませんので、詳しくはネットで検索するなどしてください。</p>
+<h2 id="---java-applet">1. アプレット - Java Applet</h2>
+<p>主に、Webを使用してJavaアプリケーションを配布する目的のライブラリです。</p>
+<p>現在はクライアントアプリケーションとして利用されることが多いようです。 利用される頻度は限りなく少なくなってますが、開発の容易さ(賛否あり)から現在も現役で業務アプリケーションとして動作させている企業もあります。 そのため、どういったものかだけは押さえておきましょう。</p>
+<p>※Appletは、セキュリティの観点から現時点ではすべてのブラウザの最新版で使用不可となっております。 一部企業では、使用可能なPCを保存してあり、それを使って開発を行っているところもあるにはありますが、セキュリティホールだらけですので、Javaアプレットのプログラムをインターネットで公開することはおすすめしません。というよりやめてください。</p>
+<h3>参考資料</h3>
+<ul>
+<li><a href="http://www.javadrive.jp/applet/">JavaDrive - Applet(アプレット)入門</a></li>
+</ul>
+<h2 id="swing">2. Swing</h2>
+<p>JavaでのGUIアプリケーション開発と言えばこれです。 次の項目で説明するAWTをベースに、よりGUIプログラミングに特化するように拡張されたライブラリ群です。</p>
+<p><code>javax.swing.*</code> に含まれます。</p>
+<p>Javaでは新しいGUI開発のライブラリが主流となりつつありますが、未だにSwingでの開発を行っている企業も多いです。</p>
+<p>どんなGUIアプリケーションが作れるかと言うと、IntelliJ IDEAがpure Swingでできております。</p>
+<p>今回の講義にてサンプルを使用して解説します。 IntelliJ IDEAやNetBeansなどのIDEを使用すると、画面デザインに関してソースコードに触ることなく設定することができます。</p>
+<p>※Swingアプリケーションの作成しやすさの観点から見ると、NetBeansに軍配が上がります。(個人的見解です)</p>
+<p>NetBeansのインストールについては、以下のGitHubリポジトリにてインストールスクリプトが配布されております。</p>
+<ul>
+<li><a href="https://github.com/carljmosca/netbeans-macos-bundle">carljmosca/netbeans-macos-bundle: NetBeans installation script for Mac OS X</a></li>
+</ul>
+<h3 id="-1">参考資料</h3>
+<ul>
+<li><a href="http://www.javadrive.jp/tutorial/">JavaDrive - Swingを使ってみよう - Java GUIプログラミング</a></li>
+<li><a href="https://books.google.co.jp/books?id=NBDzb8eVO_QC">創るJava NetBeansでつくって学ぶJava GUI &amp; Webアプリケーション改訂第3版 - きしだなおき - Google ブックス</a></li>
+</ul>
+<h2 id="awt---abstract-window-toolkit">3. AWT - Abstract Window Toolkit</h2>
+<p>Java独自のオープンプラットフォームのGUIライブラリ。 <code>java.awt.*</code>に含まれ、標準ライブラリ内にあります。</p>
+<p>Swingはこれをベースしており、Swingアプリケーションを作成する際に、awtパッケージ内のクラスを使用する場合があります。</p>
+<h3 id="-2">参考資料</h3>
+<ul>
+<li><a href="http://www.tohoho-web.com/java/awt.htm">とほほのJava入門</a></li>
+</ul>
+<h2 id="swt---standard-widget-toolkit">4. SWT - Standard Widget Toolkit</h2>
+<p>SWTはJavaでネイティブなGUIアプリケーションを開発するためのAPI群です。</p>
+<p>SWTは、GUIの各コントロールの描写にJava VMを使用せず、OSのAPI(WindowsであればWin32Api)を呼び出すようにするパイプ処理を行います。<br />
+そのためAWTやSwingに比べ、描写性能に優れています。(OSの機能を直接呼び出すので処理が速いと思ってもらえればよいです)</p>
+<p>ただし、SWTはネイティブなAPIを呼び出す特性があるため、それぞれの環境に合わせたライブラリを持ってくる必要があります。</p>
+<p>Java本来のオープンプラットフォームの概念から若干逸脱しているように思います。</p>
+<p>※皆さんがインストールしたJava開発特化のNetBeansには、標準でSWTのプロジェクトを作成する機能はありません。SWTのプロジェクトを作成するには、NetBeansよりEclipseの方が良いでしょう。</p>
+<h3 id="-3">参考資料</h3>
+<ul>
+<li><a href="http://study-swt.info/">SWT - JavaでGUIプログラミング</a></li>
+</ul>
+<h2 id="javafx">5. JavaFX</h2>
+<p>Java8より標準で組み込まれることになったMVC(Model-View-Controller)構成のGUIアプリケーションライブラリ。</p>
+<p>JavaFXの主な利点は、グラフィックス関連の処理をGPUに移譲できる点があり、グラフィカルなアプリケーションに強いです。</p>
+<p>下位互換のためのJavaFX on SwingというSwingのソースをJavaFXで利用できるライブラリもあります。 しかし、本来の目的は、GUIの画面デザインと画面コントロールを行うコントローラーとを分離するというMVCを実現する目的があるため、個人的にあまり推奨しません。 JavaFXには、IntelliJ IDEAで作成するSwingGUIフォームと同様に、画面の設定項目をFXMLというXMLを使用してGUIを作成し、Javaで書かれるControllerにて操作を行うMVCプログラミングを行います。</p>
+<p>モバイルアプリでも利用できるようになるとかならないとか言われていますが、個人的な感覚ではなっても使い物にならないと思います。</p>
+<p>2021年度より追加： OpenJDKには、このJavaFXのライブラリは付与されておりません。以下より追加ダウンロードが必要なライブラリとなり、標準とはなんだったのか、と問いたくなる状態です。</p>
+<ul>
+<li><a href="https://gluonhq.com/products/javafx/" target="_blank">JavaFX - Gluon</a></li>
+</ul>
+<p>また、JavaFXには、Scene Builderという独自のデザイナアプリが存在しており、これらを使うとSwingに劣らない立派なGUIアプリが作成できます。</p>
+<ul>
+<li><a href="https://gluonhq.com/products/scene-builder/" target="_blank">Scene Builder - Gluon</a></li>
+</ul>
+<h3 id="-4">参考資料</h3>
+<ul>
+<li><a href="http://libro.tuyano.com/index2?id=8356003">初心者のためのJavaFXプログラミング入門 - libro</a></li>
+<li><a href="http://docs.oracle.com/javase/8/javase-clienttechnologies.htm">Client Technologies: Java Platform, Standard Edition (Java SE) 8 Release 8</a></li>
+<li>資料配布に以前使用していた参考資料を置いておきます。</li>
+</ul>
+<h1 id="gui">2. GUIアプリケーションの開発における今後のスタンダード</h1>
+<p>今から作成されるGUIアプリケーションならSwingか、JavaFX(または Webアプリケーション で大半がWebアプリケーションに移行しています)といったところです。</p>
+<p>現状、業務アプリケーション開発の現場では、SwingやSWTのアプリケーションが大部分を占めていることでしょう。(または、Spring FrameworkやApacheプロジェクトのなにかを使っているWebアプリケーションもあるかも。)</p>
+<p>しかし、SWTなどは画面デザインを含むコード等が分離できておらず、MVCという概念から若干外れてしまっています。</p>
+<p>もうすでに作成されているアプリケーションをわざわざJavaFX,FXMLで書き換える等の作業はおそらく行われないでしょうから、新しいアプリケーション、システムの開発時には、開発、保守のしやすさの観点から、徐々に画面デザインを完全に分離できる仕組みが主流となっていくことでしょう。</p>
+<h1 id="javaweb">JavaでのWebアプリ開発について</h1>
+<p>Javaの標準的なWebアプリケーションは、Webアプリケーションの動作環境であるServletコンテナを基準としたServlet/JSPあたりが基礎知識として必要です。</p>
+<p>サーブレット（Servlet）とは、Javaを使用して、サーバーサイドプログラムを作成する技術で、Java EEの代表的なしくみの一つです。</p>
+<p>サーブレットの基底クラス（javax.servlet.http.HttpServlet）を継承して、サーブレットクラスを開発することで、Webアプリケーションサーバー上でそれらを実行できるようになります。 javax.servletパッケージは、JavaのSDKには含まれておらず、Java EE SDK（GlassFish Webアプリケーション・サーバー含む）に含まれており、Java EEをインストールしないと使用することはできません。</p>
+<p>サーブレットクラスは、ブラウザからのリクエストによって実行され、実行結果をHTMLで出力しブラウザにレスポンスされます。</p>
+<p>JSPとはJava Server Pagesの略で、実行される中身としてはサーブレットと同じですが、サーブレットクラスを作成しないで、その代わりにHTMLに似たJSPファイルを作成します。<br />
+サーブレットクラスでは、HTMLを出力するのに、HttpServletResponce.getWriter()でストリームを取得し、それに対してprintlnなどで出力していました。</p>
+<p>JSPファイルでは、基本的にHTMLファイルと同様の記述で作成する事ができます。PHPでの開発をしたことがある方はそれをイメージするとそのままです。</p>
+<p>内部的には、JSPファイルはサーブレットクラスに変換されており、JSPファイルに対してリクエストを受け付けた場合、そのサーブレットクラスの実行結果として、HTMLをレスポンスしています。</p>
+<p>現在のJavaにおけるWebアプリケーション開発は、Servlet/JSPをベースに発展としてBeansやJSFなどが広く使われています。</p>
+<p>Javaでは、JavaEEのような開発キットを用いることでWebアプリケーションの開発が可能です。</p>
+<h2 id="web">その他のWebアプリケーションフレームワーク</h2>
+<p>JavaEEの他には、以下のようなフレームワークも存在しています。</p>
+<ul>
+<li><a href="https://spring.io/" target="_blank">Spring | Home</a>
+<ul>
+<li>おそらく一番使われているであろうWebアプリケーションフレームワーク</li>
+<li>DI(依存性の注入)やAOP(アスペクト志向)などの仕組みが満載</li>
+</ul></li>
+<li><a href="https://struts.apache.org/" target="_blank">Welcome to the Apache Struts project</a>
+<ul>
+<li>L-Cam多分これ</li>
+<li>頻繁にセキュリティホールが見つかり、脆弱性がそのままになっていることもあるため、昨今では別のフレームワークへの移行が進んでいる</li>
+</ul></li>
+<li><a href="https://www.playframework.com/" target="_blank">Play Framework - Build Modern &amp; Scalable Web Apps with Java and Scala</a>
+<ul>
+<li>Ruby on Railsの影響を受けているフレームワーク</li>
+</ul></li>
+<li><a href="https://sparkjava.com/" target="_blank">Spark Framework: An expressive web framework for Kotlin and Java</a>
+<ul>
+<li>RubyのWebフレームワークのSinatoraから影響を受けており、シンプルな構成を実現できる個人的に一押しのフレームワーク</li>
+</ul></li>
+<li><a href="http://www.gwtproject.org/" target="_blank">[GWT]</a>
+<ul>
+<li>Google作のフレームワーク。誰が使っているのかわからんぐらい見たことない</li>
+</ul></li>
+<li><a href="https://helidon.io/#/" target="_blank">Helidon Project</a>
+<ul>
+<li>Oracleが最近開発したマイクロサービス開発に特化したWebフレームワーク</li>
+<li>使いやすいのでおすすめしたいところではあるが、資料が少なすぎておすすめできないが、IntelliJ IDEA Ultimate(有料版)では標準搭載のフレームワーク。</li>
+</ul></li>
+</ul>
+<p>他にもありますが、一応こんなところです。</p>
+<p>Webアプリを作成するには、HTML,CSS,JavaScriptの知識が別途必要になります。</p>
+<h1 id="android">Androidアプリ開発について</h1>
+<p>Androidアプリの開発については、Kotlinという言語によって行われているものが一般的です。</p>
+<p>AndroidはJavaVMで動いている、などと言う古いお話が広まっておりますが、過去、JavaVMの互換のようなDalvikVMと呼ばれるもので動いていましたがAndroid 5.0からAndroid RunTime(ART)で動作しており内部的にはJavaVMと大きく異なります。(中身見れないためGoogle曰くです。)</p>
+<p>JavaのコードをAndroid用にコンパイルしたものは、JavaVMで動作させることはできませんし、JavaVM向けにコンパイルしたクラスファイルなどは、そのままAndroidで動作させることはできません。</p>
+<p>Androidアプリ開発がしたい場合には以下の選択肢があります。</p>
+<ol>
+<li>Android Studioを使ってJavaもしくはKotlinで書く(iOS不可)
+<ul>
+<li>インストール方法は、<a href="https://developer.android.com/studio/install?hl=ja">Android Studio のインストール  |  Android Developers</a> 参照</li>
+<li>開発のしやすさ、デバッグでの情報探索の容易さから、ダントツでおすすめの開発環境です。</li>
+</ul></li>
+<li>App Inventorを使ってブロックプログラミングを行う(iOS不可)
+<ul>
+<li><a href="http://ai2.appinventor.mit.edu/" target="_blank">MIT App Inventor</a></li>
+<li>(最近iOSに対応したとの噂あり。詳細不明)</li>
+</ul></li>
+<li>Flutterを使ってDartで書く(iOS可)
+<ul>
+<li><a href="https://flutter.dev/">Flutter - Beautiful native apps in record time</a></li>
+</ul></li>
+<li>HTML5,JavaScriptによるハイブリッドアプリ開発を行う(iOS可)
+<ul>
+<li>Apache Cordova, Monacaなどが有名どころ</li>
+</ul></li>
+<li>PWA(Progressive Web Apps)でWebアプリを作る(iOS可)
+<ul>
+<li>完全にWeb技術</li>
+</ul></li>
+</ol>
+<p>お好きなのをどうぞ</p>
+</body>
+</html>

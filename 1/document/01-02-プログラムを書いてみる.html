@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="generator" content="pandoc">
+  <title>プログラムを書いてみよう</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+<style type="text/css">
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+code {
+  white-space: pre-wrap;
+}
+
+span.smallcaps {
+  font-variant: small-caps;
+}
+
+span.underline {
+  text-decoration: underline;
+}
+
+div.column {
+  display: inline-block;
+  vertical-align: top;
+  width: 50%;
+}
+
+body {
+  font-size: 14pt;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN,
+    Arial, "メイリオ", Meiryo, sans-serif;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 2em;
+  background-color: #f8f8f8;
+  color: #232323;
+}
+
+hr {
+  height: 4px;
+  padding: 0;
+  margin: 6rem 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+  background:
+    url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC");
+}
+
+p,
+table {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  line-height: 2rem;
+  letter-spacing: 0.03rem;
+}
+
+strong {
+  text-decoration: none;
+  color: hsla(0, 75%, 55%, 1);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+  color: #232323;
+  letter-spacing: 0.05rem;
+  margin-top: 2rem;
+}
+
+h1 {
+  font-size: 2rem;
+  margin: 2rem auto 1rem;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+  margin: 2rem 0 1rem;
+}
+
+h5 {
+  font-size: 1.2rem;
+  margin: 2rem 0 1rem;
+}
+
+h6 {
+  font-size: 1.1rem;
+  margin: 2rem 0 1rem;
+}
+
+ul,
+ol {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  line-height: 1.6;
+  letter-spacing: 0.025rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding-left: 2rem;
+}
+
+ul li,
+ol li {
+  padding-left: .5rem;
+}
+
+ul ul,
+ol ul,
+ul ol,
+ol ol {
+  padding-left: 1.5rem;
+}
+
+table {
+  border-collapse: collapse;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  max-width: 100%;
+  width: 100% !important;
+  font-size: 1rem;
+  overflow: auto;
+}
+
+table th {
+  text-align: center;
+  font-weight: nomal;
+  background-color: #f0f0f0;
+  color: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+table tr {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+table td {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+a {
+  color: #5484c8;
+}
+
+.margin-clear {
+  margin-left: 0;
+}
+
+blockquote {
+  border-left: 4px #ddd solid;
+  padding: 0;
+  margin: 2rem;
+}
+
+blockquote * {
+  color: #999;
+}
+
+blockquote p {
+  padding: 0 1rem;
+  text-indent: 0;
+}
+
+img,
+iframe,
+figure {
+  max-width: 100%;
+}
+
+p img {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+pre,
+code,
+var,
+samp,
+kbd,
+.mono {
+  font-family: "Ricty Diminished", "Consolas", 'Courier New', Courier, Monaco, monospace;
+  line-height: 1.2;
+}
+
+table code,
+p code,
+ul code,
+ol code {
+  display: inline-block;
+  border: 1px solid #eaeaea;
+  background-color: rgb(119, 119, 119);
+  color: #f8f8f8;
+  white-space: nowrap;
+  border-radius: 2px;
+  display: inline-block;
+  padding-top: 6px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 0px;
+  margin: 0 4px;
+}
+
+pre code {
+  border: 1px solid #eaeaea;
+  background-color: #f5f5f5;
+  border-radius: 2px;
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  font-size: 1rem;
+}
+
+.highlight pre {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+div.sourceCode {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+div.sourceCode pre,
+div.sourceCode code {
+  background-color: transparent;
+  margin: 0;
+}
+
+pre code,
+pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+table.sourceCode,
+tr.sourceCode,
+td.lineNumbers,
+td.sourceCode {
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
+  border: none;
+}
+
+table.sourceCode pre {
+  padding: 2px;
+  margin: 0;
+  border: none;
+  color: inherit;
+}
+table.sourceCode code {
+  color: inherit;
+}
+
+table.sourceCode {
+  width: 100%;
+  line-height: 100%;
+}
+
+td.lineNumbers {
+  text-align: right;
+  color: #aaaaaa;
+  border-right: 1px solid #aaaaaa;
+}
+</style>
+</head>
+<body>
+  <header>
+  <h1 class="title">プログラムを書いてみよう</h1>
+        </header>
+<blockquote>
+<p>オブジェクト指向プログラミングおよび演習1 第1回</p>
+</blockquote>
+<p>Javaの開発環境構築が完了したら、テキストエディタを使って簡単なプログラムを書いてみましょう。</p>
+<h1>プログラム作成の前に作業スペースを作成します</h1>
+<p>ターミナルを開き、以下のコマンドを入力しましょう。</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="bu">cd</span>              # ホームディレクトリに移動
+$ <span class="fu">mkdir</span> oop1      # oop1というディレクトリを作成する
+$ <span class="bu">cd</span> oop1         # oop1に移動する</code></pre></div>
+<h1 id="hello-world">画面に「Hello, World!!」を表示するプログラム</h1>
+<p>テキストエディタは何でも良いのですが、ファイル名「<code>HelloWorld.java</code>」として、ファイルを新規作成しましょう。 この資料では、標準搭載されているテキストエディタnanoを使用する方法を書きます。</p>
+<p>作業スペースを作成した続きで以下のコマンドを使用します。</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">nano</span> HelloWorld.java</code></pre></div>
+<p>以下のコードを書きます。</p>
+<h4 id="helloworld.java">HelloWorld.java</h4>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HelloWorld {
+    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {
+        <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Hello, World!!&quot;</span>);
+    }
+}</code></pre></div>
+<p>コードを書き終えたら、ファイルを保存しておきます。</p>
+<p>nanoでの保存は、<code>[control] + [x]</code>の後、変更を保存するか聞かれるので<code>[y]</code>、ファイル名はそのまま<code>[return]</code>でOKです。</p>
+<h1>コンパイルと実行</h1>
+<ol>
+<li>以下のコマンドで、指定されたJavaファイルをコンパイルします。
+<ul>
+<li><code>$ javac HelloWorld.java</code></li>
+</ul></li>
+<li>コンパイルが成功すると、メッセージはなにも表示されません。
+<ul>
+<li>コンパイルに失敗する場合、ソースコードのどこに間違いがあるかがメッセージで表示されます。</li>
+</ul></li>
+<li>ワークスペースをFinder等で見ると、「HelloWorld.class」と言ったクラスファイルが生成されているはずです。
+<ul>
+<li>これが、コンパイルされたJavaの実行ファイルです。</li>
+</ul></li>
+<li>プログラムを実行するには、以下のコマンドで実行します。
+<ul>
+<li><code>$ java HelloWorld</code></li>
+</ul></li>
+</ol>
+<p>正しく実行できた場合、ターミナル上には、以下のような出力がされます。</p>
+<pre><code>Hello, World!!</code></pre>
+<p>ターミナルを使用したJavaプログラムのコンパイルと実行は、統合開発環境を使用する開発に入る前まで、以上の手順を用います。</p>
+<h3>覚えておこう！コンパイルと実行</h3>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="ex">javac</span> Javaファイル名
+$ <span class="ex">java</span> 実行するクラス名</code></pre></div>
+<h1>ターミナルからプログラムにデータを渡す方法を知っておきましょう</h1>
+<p>Javaプログラムでのプログラムへのデータの受け渡し方法は、様々な方法があります。 今回は、プログラムの実行後、キーボードからの入力を待ち受け、Enterキー押下で後続の処理が行われる方法を学びます。</p>
+<p>※ ただし、ソースコード自体の詳しい説明は、順次講義内で行っていきます。今回はそういうものだと思ってコードを書いて実行してみましょう。</p>
+<h2>サンプルソース</h2>
+<h3>標準入力</h3>
+<p>画面から文字列を入力し、そのまま画面表示するプログラム</p>
+<p>ファイル名「<code>StandardInput.java</code>」</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">import</span><span class="im"> java.util.Scanner;</span>  <span class="co">// このライブラリをStandardInputクラスで使う宣言</span>
+
+<span class="kw">public</span> <span class="kw">class</span> StandardInput {
+  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {
+
+    <span class="co">// 標準入力をScannerで取得する</span>
+    <span class="bu">Scanner</span> in = <span class="kw">new</span> <span class="bu">Scanner</span>(<span class="bu">System</span>.<span class="fu">in</span>);
+
+    <span class="co">// nextLine()メソッドは、キーボードからReturnキーの入力があるまで待ち、入力された1行を返す</span>
+    <span class="bu">String</span> inputLine = in.<span class="fu">nextLine</span>();
+    <span class="co">// ↑inputLineという変数には、入力された文字列データが設定されています</span>
+
+    <span class="co">// 入力された文字列データをそのまま出力</span>
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(inputLine);
+
+    <span class="co">// 使ったScannerは最後には閉じる</span>
+    in.<span class="fu">close</span>();
+  }
+}</code></pre></div>
+<h3>標準入力から受けた文字列から数値変換を行う</h3>
+<p>画面から文字列を入力し、そのまま画面表示するプログラム</p>
+<p>ファイル名「<code>ParseInt.java</code>」</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">import</span><span class="im"> java.util.Scanner;</span>  <span class="co">// このライブラリをParseIntクラスで使う宣言</span>
+
+<span class="kw">public</span> <span class="kw">class</span> ParseInt {
+  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {
+
+    <span class="co">// 標準入力をScannerで取得する</span>
+    <span class="bu">Scanner</span> in = <span class="kw">new</span> <span class="bu">Scanner</span>(<span class="bu">System</span>.<span class="fu">in</span>);
+
+    <span class="co">// nextLine()メソッドは、キーボードからReturnキーの入力があるまで待ち、入力された1行を返す</span>
+    <span class="bu">String</span> inputLine = in.<span class="fu">nextLine</span>();
+    <span class="co">// ↑inputLineという変数には、入力された文字列データが格納されます</span>
+
+    <span class="co">// 文字列データを整数値に変換して変数numに格納</span>
+    <span class="dt">int</span> num = <span class="bu">Integer</span>.<span class="fu">parseInt</span>(inputLine);
+
+    <span class="co">// 整数変換された文字列データに10を足した結果を変数ansに格納</span>
+    <span class="dt">int</span> ans = num + <span class="dv">10</span>;
+
+    <span class="co">// 変数ansを出力</span>
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(ans);
+
+    <span class="co">// (ここはなくても良い)Scannerは使用後閉じるようにしておくと良い。</span>
+    in.<span class="fu">close</span>();
+  }
+}</code></pre></div>
+<h4>入力文字列が整数値に変換できない場合</h4>
+<p>試しに<code>aa</code>という文字列を入力してみましょう。</p>
+<p>以下のエラーメッセージがでます。</p>
+<pre><code>Exception in thread &quot;main&quot; java.lang.NumberFormatException: For input string: &quot;aa&quot;
+    at java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
+    at java.lang.Integer.parseInt(Integer.java:580)
+    at java.lang.Integer.parseInt(Integer.java:615)
+    at ParseInt.main(ParseInt.java:14)</code></pre>
+<p>これは、実行時例外と呼ばれるエラーです。 現時点ではこのエラーはでることが正常な動作です。</p>
+<p>入力された文字列は整数値に変換できる文字列を想定してプログラミングを行いました。 なので、「整数値に変換できない文字列が入力されることは想定外なのでエラーが出力される」という正常な動作です。</p>
+<p>このエラーをでなくさせる場合には、エラー処理や例外処理と言った制御が必要になりますが、その内容は後の講義にて解説します。</p>
+<h2>画面に文字列を出力する方法</h2>
+<p>Javaでは、画面に文字列を出力する方法として、いくつかの方法があります。</p>
+<h3 id="system.out.println">1.<code>System.out.println</code></h3>
+<p>この出力方法は、指定された文字列(String型の変数や式でもOK)を改行コードを末尾につけて出力する方法です。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Hello, World!!&quot;</span>);</code></pre></div>
+<p>これをC言語で例えるなら、以下のようになるはずです。</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">printf(<span class="st">&quot;%s</span><span class="sc">\n</span><span class="st">&quot;</span> , <span class="st">&quot;Hello, World!!&quot;</span>);</code></pre></div>
+<p><code>\n</code>が自動的に追加されるイメージで良いでしょう。</p>
+<h3 id="system.out.print">2. <code>System.out.print</code></h3>
+<p>これは、<code>System.out.println</code>で改行コードを末尾に追加しないバージョンです。</p>
+<h3 id="system.out.printf">3. <code>System.out.printf</code></h3>
+<p>C言語ライクに書きたい場合は、printfを使用してください。 C言語のprintfと同じような書き方で出力が可能です。</p>
+<h3 id="-1">サンプルソース</h3>
+<p>ファイル名「<code>StandardOutput.java</code>」</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> StandardOutput {
+  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;標準出力は、「System.out.printlnメソッド」を使用します。&quot;</span>);
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;「System.out.println」は末尾に改行コードも併せて出力します。&quot;</span>);
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(); <span class="co">// 引数なしで改行のみ出力されます。</span>
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">print</span>(<span class="st">&quot;「System.out.print」を使うと、末尾に改行は出力されません。&quot;</span>);
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">print</span>(<span class="st">&quot;改行は</span><span class="sc">\\</span><span class="st">nで出力できます。</span><span class="sc">\n</span><span class="st">&quot;</span>);
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">print</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>);
+    <span class="bu">String</span> message = <span class="st">&quot;C言語のprintf関数のように出力したい場合は、「System.out.printf」を使います。&quot;</span>;
+    <span class="bu">System</span>.<span class="fu">out.printf</span>(<span class="st">&quot;</span><span class="sc">%s\n</span><span class="st">&quot;</span>, message);
+    <span class="bu">System</span>.<span class="fu">out.printf</span>(<span class="st">&quot;整数値: </span><span class="sc">%d</span><span class="st">, 実数値: </span><span class="sc">%f\n</span><span class="st">&quot;</span>, <span class="dv">10</span>, <span class="fl">3.</span>142592654d);
+  }
+}</code></pre></div>
+</body>
+</html>

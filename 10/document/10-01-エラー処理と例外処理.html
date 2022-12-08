@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="generator" content="pandoc">
+  <title>エラー処理と例外処理</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+<style type="text/css">
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+code {
+  white-space: pre-wrap;
+}
+
+span.smallcaps {
+  font-variant: small-caps;
+}
+
+span.underline {
+  text-decoration: underline;
+}
+
+div.column {
+  display: inline-block;
+  vertical-align: top;
+  width: 50%;
+}
+
+body {
+  font-size: 14pt;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN,
+    Arial, "メイリオ", Meiryo, sans-serif;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 2em;
+  background-color: #f8f8f8;
+  color: #232323;
+}
+
+hr {
+  height: 4px;
+  padding: 0;
+  margin: 6rem 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+  background:
+    url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC");
+}
+
+p,
+table {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  line-height: 2rem;
+  letter-spacing: 0.03rem;
+}
+
+strong {
+  text-decoration: none;
+  color: hsla(0, 75%, 55%, 1);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+  color: #232323;
+  letter-spacing: 0.05rem;
+  margin-top: 2rem;
+}
+
+h1 {
+  font-size: 2rem;
+  margin: 2rem auto 1rem;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+  margin: 2rem 0 1rem;
+}
+
+h5 {
+  font-size: 1.2rem;
+  margin: 2rem 0 1rem;
+}
+
+h6 {
+  font-size: 1.1rem;
+  margin: 2rem 0 1rem;
+}
+
+ul,
+ol {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  line-height: 1.6;
+  letter-spacing: 0.025rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding-left: 2rem;
+}
+
+ul li,
+ol li {
+  padding-left: .5rem;
+}
+
+ul ul,
+ol ul,
+ul ol,
+ol ol {
+  padding-left: 1.5rem;
+}
+
+table {
+  border-collapse: collapse;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  max-width: 100%;
+  width: 100% !important;
+  font-size: 1rem;
+  overflow: auto;
+}
+
+table th {
+  text-align: center;
+  font-weight: nomal;
+  background-color: #f0f0f0;
+  color: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+table tr {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+table td {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+a {
+  color: #5484c8;
+}
+
+.margin-clear {
+  margin-left: 0;
+}
+
+blockquote {
+  border-left: 4px #ddd solid;
+  padding: 0;
+  margin: 2rem;
+}
+
+blockquote * {
+  color: #999;
+}
+
+blockquote p {
+  padding: 0 1rem;
+  text-indent: 0;
+}
+
+img,
+iframe,
+figure {
+  max-width: 100%;
+}
+
+p img {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+pre,
+code,
+var,
+samp,
+kbd,
+.mono {
+  font-family: "Ricty Diminished", "Consolas", 'Courier New', Courier, Monaco, monospace;
+  line-height: 1.2;
+}
+
+table code,
+p code,
+ul code,
+ol code {
+  display: inline-block;
+  border: 1px solid #eaeaea;
+  background-color: rgb(119, 119, 119);
+  color: #f8f8f8;
+  white-space: nowrap;
+  border-radius: 2px;
+  display: inline-block;
+  padding-top: 6px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 0px;
+  margin: 0 4px;
+}
+
+pre code {
+  border: 1px solid #eaeaea;
+  background-color: #f5f5f5;
+  border-radius: 2px;
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  font-size: 1rem;
+}
+
+.highlight pre {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+div.sourceCode {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+div.sourceCode pre,
+div.sourceCode code {
+  background-color: transparent;
+  margin: 0;
+}
+
+pre code,
+pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+table.sourceCode,
+tr.sourceCode,
+td.lineNumbers,
+td.sourceCode {
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
+  border: none;
+}
+
+table.sourceCode pre {
+  padding: 2px;
+  margin: 0;
+  border: none;
+  color: inherit;
+}
+table.sourceCode code {
+  color: inherit;
+}
+
+table.sourceCode {
+  width: 100%;
+  line-height: 100%;
+}
+
+td.lineNumbers {
+  text-align: right;
+  color: #aaaaaa;
+  border-right: 1px solid #aaaaaa;
+}
+</style>
+</head>
+<body>
+  <header>
+  <h1 class="title">エラー処理と例外処理</h1>
+        </header>
+<blockquote>
+<p>オブジェクト指向プログラミングおよび演習1 第10回</p>
+<p>予期しない出来事に対処できるプログラムを組めるようになろう！</p>
+</blockquote>
+<h1>予期しない動作に対応する</h1>
+<p>まずは予期しない動作の中でも、エラーに関する知識を身につけよう。</p>
+<h1>エラーの種類</h1>
+<p>エラーには、以下の3つがあり、それぞれ、 <em>いつ気づくか</em> 、 <em>どう修正するか</em> を解説いたします。</p>
+<ul>
+<li>構文エラー(Syntax Error)</li>
+<li>実行時エラー(Runtime Error)</li>
+<li>論理エラー(Logic Error)</li>
+</ul>
+<h2 id="syntax-error">構文エラー(Syntax Error)</h2>
+<p>コードの構文に誤りがあり、コンパイルができないなどの不具合</p>
+<h3>いつ気づくか？</h3>
+<p>コンパイル時にコンパイラが教えてくれる。</p>
+<h4>余談ですが……</h4>
+<p>Javaなどのコンパイルが必要な言語では、構文の間違いがある時点で、そもそも実行ができません。<br />
+コンパイルを行いコンパイル時に変数などの型のチェック(型検査)を行う言語は、「静的型付け言語」と呼ばれ、Javaなどは静的型付け言語と言えます。<br />
+(それに対して、コンパイルを必要としない言語もあります。例えばJavaScriptやVBAなどがそうです。これらは、型のチェックを実行時にしか行わないため、「動的型付け言語」と呼ばれます。)</p>
+<p>Javaは特に、型を自ら定義(クラスを作成するなど)できることから、実行形式に変換する際に型の整合性をチェックしないと、実行時にエラーが多発してしまうことや、型の不整合に気づかないまま重要な処理を途中で止めてしまうことになりかねません。</p>
+<p>C言語も静的型付け言語と呼ばれますが、コンパイル時に厳密な型の整合性チェックを行わないため、型の不整合があった場合は実行時エラーとして処理されます。これを「弱い静的形付け」と呼び、コンパイルが成功したからと言っても油断できません。</p>
+<p>それに対して、JavaやC#などの言語では、コンパイル時に、厳密な型の整合性チェックを行います。<br />
+複雑な型変換(ダウンキャストなど)を行っている場合を除き、型の不整合はコンパイル時にチェックされ、不整合がある場合はコンパイルエラーとして処理されます。<br />
+こういったより厳密な型検査を行うことを「強い静的型付け」と呼びます。</p>
+<p>実行前に型の不整合がチェックできることから、コンパイルが通っていればある程度のエラーを回避できている。と言える便利な言語ですね。</p>
+<h3>どう修正するか？</h3>
+<p>コンパイラの指示している間違った箇所を正しく修正する。</p>
+<h2 id="runtime-error">実行時エラー(Runtime Error)</h2>
+<p>実行している最中に何らかの異常事態（例外）が発生し、処理の継続ができなくなってしまう不具合</p>
+<p>※後ほど詳しく</p>
+<h3 id="-1">いつ気づくか？</h3>
+<p>実行時にエラーにより強制終了してしまった時。</p>
+<h3 id="-1">どう修正するか？</h3>
+<p>予めエラーが発生しうる箇所にエラーに対応する処理を記述する。</p>
+<h2 id="logic-error">論理エラー(Logic Error)</h2>
+<p>実行結果が自分の想定している結果と異なる不具合</p>
+<h3 id="-2">いつ気づくか？</h3>
+<p>実行結果を検証した際。</p>
+<h3 id="-2">どう修正するか？</h3>
+<p>実行結果が正しくなるように不具合の原因を自力で突き止め、修正する。<br />
+デバッグを根気よく行い、<strong>とにかくがんばれ</strong> という不具合です。</p>
+<h1>論理エラー処理の対処法</h1>
+<p>これは、たとえば入力値が規定値の範囲内に収まっているかなどの論理的な部分で事前にチェックする仕組みがあれば対処が可能な場合もあります。<br />
+一般的に、ユーザーからの入力がシステムのルールとして正しいかどうかを処理前にチェックすることが重要です。<br />
+例えば入力されるはずの値が入っていなくて、何らかのインスタンスがNullになっている、などは最も回避すべき論理エラーです。</p>
+<h1>実行時エラーの例外的状況</h1>
+<p>ここからが今回の本題です。</p>
+<p>実行時エラーの中で、例えば以下の様な状態が例外的な状況であると言えます。</p>
+<ul>
+<li>プログラムを実行しているPCのメモリが足りなくなってしまった</li>
+<li>ファイル処理を行いたいが、指定されたファイルが見つからない</li>
+<li>クラス型の変数にnullが代入されているのに気づかずメソッドを呼び出してしまった</li>
+<li>整数が入力されるはずだったのに、整数以外の文字を入力されてしまった</li>
+<li>配列のインデックスを範囲を超えて指定してしまった</li>
+</ul>
+<p>こういった例外的状況を防ぐには<strong>例外処理</strong>を行う必要があります。</p>
+<h1>例外処理とは</h1>
+<p>例外が発生したときに、どのように対処するかを予め用意しておくこと。<br />
+こういった対策を実施することを例外処理(Exception handling)と呼びます。</p>
+<p>例外は、単にException（エクセプション）とも言います。<br />
+また、例外が発生することを「例外が<strong>送出される</strong>」または「例外が<strong>投げられる</strong>」とも言いいますので覚えておきましょう。</p>
+<h1>例外にきちんと対処する流れ(例外処理)</h1>
+<h2>従来通りの例外処理（事前予防）</h2>
+<ol>
+<li>何らかの命令を実行する以前に、その命令を実行できない状況をチェックし、回避する。
+<ul>
+<li>例えば、オブジェクトがnullでないことをチェックし、オブジェクト自体がnullだったらそれ以降のオブジェクトのメンバ参照をさせない。などの事前対応を行う。</li>
+</ul></li>
+<li>何らかの命令実行した直後に、命令の結果に対して、不具合が起きていないか確認する。
+<ul>
+<li>メソッドの戻り値が呼び出し元の意図するデータになっているかを呼び出し元でチェックするなどの事後処理を行う。</li>
+</ul></li>
+</ol>
+<p>しかし、これだと、チェック漏れが発生してしまうおそれがあります。</p>
+<h2 id="java">Javaで書けるもっと便利な例外処理</h2>
+<p>昨今のプログラミング言語には、標準的に例外処理専用の構文が備わっています。</p>
+<p>Javaはかなり早い段階でこれを採用しています。</p>
+<h3>例外をキャッチする</h3>
+<p><strong>try〜catch構文</strong></p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">try</span> {
+  例外が投げられるかもしれない処理
+} <span class="kw">catch</span> (<span class="bu">Exception</span> e) { <span class="co">// 例外 Exception型の変数 e が発生する場合を捕捉</span>
+  例外に対する処理
+}</code></pre></div>
+<h4 id="catch">catchによる例外捕捉のバリエーション</h4>
+<h5>2種類以上の例外を捕捉する場合</h5>
+<p>catch構文は、続けて複数記述することができます。発生した例外に応じて、処理を分ける際に使用します。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">try</span> {
+  例外が投げられるかもしれない処理
+} <span class="kw">catch</span> (<span class="bu">IOException</span> e) {
+  入出力例外に対する処理
+} <span class="kw">catch</span> (<span class="bu">Exception</span> e) {
+  その他すべての例外に対する処理
+}</code></pre></div>
+<h5>どちらの例外も同じ処理で捕捉させるマルチキャッチ</h5>
+<p>Javaの新しい機能で、複数種類の例外をまとめて処理することができるようになりました。</p>
+<p>catch構文にて、例外のクラス名を<code>|</code>で区切ることで複数種類の例外をまとめて一つの引数で受け取れるようになります。<br />
+例えば、以下のような例外処理があった場合、</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">try</span> {
+  例外が投げられるかもしれない処理
+} <span class="kw">catch</span> (MyException1 e) {
+  MyException1 〜 <span class="dv">3</span>のどれかが発生した時の処理
+} <span class="kw">catch</span> (MyException2 e) {
+  MyException1 〜 <span class="dv">3</span>のどれかが発生した時の処理
+} <span class="kw">catch</span> (MyException3 e) {
+  MyException1 〜 <span class="dv">3</span>のどれかが発生した時の処理
+}</code></pre></div>
+<p>どの例外捕捉も、すべて同じ処理をしています。<br />
+そのため、同じ処理を複数箇所に書かないように以下のような書き方も可能です。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">try</span> {
+  例外が投げられるかもしれない処理
+} <span class="kw">catch</span> (MyException1 | MyException2 | MyException3 e) {
+  MyException1 〜 <span class="dv">3</span>のどれかが発生した時の処理
+}</code></pre></div>
+<p>ちなみにこれは、Java SDK 1.7以降の機能です。</p>
+<h3>例外処理の後片付け</h3>
+<p>例外をキャッチするしないに関わらず、必ず最後に処理をしたい場合には、finallyブロックをtryまたはcatchブロックの後に記述します。</p>
+<p><strong>try〜catch〜finally構文</strong></p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">try</span> {
+  例外が投げられるかもしれない処理
+} <span class="kw">catch</span> (<span class="bu">Exception</span> e) { <span class="co">// 例外 Exception e を捕捉</span>
+  例外に対する処理
+} <span class="kw">finally</span> {
+  例外が発生してもしなくても最後にやっておく処理
+}</code></pre></div>
+<p>また、例外を捕捉せず、tryとfinallyだけを書くことも可能です。</p>
+<p><strong>try〜finally構文</strong></p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">try</span> {
+  例外が投げられるかもしれない処理
+} <span class="kw">finally</span> {
+  例外が発生してもしなくても最後にやっておく処理
+}</code></pre></div>
+<h5 id="finally">finally構文が必要になるパターン</h5>
+<p>例えば、以下の様な処理を行う場合には、tryブロックの中で使用したリソースを明示的に開放する処理が必要になります。finally構文を使用して開放する、と言った処理が必要になります。</p>
+<ul>
+<li>ファイル処理</li>
+<li>データベース接続処理</li>
+<li>ネットワーク接続処理</li>
+</ul>
+<p>「tryしたけど、例外が発生して例外処理しました。でもtryのときに使った外部リソースはそのままなんですよね。」<br />
+って状況を回避するために使用します。外部リソースは、自分が作成しているプログラムとは別のプログラムによって管理されていることがほとんどです。そのため、使い始めたらきちんと開放するまで面倒見ましょう。ということです。</p>
+<p>次回以降で行うファイル処理では、この<code>finally</code>構文を使用する場面があります。</p>
+<h1>例外クラス</h1>
+<h2>例外の種類をクラスで分類</h2>
+<p>Javaの例外は、どのタイプの例外が発生したかを<strong>例外クラス</strong>として分類することができます。</p>
+<p>例えば、</p>
+<ul>
+<li><code>IOException</code>は入出力時に発生する例外</li>
+<li><code>ArrayIndexOutOfBoundsException</code>は配列のインデックスを範囲外で指定してしまった際に発生する例外</li>
+<li><code>NullPointerException</code>はオブジェクトがnullの状態でオブジェクトのメソッドにアクセスした際に発生する例外</li>
+</ul>
+<p>などです。</p>
+<h2>例外の種類の大分類</h2>
+<p>例外の種類には大きく分けて3種類に分類できます。</p>
+<ul>
+<li>Error系例外</li>
+<li>Exception系例外</li>
+<li>RuntimeException系例外</li>
+</ul>
+<p>これらはすべて、<code>java.lang.Throwable</code>を親として実装されています。</p>
+<p>※<code>java.lang.Throwable</code>を継承しているから、それは例外クラスであるというのは間違っています。 投げる事ができ(Throwable)、それをcatchできるようにするための基底クラスです。</p>
+<h3 id="error">Error系例外</h3>
+<p><code>java.lang.Error</code>の子クラスで例外発生時に <strong><em>回復の見込みがない</em></strong> 例外。</p>
+<p>発生した時点で致命的な例外のため、捕捉したところで回復することが不可能です。</p>
+<h4>代表的なもの</h4>
+<ul>
+<li><code>OutOfMemoryError</code>(メモリ不足)</li>
+<li><code>ClassFormatError</code>(クラスファイル[.class] が壊れている)</li>
+</ul>
+<h3 id="exception">Exception系例外</h3>
+<p><code>java.lang.Exception</code>の子クラスでRuntimeException及びその子クラスを除く例外。<br />
+これらの例外は<strong><em>発生しうることを十分に想定して対処を考える必要がある例外</em></strong>的状況を表す。（対策しなきゃだめ！ってこと）</p>
+<h4 id="-1">代表的なもの</h4>
+<ul>
+<li>IOException(入出力時例外 - ファイルの読み書きができないなど)</li>
+</ul>
+<h3 id="runtimeexception">RuntimeException系例外</h3>
+<p><code>java.lang.RuntimeException</code>及び<code>その子クラス</code>。<br />
+必ず発生を想定するべきではない例外。（全部try-catchで対策してたらキリがないし、<strong>コードの書き方次第で防げるもの</strong>）</p>
+<h4 id="-2">代表的なもの</h4>
+<ul>
+<li><code>NullPointerExceotion</code>(変数がnullである状態で変数のメソッドなどにアクセスしてしまった)</li>
+<li><code>ArrayIndexOutOfBoundsException</code>(配列のインデックスが不正)</li>
+</ul>
+<h1>コンパイル前に注意するべき例外クラス</h1>
+<h2>検査例外(チェック例外)</h2>
+<p>注意すべきは、<strong><em>Exception系例外</em></strong> です。</p>
+<p>Exception系例外は、「<strong><em>その発生を十分に想定し、対処を考える必要がある例外的状況</em></strong>」かつ「<strong><em>呼び出し側が適切に処理することで回復できるような状況</em></strong>」と言えます。</p>
+<p>回復の見込みがあるため、try-catchで「例外発生時の代替処理」を用意する必要があります。<br />
+try-catchを用意しないとコンパイルエラーになります。</p>
+<p>これを検査が必要な例外という意味で <strong><em>検査例外</em></strong> と呼びます。</p>
+<p>検査例外は、Java以外の言語ではほとんど見ない例外です。<br />
+これをJavaのメリットと見るか、デメリットと見るかは人それぞれですが、講師の私としてはメリットだと感じています。理由は、初心者でも厳密な例外処理を書くことを強制できる点と、それをやらないといけないことをコンパイルが通らないという状態で知ることができる点が挙げられます。</p>
+<h3>検査例外の捕捉と伝播</h3>
+<p>例えば標準APIなどを利用する場合は公式のAPIドキュメントを見ましょう。<br />
+使用するクラスのメソッドごとに、発生しうる例外が記載されています。(検査例外、非検査例外問わず)</p>
+<p>例:</p>
+<ul>
+<li><a href="https://docs.oracle.com/javase/jp/8/docs/api/java/lang/Integer.html#parseInt-java.lang.String-">Integer (Java Platform SE 8 )</a></li>
+<li><a href="https://docs.oracle.com/javase/jp/8/docs/api/java/io/BufferedReader.html#readLine--">BufferedReader (Java Platform SE 8 )</a></li>
+</ul>
+<p>他者が書いたコードを利用する場合には、発生しうる例外の種類を確認するには、メソッド名の引数の右隣に <code>throws</code> があるかどうかを見ると良いでしょう。</p>
+<p>また、以下のメソッドのサンプルソースをご覧ください。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> ThrowsSample {
+  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;整数を2つ入力してください。&quot;</span>);
+
+    <span class="dt">int</span> num1 = <span class="fu">inputNumber</span>();
+    <span class="dt">int</span> num2 = <span class="fu">inputNumber</span>();
+
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;足し算の結果は &quot;</span> + (num1 + num2) + <span class="st">&quot; です。&quot;</span>);
+  }
+
+  <span class="dt">static</span> <span class="dt">int</span> <span class="fu">inputNumber</span>() {
+    <span class="co">// 画面から1行ずつ文字データを受け付けるための準備</span>
+    java.<span class="fu">io</span>.<span class="fu">BufferedReader</span> br = <span class="kw">new</span> java.<span class="fu">io</span>.<span class="fu">BufferedReader</span>(<span class="kw">new</span> java.<span class="fu">io</span>.<span class="fu">InputStreamReader</span>(<span class="bu">System</span>.<span class="fu">in</span>));
+    <span class="co">// Enterキーが押され、1行確定を待って1行分のデータをinputに格納する</span>
+    <span class="bu">String</span> input = br.<span class="fu">readLine</span>();
+    <span class="co">// ↑br.readLine()は、IOExceptionを発生させる可能性がある</span>
+
+    <span class="co">// 入力値を整数変換</span>
+    <span class="dt">int</span> num = <span class="bu">Integer</span>.<span class="fu">parseInt</span>(input);
+    <span class="kw">return</span> num;
+  }
+}</code></pre></div>
+<p>このプログラムは、<code>java.util.Scanner</code>を使わない方法で画面からの入力を受け付ける処理を行い、それを整数値に変換する処理を行います。<br />
+ちなみに、画面からの入力方法は、こちらの書き方が古くから使われる方法です。</p>
+<p>上記のipnutNumberメソッドを呼び出して使用しようとすると以下のコンパイルエラーが発生します。</p>
+<pre><code>例外java.io.IOExceptionは報告されません。スローするには、捕捉または宣言する必要があります</code></pre>
+<p>このコンパイルエラーは、<code>java.io.InputStreamReader</code>から生成された<code>java.io.BufferedReader</code>オブジェクトのメソッドである、<code>br.readLine()</code>のステートメントで発生します。<br />
+このコンパイルエラーは、検査例外、つまり<code>java.lang.Exception</code>を継承している<code>java.io.IOException</code>を<code>try-catch</code>して適切な処理をしないとプログラムとして危険なのでダメですよ！というエラーです。</p>
+<p>コンパイルが通るようにするには、コンパイルエラーの指示通りに<code>try-catch</code>処理を書くか、<code>throws</code>宣言を行う必要があります。</p>
+<h4 id="try-catch"><code>try-catch</code>で検査例外を捕捉</h4>
+<p>以下のサンプルを見てください。(※後述しますがオススメできないやり方です)</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="dt">static</span> <span class="dt">int</span> <span class="fu">inputNumber</span>() {
+  <span class="co">// 画面から1行ずつ文字データを受け付けるための準備</span>
+  java.<span class="fu">io</span>.<span class="fu">BufferedReader</span> br = <span class="kw">new</span> java.<span class="fu">io</span>.<span class="fu">BufferedReader</span>(<span class="kw">new</span> java.<span class="fu">io</span>.<span class="fu">InputStreamReader</span>(<span class="bu">System</span>.<span class="fu">in</span>));
+
+  <span class="bu">String</span> input = <span class="st">&quot;&quot;</span>;
+  <span class="kw">try</span> {
+    <span class="co">// Enterキーが押され、1行確定を待って1行分のデータをinputに格納する</span>
+    input = br.<span class="fu">readLine</span>();
+    <span class="co">// ↑br.readLine()は、IOExceptionを発生させる可能性がある</span>
+  } <span class="kw">catch</span>(java.<span class="fu">io</span>.<span class="fu">IOException</span> ioe) {
+    <span class="bu">System</span>.<span class="fu">err</span>.<span class="fu">println</span>(ioe);
+    <span class="co">// とりあえず画面にエラー発生要因となったコードの対象箇所を出力しておく</span>
+    <span class="kw">for</span> (<span class="bu">StackTraceElement</span> ste : ioe.<span class="fu">getStackTrace</span>()) {
+      <span class="bu">System</span>.<span class="fu">err.printf</span>(<span class="st">&quot;StackTrace -&gt; </span><span class="sc">%s</span><span class="st">.</span><span class="sc">%s</span><span class="st"> : </span><span class="sc">%s</span><span class="st">の</span><span class="sc">%d</span><span class="st">行目</span><span class="sc">%s</span><span class="st">&quot;</span>,
+              ste.<span class="fu">getClassName</span>(), ste.<span class="fu">getMethodName</span>(), ste.<span class="fu">getFileName</span>(), ste.<span class="fu">getLineNumber</span>(), <span class="bu">System</span>.<span class="fu">lineSeparator</span>());
+    }
+    <span class="co">// ↑ ioe.printStackTrace(); これで良いです</span>
+    <span class="co">// または、OSのシステムログにエラー出力を行うだけに留めておき、再帰的に処理を続行させることもできます。</span>
+    <span class="co">// 今回はプログラムを強制終了しておきます。</span>
+    <span class="bu">System</span>.<span class="fu">exit</span>(-<span class="dv">1</span>);
+  }
+
+  <span class="co">// 入力値を整数変換</span>
+  <span class="dt">int</span> num = <span class="bu">Integer</span>.<span class="fu">parseInt</span>(input);
+  <span class="kw">return</span> num;
+}</code></pre></div>
+<p><code>catch</code>後の処理が膨れ上がっていますが、適切な例外処理方法は参加するプロジェクトなどでこうしてくださいというコーディング規約があるはずです。それに従ってください。</p>
+<p>余談ですが、上記の例外処理はあまりオススメしません。</p>
+<p>理由は、画面から入力を行うSystem.inから派生したInputStreamReaderで発生するIOExceptionは、ほぼ発生しません。<br />
+しかも、IOExceptionは一度発生すると連続で同様な要因により発生する可能性が高いです。<br />
+他にも幾つか理由はありますが、ここでは(ほぼ愚痴のようなものなので)割愛させていただきます。</p>
+<p>また、検査例外を非検査例外(実行時例外)としてラッピングして投げ直すなどの処理も可能ですが、こういった処理についてもプロジェクトの設計レベルで決定するお話ですので、それに従ってください。</p>
+<p>メソッド作成時の個別の例外については下手な例外処理でもみ消してしまうより、<code>throws</code>を使って呼び出し元にお任せする方法を取るのが良いように感じます。</p>
+<h4 id="throws"><code>throws</code>は例外の伝播</h4>
+<p>メソッドの定義文の最後に<code>throws</code>を付け、発生しうる例外クラスのクラス名を並べておくと、そのメソッド内で発生した例外はメソッドの呼び出し元にそのまま丸投げできます。</p>
+<p>以下のサンプルソースでは、inputNumberメソッドで発生する例外を呼び出し元へ伝播し、責任転嫁を行います。 本来は、mainメソッドでtry-catchすることにより例外処理を実装するべきではありますが、呼び出し元であるmainメソッドも同様に例外発生時の対応を行わないようにしています。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> ThrowsSample {
+  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) <span class="kw">throws</span> java.<span class="fu">io</span>.<span class="fu">IOException</span> {
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;整数を2つ入力してください。&quot;</span>);
+
+    <span class="dt">int</span> num1 = <span class="fu">inputNumber</span>();
+    <span class="dt">int</span> num2 = <span class="fu">inputNumber</span>();
+
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;足し算の結果は &quot;</span> + (num1 + num2) + <span class="st">&quot; です。&quot;</span>);
+  }
+
+  <span class="dt">static</span> <span class="dt">int</span> <span class="fu">inputNumber</span>() <span class="kw">throws</span> java.<span class="fu">io</span>.<span class="fu">IOException</span> {
+    <span class="co">// 画面から1行ずつ文字データを受け付けるための準備</span>
+    java.<span class="fu">io</span>.<span class="fu">BufferedReader</span> br = <span class="kw">new</span> java.<span class="fu">io</span>.<span class="fu">BufferedReader</span>(<span class="kw">new</span> java.<span class="fu">io</span>.<span class="fu">InputStreamReader</span>(<span class="bu">System</span>.<span class="fu">in</span>));
+    <span class="co">// Enterキーが押され、1行確定を待って1行分のデータをinputに格納する</span>
+    <span class="bu">String</span> input = br.<span class="fu">readLine</span>();
+    <span class="co">// 入力値を整数変換</span>
+    <span class="dt">int</span> num = <span class="bu">Integer</span>.<span class="fu">parseInt</span>(input);
+    <span class="kw">return</span> num;
+  }
+}</code></pre></div>
+<h5 id="throws">自分で作成したメソッドにもthrowsは付けられる</h5>
+<p>自分で作成したメソッドに<code>throws</code>をつける場合は、そのメソッドを呼び出す側へ例外自体を伝播させることができます。<br />
+自分で作成したメソッドでは、対処しきれない検査例外などが発生しうる場合は、このthrowsで伝播させておく必要があります。</p>
+<p>ただ、最終的に、呼び出し元の大元であるmainメソッドで正しく例外処理を行わないと、例外発生したタイミングで強制終了してしまうことになります。</p>
+<p>参考書のサンプルプログラムなどでBufferedReader,InputStreamReaderを使用しており、かつmainメソッドの宣言時にthrowsが宣言されている場合には、呼び出し元の大元であるmainメソッドがそれを捕捉しないでthrowsをしているため、例外処理自体をプログラム中で放棄していることになります。</p>
+<h2>非検査例外</h2>
+<p>RuntimeException系例外がこれに当たります。<br />
+主に、<strong><em>コーディング中の不注意から発生する事前条約違反</em></strong> による例外です。</p>
+<p>try-catchすることで回避もできますが、大抵の場合、コーディングを見なおせばそもそも発生しない例外のため、try-catchすることはおすすめしません。<br />
+極力例外が発生する原因箇所を見つけて修正すべし。</p>
+<h1>非検査例外と検査例外の違い</h1>
+<ul>
+<li>呼び出し側の頑張りで回避可能
+<ul>
+<li>非検査例外</li>
+</ul></li>
+<li>呼び出し側の頑張りでは回避不可能かつ例外発生後に対処が可能
+<ul>
+<li>検査例外</li>
+</ul></li>
+<li>呼び出し側の頑張りで回避不可能かつ回復すら困難
+<ul>
+<li>Error</li>
+</ul></li>
+</ul>
+<h2>例外クラスの拡張による自作</h2>
+<p>例外のクラスは、それぞれ既存の例外クラスを継承して拡張することで自分で定義・作成することが可能です。<br />
+コンパイル時に例外処理を強制させたい場合は、検査例外であるExceptionを親クラスとすること。<br />
+それ以外は、実行時例外であるRuntimeExceptionを親クラスとするとよいでしょう。</p>
+<p>※Javaではすでに、ある程度の条件にあう例外クラスを持っています。<br />
+新たに自作するメリットがある場合にのみ、自作する様にしましょう。</p>
+<p>今回の課題では、この例外クラスの拡張による自作とその活用法について行います。</p>
+<h2 id="4">例外処理で「やってはいけない」こと4箇条</h2>
+<ul>
+<li><strong>無視</strong>
+<ul>
+<li>例外が投げられても気にしない</li>
+</ul></li>
+<li><strong>隠蔽</strong>
+<ul>
+<li>例外が投げられたことを隠す</li>
+</ul></li>
+<li><strong>乱用</strong>
+<ul>
+<li>例外を通常のエラー処理として使う</li>
+</ul></li>
+<li><strong>過剰防御</strong>
+<ul>
+<li>最初から最後まですべてtry-catchしちゃう</li>
+</ul></li>
+</ul>
+<h1>例外を明示的に投げる手法</h1>
+<h2 id="throw">throw</h2>
+<p>例外を明示的に投げるには、throw構文を使用します。<strong>throws</strong> じゃなく<strong><em>throw</em></strong> です。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">throw</span> 例外クラスのインスタンス;</code></pre></div>
+<p>この命令が実行されると、生成した例外クラスのインスタンスを例外として投げることができます。</p>
+<p>また、Exceptionを始めとする例外クラスのコンストラクタには、Throwableを引数として指定できるものがほとんどです。そのため、検査例外をcatchした場合に、<code>throw new RuntimeException(検査例外のExceptionインスタンス);</code>として検査例外を非検査例外に変換することも可能です。(可能だけど全てにおいてやって良いというわけではありません。)</p>
+<h3 id="throwsthrow">throwsとthrow</h3>
+<p><strong>throws</strong> は、メソッドの定義構文に併せて使用します。<br />
+「このメソッドは、こういった検査例外を発生させますので、呼び出し側は対応してください。」という場合に使用します。</p>
+<p><strong>throw</strong> は、例外自体を発生させる際に使用します。</p>
+<p><strong>s</strong> があるかないかで全くの別ものですから、注意しましょう。</p>
+<h1>例外クラスのインスタンス</h1>
+<h2 id="exception">Exceptionの代表的なメソッド</h2>
+<ul>
+<li>例外的状況の解説文(エラーメッセージ)を取得する
+<ul>
+<li>String getMessage()</li>
+<li>または、 String toString() で完結に纏められたメッセージを取得できます。</li>
+</ul></li>
+<li>スタックトレースの内容を標準出力の画面に出力する
+<ul>
+<li>void printStackTrace()</li>
+<li>↑これはプログラムの何行目でどんなエラーが出ているかをスタックトレースの形で辿り、画面表示してしまいます。実際にプログラムを使ってもらう場合には、セキュリティの観点から残しておかない方が良いです。NetBeansでは警告で削除するように言われますが、自分がそれを理解して使っているのであれば、そのままにしておきましょう。</li>
+</ul></li>
+<li>他には、上で書いたサンプルソース中に登場するメソッドあたりがよく使われるものです。</li>
+</ul>
+<p>catch構文で捕捉した例外クラスのインスタンスの最上位の親クラスは、Exceptionです。子クラスではこれらのメソッドがオーバーライドされています。</p>
+<p>なので、catchブロック内では、これらのメソッドを使用して、ユーザーに対して何らかのメッセージを表示することも可能です。<br />
+(ただし、例外が発生した詳細なメッセージをエンドユーザーに見せるのは、UIの設計としてどうなの？って思います。)</p>
+<h1>こんな例外処理はいやだ</h1>
+<h2>なにもしない</h2>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">try</span> {
+  例外が発生するであろう処理();
+} <span class="kw">catch</span> (<span class="bu">Exception</span> e) {}</code></pre></div>
+<p>例外が無視されてますよね？致命的な例外だった場合や、後続の処理に影響を及ぼすような大事な処理中だった場合は、これが原因でバグの発見が遅れ、致命傷に至るなんてこともありえます。</p>
+<p>あとは、<code>boolean isHoge()</code> などのメソッド内での例外処理で、<code>return ture;</code>とかやっちゃうパターンも本当にその仕様で良いのか設計者に確認しましょう。確認しないのはNGです。</p>
+<p>実務でこれやるとめっちゃ怒られます。(私はめっちゃ怒ります。)</p>
+<h2>例外を利用したループ処理のブレイク</h2>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">try</span> {
+  <span class="dt">int</span> i = <span class="dv">0</span>;
+  <span class="kw">while</span> (<span class="kw">true</span>) {
+    range[i++] = <span class="st">&quot;hogehoge&quot;</span> + i;
+  }
+} <span class="kw">catch</span> (<span class="bu">IndexOutOfBoundsException</span> e) {
+  <span class="co">//無限ループ内で、配列のインデックスの範囲外に辿り着いたら例外が発生する</span>
+  <span class="co">//それを利用してループ処理のブレイクを実現している。</span>
+}</code></pre></div>
+<p>こんな例外処理使わなくても、拡張forやIterator使えば解決します。</p>
+<p>チームメンバーがこのコードで全員理解できるのなら使うことを絶対ダメとは言いませんが、無駄にわかりにくい点、本来発生させずに終わらせられる処理をあえて例外として扱う点、とてもよろしくはないです。</p>
+<h1>まとめ</h1>
+<p>例外処理は、あくまでも例外的な動きを捕捉して、それに対して適切な処理を行うためのものです。</p>
+<p>Javaでは、検査例外のように「必ず例外処理を書いてください。」というものもあり、より厳密にコーディングを行うことが強制されます。</p>
+<p>適切な扱いかたをして、適切な例外処理をしましょう。</p>
+<p>あとは、以下の公式チュートリアルを読んでおくと良いでしょう。(英語)</p>
+<ul>
+<li><a href="https://docs.oracle.com/javase/tutorial/essential/exceptions/index.html">レッスン：例外（Java™チュートリアル&gt;必須クラス）</a></li>
+</ul>
+</body>
+</html>

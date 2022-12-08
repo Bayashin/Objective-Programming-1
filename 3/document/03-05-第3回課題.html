@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="generator" content="pandoc">
+  <title>第3回課題</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+<style type="text/css">
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+code {
+  white-space: pre-wrap;
+}
+
+span.smallcaps {
+  font-variant: small-caps;
+}
+
+span.underline {
+  text-decoration: underline;
+}
+
+div.column {
+  display: inline-block;
+  vertical-align: top;
+  width: 50%;
+}
+
+body {
+  font-size: 14pt;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN,
+    Arial, "メイリオ", Meiryo, sans-serif;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 2em;
+  background-color: #f8f8f8;
+  color: #232323;
+}
+
+hr {
+  height: 4px;
+  padding: 0;
+  margin: 6rem 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+  background:
+    url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC");
+}
+
+p,
+table {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  line-height: 2rem;
+  letter-spacing: 0.03rem;
+}
+
+strong {
+  text-decoration: none;
+  color: hsla(0, 75%, 55%, 1);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+  color: #232323;
+  letter-spacing: 0.05rem;
+  margin-top: 2rem;
+}
+
+h1 {
+  font-size: 2rem;
+  margin: 2rem auto 1rem;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+  margin: 2rem 0 1rem;
+}
+
+h5 {
+  font-size: 1.2rem;
+  margin: 2rem 0 1rem;
+}
+
+h6 {
+  font-size: 1.1rem;
+  margin: 2rem 0 1rem;
+}
+
+ul,
+ol {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  line-height: 1.6;
+  letter-spacing: 0.025rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding-left: 2rem;
+}
+
+ul li,
+ol li {
+  padding-left: .5rem;
+}
+
+ul ul,
+ol ul,
+ul ol,
+ol ol {
+  padding-left: 1.5rem;
+}
+
+table {
+  border-collapse: collapse;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  max-width: 100%;
+  width: 100% !important;
+  font-size: 1rem;
+  overflow: auto;
+}
+
+table th {
+  text-align: center;
+  font-weight: nomal;
+  background-color: #f0f0f0;
+  color: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+table tr {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+table td {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+a {
+  color: #5484c8;
+}
+
+.margin-clear {
+  margin-left: 0;
+}
+
+blockquote {
+  border-left: 4px #ddd solid;
+  padding: 0;
+  margin: 2rem;
+}
+
+blockquote * {
+  color: #999;
+}
+
+blockquote p {
+  padding: 0 1rem;
+  text-indent: 0;
+}
+
+img,
+iframe,
+figure {
+  max-width: 100%;
+}
+
+p img {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+pre,
+code,
+var,
+samp,
+kbd,
+.mono {
+  font-family: "Ricty Diminished", "Consolas", 'Courier New', Courier, Monaco, monospace;
+  line-height: 1.2;
+}
+
+table code,
+p code,
+ul code,
+ol code {
+  display: inline-block;
+  border: 1px solid #eaeaea;
+  background-color: rgb(119, 119, 119);
+  color: #f8f8f8;
+  white-space: nowrap;
+  border-radius: 2px;
+  display: inline-block;
+  padding-top: 6px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 0px;
+  margin: 0 4px;
+}
+
+pre code {
+  border: 1px solid #eaeaea;
+  background-color: #f5f5f5;
+  border-radius: 2px;
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  font-size: 1rem;
+}
+
+.highlight pre {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+div.sourceCode {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+div.sourceCode pre,
+div.sourceCode code {
+  background-color: transparent;
+  margin: 0;
+}
+
+pre code,
+pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+table.sourceCode,
+tr.sourceCode,
+td.lineNumbers,
+td.sourceCode {
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
+  border: none;
+}
+
+table.sourceCode pre {
+  padding: 2px;
+  margin: 0;
+  border: none;
+  color: inherit;
+}
+table.sourceCode code {
+  color: inherit;
+}
+
+table.sourceCode {
+  width: 100%;
+  line-height: 100%;
+}
+
+td.lineNumbers {
+  text-align: right;
+  color: #aaaaaa;
+  border-right: 1px solid #aaaaaa;
+}
+</style>
+</head>
+<body>
+  <header>
+  <h1 class="title">第3回課題</h1>
+        </header>
+<blockquote>
+<p>オブジェクト指向プログラミングおよび演習1 第3回</p>
+</blockquote>
+<p>提出はJavaファイルのみ提出してもらいます。IntelliJ IDEAを使用してプロジェクトを作成しますが、今回の課題は、全て1つのプロジェクトにて作成してもらえばOKです。</p>
+<h1>1. メソッド作成練習</h1>
+<p>プログラムとして意味がある課題ではありません。あくまでメソッド作成の練習として捉えてください。 1つのクラスに以下それぞれの指示に従いメソッドを作成してください。</p>
+<h2>事前準備</h2>
+<table>
+<thead>
+<tr class="header">
+<th>ファイル名</th>
+<th>クラス名</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>UtilityMethods.java</td>
+<td>UtilityMethods</td>
+</tr>
+</tbody>
+</table>
+<h2 id="0.00">1-1. 浮動小数点型の数値を0.00形式でフォーマットして画面出力するメソッド</h2>
+<table>
+<thead>
+<tr class="header">
+<th> </th>
+<th>指定内容の詳細</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>メソッド名</td>
+<td>printCurrency</td>
+</tr>
+<tr class="even">
+<td>戻り値</td>
+<td>なし</td>
+</tr>
+<tr class="odd">
+<td>引数1</td>
+<td>浮動小数点型(double)</td>
+</tr>
+<tr class="even">
+<td>処理内容</td>
+<td><code>System.out.printf(&quot;%.2f\n&quot;, 引数1);</code>を使用して画面に表示する</td>
+</tr>
+</tbody>
+</table>
+<h2>1-2. 整数値加算メソッド</h2>
+<table>
+<thead>
+<tr class="header">
+<th> </th>
+<th>指定内容の詳細</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>メソッド名</td>
+<td>add</td>
+</tr>
+<tr class="even">
+<td>戻り値</td>
+<td>整数型(int)</td>
+</tr>
+<tr class="odd">
+<td>引数1</td>
+<td>整数型(int)</td>
+</tr>
+<tr class="even">
+<td>引数2</td>
+<td>整数型(int)</td>
+</tr>
+<tr class="odd">
+<td>処理内容</td>
+<td>引数1と引数2を加算した結果を返す</td>
+</tr>
+</tbody>
+</table>
+<h2>1-3. 整数値同士の除算メソッド</h2>
+<table>
+<thead>
+<tr class="header">
+<th> </th>
+<th>指定内容の詳細</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>メソッド名</td>
+<td>division</td>
+</tr>
+<tr class="even">
+<td>戻り値</td>
+<td><strong>浮動小数点型(double)</strong></td>
+</tr>
+<tr class="odd">
+<td>引数1</td>
+<td>整数型(int)</td>
+</tr>
+<tr class="even">
+<td>引数2</td>
+<td>整数型(int)</td>
+</tr>
+<tr class="odd">
+<td>処理内容</td>
+<td>引数1と引数2を<code>浮動小数点型</code>で除算した結果を返す(例: 1 / 2 = 0.5)</td>
+</tr>
+</tbody>
+</table>
+<h2>1-4. 生命、宇宙、そして万物についての究極の疑問の答えメソッド</h2>
+<table>
+<thead>
+<tr class="header">
+<th> </th>
+<th>指定内容の詳細</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>メソッド名</td>
+<td>getTheAnswerToTheUltimateQuestionOfLife_TheUniverse_And_Everything</td>
+</tr>
+<tr class="even">
+<td>戻り値</td>
+<td>文字列(String)</td>
+</tr>
+<tr class="odd">
+<td>引数</td>
+<td>なし</td>
+</tr>
+<tr class="even">
+<td>処理内容</td>
+<td>750ミリ秒待った後に文字列&quot;42&quot;を返す<br>参考資料：<a href="https://ja.wikipedia.org/wiki/%E7%94%9F%E5%91%BD%E3%80%81%E5%AE%87%E5%AE%99%E3%80%81%E3%81%9D%E3%81%97%E3%81%A6%E4%B8%87%E7%89%A9%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E3%81%AE%E7%A9%B6%E6%A5%B5%E3%81%AE%E7%96%91%E5%95%8F%E3%81%AE%E7%AD%94%E3%81%88">生命、宇宙、そして万物についての究極の疑問の答え - Wikipedia</a></td>
+</tr>
+</tbody>
+</table>
+<h3>1-4補足</h3>
+<p>750ミリ秒待たせる処理については、処理を待たせたい箇所に以下のコードを差し込んで下さい。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">try</span>{
+    <span class="bu">Thread</span>.<span class="fu">sleep</span>(<span class="dv">750</span>);
+}<span class="kw">catch</span>(<span class="bu">InterruptedException</span> e){}</code></pre></div>
+<h2 id="main">動作確認(mainメソッドの実装)</h2>
+<p>mainメソッドは、上記メソッドの動作確認を行うコードを自由に書いて下さい。mainメソッドでちゃんと作成したメソッドの動作確認ができているかも評価のポイントとなります。</p>
+<p>また、mainメソッドは<code>static</code>ですが、指定したメソッドはそうではありません。mainメソッド内で<code>UtilityMethods</code>クラスをインスタンス化する必要があります。以下のようにメソッドを呼び出してください。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java">UtilityMethods app = <span class="kw">new</span> <span class="fu">UtilityMethods</span>();
+<span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(app.<span class="fu">getTheAnswerToTheUltimateQuestionOfLife_TheUniverse_And_Everything</span>());</code></pre></div>
+<hr />
+<h1>2. テストの点数を管理するクラス</h1>
+<p>中学生の5教科(国語,数学,理科,社会,英語)それぞれの点数、生徒の出席番号、氏名を一つのクラスで管理し、合計点の算出、教科の平均点、最も高得点だった科目、最も低い得点だった科目を取得できる機能を持たせます。</p>
+<p><strong><em>講義内で説明したサンプルプログラムとは若干異なります。1から作り直すようにしてください。</em></strong></p>
+<h2>作成するクラス一覧</h2>
+<ol>
+<li>Score
+<ul>
+<li>点数管理クラス(生徒一人分)</li>
+</ul></li>
+<li>ScoresManager
+<ul>
+<li>メインクラス</li>
+</ul></li>
+</ol>
+<h2>クラス定義詳細</h2>
+<h3 id="score-score.java">Score (Score.java)</h3>
+<h4>フィールド</h4>
+<table>
+<thead>
+<tr class="header">
+<th>フィールド名</th>
+<th>型</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>id</code></td>
+<td>int</td>
+<td>出席番号</td>
+</tr>
+<tr class="even">
+<td><code>name</code></td>
+<td>String</td>
+<td>氏名</td>
+</tr>
+<tr class="odd">
+<td><code>subjects</code></td>
+<td>int[5]</td>
+<td>点数([0]:国語,[1]:数学,[2]:理科,[3]:社会,[4]:英語)</td>
+</tr>
+</tbody>
+</table>
+<h4>メソッド</h4>
+<table>
+<colgroup>
+<col style="width: 15%"></col>
+<col style="width: 8%"></col>
+<col style="width: 12%"></col>
+<col style="width: 63%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th>メソッド名</th>
+<th>戻り値の型</th>
+<th>引数詳細</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>getJapanese</code></td>
+<td>int</td>
+<td>なし</td>
+<td>subjects[0]を返します</td>
+</tr>
+<tr class="even">
+<td><code>getMathmatics</code></td>
+<td>int</td>
+<td>なし</td>
+<td>subjects[1]を返します</td>
+</tr>
+<tr class="odd">
+<td><code>getScience</code></td>
+<td>int</td>
+<td>なし</td>
+<td>subjects[2]を返します</td>
+</tr>
+<tr class="even">
+<td><code>getSocialStudies</code></td>
+<td>int</td>
+<td>なし</td>
+<td>subjects[3]を返します</td>
+</tr>
+<tr class="odd">
+<td><code>getEnglish</code></td>
+<td>int</td>
+<td>なし</td>
+<td>subjects[4]を返します</td>
+</tr>
+<tr class="even">
+<td><code>setJapanese</code></td>
+<td>void</td>
+<td>int value</td>
+<td>subjects[0]に引数のvalueを代入します</td>
+</tr>
+<tr class="odd">
+<td><code>setMathmatics</code></td>
+<td>void</td>
+<td>int value</td>
+<td>subjects[1]に引数のvalueを代入します</td>
+</tr>
+<tr class="even">
+<td><code>setScience</code></td>
+<td>void</td>
+<td>int value</td>
+<td>subjects[2]に引数のvalueを代入します</td>
+</tr>
+<tr class="odd">
+<td><code>setSocialStudies</code></td>
+<td>void</td>
+<td>int value</td>
+<td>subjects[3]に引数のvalueを代入します</td>
+</tr>
+<tr class="even">
+<td><code>setEnglish</code></td>
+<td>void</td>
+<td>int value</td>
+<td>subjects[4]に引数のvalueを代入します</td>
+</tr>
+<tr class="odd">
+<td><code>getTotal</code></td>
+<td>int</td>
+<td>なし</td>
+<td>subjects[0]〜subjects[4]の合計を算出して返します</td>
+</tr>
+<tr class="even">
+<td><code>getAverage</code></td>
+<td>double</td>
+<td>なし</td>
+<td>合計 / 教科数を算出して返します</td>
+</tr>
+<tr class="odd">
+<td><code>getHighScore</code></td>
+<td>int</td>
+<td>なし</td>
+<td>5教科のうち最高得点を返します。(点数のみなので、同率が存在する場合も返す値は1つ)</td>
+</tr>
+<tr class="even">
+<td><code>getHighScoreSubject</code></td>
+<td>String</td>
+<td>なし</td>
+<td>5教科のうち最高得点だった科目名を返します。同率の科目がある場合は、カンマ区切りで科目を連結してください。(国語と英語が1位だったら、「国語,英語」が返されます。)</td>
+</tr>
+<tr class="odd">
+<td><code>getLowScore</code></td>
+<td>int</td>
+<td>なし</td>
+<td>5教科のうち最低得点を返します。(点数のみなので、同率が存在する場合も返す値は1つ)</td>
+</tr>
+<tr class="even">
+<td><code>getLowScoreSubject</code></td>
+<td>String</td>
+<td>なし</td>
+<td>5教科のうち最低得点だった科目名を返します。同率の科目がある場合は、カンマ区切りで科目を連結してください。(国語と英語が同率最低だったら、「国語,英語」が返されます。)</td>
+</tr>
+<tr class="odd">
+<td><code>printInfo</code></td>
+<td>なし</td>
+<td>なし</td>
+<td>標準出力に「出席番号 氏名 国語00点,数学00点,理科00点,社会00点,英語00点 合計00点 平均00.00点 得意科目〇〇00点 苦手科目〇〇00点」のように情報出力してください。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="scoresmanager-scoresmanager.java">ScoresManager (ScoresManager.java)</h3>
+<p>ScoresManagerでは、mainメソッドだけを持たせ、生徒の出席番号、氏名、各教科の点数を標準入力より入力させます。</p>
+<p>入力が終わったら、<code>printInfo</code>メソッドを用いて標準出力にデータを出力します。</p>
+<p>※このクラスのmainメソッドの実装方法及び入力の流れなどは、各自で考えて実装を行うこととします。</p>
+<hr />
+<h1>3. 車の燃料消費シミュレータクラス</h1>
+<p>燃費(km/㍑)が設定された車クラスを作成し、走行距離を加算することで最終的な消費燃料を計算するプログラムを作成します。</p>
+<h2 id="-1">作成するクラス一覧</h2>
+<ol>
+<li>Car
+<ul>
+<li>車クラス</li>
+</ul></li>
+<li>FuelExpenseCalcurator
+<ul>
+<li>消費燃料計算クラス(メインクラス)</li>
+</ul></li>
+</ol>
+<h2 id="-1">クラス定義詳細</h2>
+<h3 id="car-car.java">Car (Car.java)</h3>
+<h4 id="-1">フィールド</h4>
+<table>
+<thead>
+<tr class="header">
+<th>フィールド名</th>
+<th>型</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>fuelEfficiency</code></td>
+<td>double</td>
+<td>燃費効率[km/L]</td>
+</tr>
+<tr class="even">
+<td><code>totalMileage</code></td>
+<td>double</td>
+<td>累積走行距離[km]</td>
+</tr>
+<tr class="odd">
+<td><code>expendedFuel</code></td>
+<td>double</td>
+<td>消費燃料の累計[L]</td>
+</tr>
+</tbody>
+</table>
+<h4 id="-1">メソッド</h4>
+<table>
+<colgroup>
+<col style="width: 15%"></col>
+<col style="width: 8%"></col>
+<col style="width: 12%"></col>
+<col style="width: 63%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th>メソッド名</th>
+<th>戻り値の型</th>
+<th>引数詳細</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>run</code></td>
+<td>double</td>
+<td>double mileage</td>
+<td>走行距離を引数で渡し、累計走行距離に加算、走行距離 / 燃費を消費燃料として消費燃料の累計に加算、今回の走行で消費した燃料を返します</td>
+</tr>
+<tr class="even">
+<td><code>printInfo</code></td>
+<td>なし</td>
+<td>なし</td>
+<td>標準出力に「走行距離:00.00km 消費燃料:00.00L」のように情報出力してください。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="fuelexpensecalcurator-fuelexpensecalcurator.java">FuelExpenseCalcurator (FuelExpenseCalcurator.java)</h3>
+<p>FuelExpenseCalcuratorでは、mainメソッドだけを持たせ、適当な燃費の車を生成し、標準入力より走行距離を入力させます。</p>
+<p>走行距離の入力は、実数での入力を想定していますが、何度も入力させたいので、文字列で「end」と入力されるまで繰り返します。</p>
+<p>走行距離が入力される都度、生成した車の<code>run</code>メソッドを呼び出し、走行距離、消費燃料を計算させます。 計算が終わったら、<code>printInfo</code>メソッドを用いて標準出力にデータを出力します。</p>
+<p>入力待受で「end」が入力されたらプログラムを終了してください。</p>
+<p>※このクラスのmainメソッドの実装方法及び入力の流れなどは、各自で考えて実装を行うこととします。</p>
+<h1>課題の提出に関して</h1>
+<p>作成したJavaファイルのみの提出で良いです。</p>
+<p>IntelliJ IDEAのプロジェクトウィンドウより、<code>src</code>フォルダを右クリックすると、「Finderで表示」という項目があります。</p>
+<p>この機能を使って、Javaファイルの格納されているフォルダを開き、必要なファイルのみmoodleに提出してください。</p>
+</body>
+</html>

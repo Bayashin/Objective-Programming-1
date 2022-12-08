@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="generator" content="pandoc">
+  <title>インターフェイス</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+<style type="text/css">
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+code {
+  white-space: pre-wrap;
+}
+
+span.smallcaps {
+  font-variant: small-caps;
+}
+
+span.underline {
+  text-decoration: underline;
+}
+
+div.column {
+  display: inline-block;
+  vertical-align: top;
+  width: 50%;
+}
+
+body {
+  font-size: 14pt;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN,
+    Arial, "メイリオ", Meiryo, sans-serif;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 2em;
+  background-color: #f8f8f8;
+  color: #232323;
+}
+
+hr {
+  height: 4px;
+  padding: 0;
+  margin: 6rem 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+  background:
+    url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC");
+}
+
+p,
+table {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  line-height: 2rem;
+  letter-spacing: 0.03rem;
+}
+
+strong {
+  text-decoration: none;
+  color: hsla(0, 75%, 55%, 1);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+  color: #232323;
+  letter-spacing: 0.05rem;
+  margin-top: 2rem;
+}
+
+h1 {
+  font-size: 2rem;
+  margin: 2rem auto 1rem;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+  margin: 2rem 0 1rem;
+}
+
+h5 {
+  font-size: 1.2rem;
+  margin: 2rem 0 1rem;
+}
+
+h6 {
+  font-size: 1.1rem;
+  margin: 2rem 0 1rem;
+}
+
+ul,
+ol {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  line-height: 1.6;
+  letter-spacing: 0.025rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding-left: 2rem;
+}
+
+ul li,
+ol li {
+  padding-left: .5rem;
+}
+
+ul ul,
+ol ul,
+ul ol,
+ol ol {
+  padding-left: 1.5rem;
+}
+
+table {
+  border-collapse: collapse;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  max-width: 100%;
+  width: 100% !important;
+  font-size: 1rem;
+  overflow: auto;
+}
+
+table th {
+  text-align: center;
+  font-weight: nomal;
+  background-color: #f0f0f0;
+  color: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+table tr {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+table td {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+a {
+  color: #5484c8;
+}
+
+.margin-clear {
+  margin-left: 0;
+}
+
+blockquote {
+  border-left: 4px #ddd solid;
+  padding: 0;
+  margin: 2rem;
+}
+
+blockquote * {
+  color: #999;
+}
+
+blockquote p {
+  padding: 0 1rem;
+  text-indent: 0;
+}
+
+img,
+iframe,
+figure {
+  max-width: 100%;
+}
+
+p img {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+pre,
+code,
+var,
+samp,
+kbd,
+.mono {
+  font-family: "Ricty Diminished", "Consolas", 'Courier New', Courier, Monaco, monospace;
+  line-height: 1.2;
+}
+
+table code,
+p code,
+ul code,
+ol code {
+  display: inline-block;
+  border: 1px solid #eaeaea;
+  background-color: rgb(119, 119, 119);
+  color: #f8f8f8;
+  white-space: nowrap;
+  border-radius: 2px;
+  display: inline-block;
+  padding-top: 6px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 0px;
+  margin: 0 4px;
+}
+
+pre code {
+  border: 1px solid #eaeaea;
+  background-color: #f5f5f5;
+  border-radius: 2px;
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  font-size: 1rem;
+}
+
+.highlight pre {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+div.sourceCode {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+div.sourceCode pre,
+div.sourceCode code {
+  background-color: transparent;
+  margin: 0;
+}
+
+pre code,
+pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+table.sourceCode,
+tr.sourceCode,
+td.lineNumbers,
+td.sourceCode {
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
+  border: none;
+}
+
+table.sourceCode pre {
+  padding: 2px;
+  margin: 0;
+  border: none;
+  color: inherit;
+}
+table.sourceCode code {
+  color: inherit;
+}
+
+table.sourceCode {
+  width: 100%;
+  line-height: 100%;
+}
+
+td.lineNumbers {
+  text-align: right;
+  color: #aaaaaa;
+  border-right: 1px solid #aaaaaa;
+}
+</style>
+</head>
+<body>
+  <header>
+  <h1 class="title">インターフェイス</h1>
+        </header>
+<blockquote>
+<p>オブジェクト指向プログラミングおよび演習1 第7回</p>
+<p>インターフェイスと多重継承について</p>
+</blockquote>
+<h1 id="interface">インターフェイス(interface)とは</h1>
+<p>抽象クラスをさらに抽象化し「型」だけを定義するメカニズム</p>
+<p>インターフェイスには、定数とメソッド定義(処理は書けない ※default修飾子を付けない場合に限り)しか書けない。<br />
+定義したインターフェイスを実装するクラスはインターフェイスの定義を忠実に守り処理を実装することを強制できる。</p>
+<p>クラス自体の設計図となり得るもので、<strong><em>インターフェイスを実装した各クラスは、インターフェイスへのアップキャストを可能とする</em></strong>。</p>
+<h2>「インターフェイスを作る」ということは「仕様」を決定すること</h2>
+<p>「インターフェイスを作る」ということは、それを実装するクラスに、「〇〇というメソッドを持っており、実行すると✕✕という結果が返ります」という決め事を作ることに等しいです。</p>
+<p>これは言ってみればプログラムソース上で決定される「仕様」となります。</p>
+<p>あまり喩え話をしたくないのですが、車のインターフェイスについて、「アクセルON」というメソッドを定義し、そのメソッドは「タイヤを前進方向へ回転させる」結果を返すようにインターフェイスを定義したとしましょう。(他にも用意すべきメソッドはありますが割愛します)</p>
+<p>ここで、トヨタやホンダやマツダやスズキなどの各自動車メーカーはこの車インターフェイスを実際の車に実装していくわけですが、「アクセルON」により「タイヤを前進方向へ回転させる」ようにエンジンやモーターなどの制御を作って行くことになります。</p>
+<p>機能的な概念である「〇〇が果たす役割 = ✕✕」つまり、車インターフェイスで言う「アクセルONが果たす役割 = タイヤを前進方向へ回転させる」という仕様は、クラスを作成するプログラマ(各自動車メーカー)が考えることではなくて、概念自体を考えた人(車に関して言えばデファクトスタンダードである仕様)が決定するべきことです。</p>
+<p>ただ、どのようにタイヤを回すか(内燃機関を持たせるのか、電磁気で動作させるのかなどの細かな制御方法)は、クラスを作成するプログラマ(各自動車メーカー)が考えなければなりません。</p>
+<p>アクセルONでタイヤが右方向へ角度を変えるようなことがあってはユーザー(運転手)が困ってしまいます。<br />
+車ごとに操作方法が異なるわけですから、乗る車ごとに免許のようなものが必要になってしまい、良くありません。</p>
+<p>車インターフェイスにより、「アクセルONが果たす役割 = タイヤを前進方向へ回転させる」という「仕様」が決まっていることで、ユーザー(運転手)は「車」の操作方法を覚えるだけで、トヨタ、ホンダ、マツダなどの各メーカーが用意するプリウスやフィット、デミオなどの車種関係なく運転が可能となります。</p>
+<p>インターフェイスは設計を行うにあたって、先に役割を決めておくことができる重要な機能と言えます。</p>
+<h1 id="java">Javaのインターフェイス</h1>
+<h2 id="interface">interface定義構文</h2>
+<p>インターフェイスを定義する場合には、通常のクラス宣言の<code>class</code>を<code>interface</code>として定義します。</p>
+<p>構文としては以下のようになります。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">package</span><span class="im"> パッケージ名;</span>
+アクセス修飾子 <span class="kw">interface</span> インターフェイス名 {
+
+    定数フィールドの宣言
+
+    抽象メソッドの宣言
+
+}</code></pre></div>
+<h2 id="interface">interface実装構文</h2>
+<p>クラスを「継承」する場合には、<code>extends</code>を使用しました。<br />
+インターフェイスを「実装」する場合には、<code>implements</code>を使用します。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">package</span><span class="im"> パッケージ名;</span>
+アクセス修飾子 <span class="kw">class</span> クラス名 <span class="kw">implements</span> インターフェイス名 {
+
+    クラスのフィールド
+
+    クラスのメソッド
+
+    インターフェイスで作成した抽象メソッドのオーバーライド
+
+}</code></pre></div>
+<p>インターフェイスで用意されたメソッドは、実装を行うクラスにてオーバーライドしないと、コンパイルエラーとなります。</p>
+<p>また、インターフェイスは「継承」と異なり、複数のインターフェイスをクラスで「実装」することが可能です。<br />
+以下の書き方のように、<code>implements</code>のあとに、インターフェイスを「,(カンマ)」で区切ることで複数のインターフェイスを実装することができます。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">package</span><span class="im"> パッケージ名;</span>
+アクセス修飾子 <span class="kw">class</span> クラス名 <span class="kw">implements</span> インターフェイス１名, インターフェイス２名, インターフェイス３名 {
+
+    クラスのフィールド
+
+    クラスのメソッド
+
+    インターフェイス１で作成した抽象メソッドのオーバーライド
+
+    インターフェイス２で作成した抽象メソッドのオーバーライド
+
+    インターフェイス３で作成した抽象メソッドのオーバーライド
+}</code></pre></div>
+<p>この場合、上記の「クラス名というクラス」は「インターフェイス１」としても振る舞い、「インターフェイス２」としても振る舞い、「インターフェイス３」としても振る舞うことができます。</p>
+<h2 id="interface">interfaceが持てるもの</h2>
+<p>Javaのインターフェイスは、以下のものしか持てません。</p>
+<ul>
+<li>定数フィールド
+<ul>
+<li>値が変化するフィールドは持てません。</li>
+<li>interface内で、<code>int a = 1;</code>とすると、内部的には、<code>public final static int a = 1;</code>として処理されます。もちろん値の変更はできません。</li>
+</ul></li>
+<li>抽象メソッド
+<ul>
+<li>メソッドの中身はdefault修飾子を付けない限り書くことができません。</li>
+<li>interface内で<code>void method(int a);</code>とすると、内部的には、<code>public abstract method(int a);</code>として定義されています。</li>
+</ul></li>
+</ul>
+<h2 id="interfaceinterface">interfaceはinterfaceを「継承」できる</h2>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">package</span><span class="im"> パッケージ名;</span>
+アクセス修飾子 <span class="kw">interface</span> 子インターフェイス名 <span class="kw">extends</span> 親インターフェイス名 {
+
+    定数フィールドの宣言
+
+    メソッドの宣言
+
+}</code></pre></div>
+<p>この場合、子インターフェイスは親インターフェイスのフィールド、抽象メソッドを継承している。</p>
+<h2 id="interface">interfaceの特徴まとめ</h2>
+<ul>
+<li>抽象クラスと同様に、new演算子によるインスタンス化はできない
+<ul>
+<li>ただし、型として宣言することが可能で、そのインターフェイスを実装しているクラスのインスタンスが格納できる</li>
+</ul></li>
+<li>インターフェイスは定数と抽象メソッド、defaultメソッド(※後述)しか持てない
+<ul>
+<li>定数の<code>public final static</code>修飾子や、抽象メソッドの<code>public abstract</code>は省略可能。</li>
+</ul></li>
+<li>クラスは複数のインターフェイスを実装できる
+<ul>
+<li>すべてのインターフェイスの抽象メソッドをオーバーライドする必要があります。</li>
+</ul></li>
+<li>インターフェイスはインターフェイスを「継承」できる
+<ul>
+<li>インターフェイスの抽象化を実現できるが、なれないうちはあまりおすすめしない。</li>
+</ul></li>
+</ul>
+<h1>インターフェイスを用いた多重継承</h1>
+<h2 id="defalt">defalt修飾子を用いた処理の実装</h2>
+<p>混乱してしまうので、慣れないうちは使用しないほうが良いです。</p>
+<p>Java SE 8からインターフェイスに抽象メソッドの中⾝を持たせることができるようになりました。</p>
+<p><code>default</code>修飾子と呼ばれるインターフェイスのみで使用できるメソッド定義の修飾子は、実装したクラスでオーバーライドされなければ、インターフェイスで書かれているメソッドの内容が実⾏される、デフォルトメソッドと呼ばれるものです。</p>
+<p>デフォルトメソッドは、インターフェイスのメソッド定義に、デフォルト(default)修飾子を付けることで定義できます。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="dt">void</span> <span class="fu">methodA</span>();
+<span class="kw">default</span> <span class="dt">void</span> <span class="fu">methodBtoA</span>() {
+    <span class="fu">methodA</span>();
+}
+<span class="kw">default</span> <span class="dt">int</span> <span class="fu">methodHoge</span>() {
+    <span class="kw">return</span> <span class="dv">42</span>;
+}</code></pre></div>
+<p>ということができるようになっています。</p>
+<p>これにより、インターフェイスを複数実装する場合でも処理を継承することが可能となります。<br />
+（C++などの言語では、クラスを複数extendsできるのですが、Javaはそれを許容しませんでした。これにより、インターフェイスの概念を導入することとなっていたはずですが、Java 8以降では、そこが見直され、右倣えしたこととなります。）</p>
+<h2>多重継承で同じメソッドが複数のインターフェイスで定義されている場合はどうなる？</h2>
+<p>同じメソッド（メソッド名、引数が同じ）場合、継承を行うと、どっちのメソッドを呼べば良いのか判断がつかなくなります。<br />
+（これがあるのでJavaではextendsを用いた多重継承ができない設計となっていたのです……。）</p>
+<p>しかし、インターフェイスでのメソッド定義は、抽象メソッドが基本となります。<br />
+インターフェイスにて抽象メソッドのみ定義されている場合は、「実装を行ったクラスにてそのメソッドがオーバーライドされていれ」ば問題ありません。</p>
+<p>同じ名前、引数のデフォルトメソッドが複数定義されている場合、クラスにて必ずオーバーライドする必要があります。<br />
+デフォルトメソッドの中に書かれた処理は多重継承にてバッティングした場合に全く使えなくなりますのでご注意ください。(オーバーライドしないとコンパイルエラーとなります)</p>
+<h1>インターフェイスを扱う場合に注意しておいて欲しいこと</h1>
+<ul>
+<li>インターフェイスは設計段階で用意すること</li>
+<li>インターフェイスの仕様変更は影響範囲がかなり大きいので、後からメソッドの追加や変更は慎重に行うこと</li>
+<li>定数だけ持つインターフェイスは作らない
+<ul>
+<li>定数だけを持つインターフェイスを作りたくなった場合、Javaには強力な列挙型のenum(次回以降の講義で説明)があるためこちらを使うと良い</li>
+</ul></li>
+</ul>
+</body>
+</html>

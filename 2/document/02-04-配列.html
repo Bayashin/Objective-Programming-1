@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="generator" content="pandoc">
+  <title>配列</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+<style type="text/css">
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+code {
+  white-space: pre-wrap;
+}
+
+span.smallcaps {
+  font-variant: small-caps;
+}
+
+span.underline {
+  text-decoration: underline;
+}
+
+div.column {
+  display: inline-block;
+  vertical-align: top;
+  width: 50%;
+}
+
+body {
+  font-size: 14pt;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN,
+    Arial, "メイリオ", Meiryo, sans-serif;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 2em;
+  background-color: #f8f8f8;
+  color: #232323;
+}
+
+hr {
+  height: 4px;
+  padding: 0;
+  margin: 6rem 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+  background:
+    url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC");
+}
+
+p,
+table {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  line-height: 2rem;
+  letter-spacing: 0.03rem;
+}
+
+strong {
+  text-decoration: none;
+  color: hsla(0, 75%, 55%, 1);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+  color: #232323;
+  letter-spacing: 0.05rem;
+  margin-top: 2rem;
+}
+
+h1 {
+  font-size: 2rem;
+  margin: 2rem auto 1rem;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+  margin: 2rem 0 1rem;
+}
+
+h5 {
+  font-size: 1.2rem;
+  margin: 2rem 0 1rem;
+}
+
+h6 {
+  font-size: 1.1rem;
+  margin: 2rem 0 1rem;
+}
+
+ul,
+ol {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  line-height: 1.6;
+  letter-spacing: 0.025rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding-left: 2rem;
+}
+
+ul li,
+ol li {
+  padding-left: .5rem;
+}
+
+ul ul,
+ol ul,
+ul ol,
+ol ol {
+  padding-left: 1.5rem;
+}
+
+table {
+  border-collapse: collapse;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  max-width: 100%;
+  width: 100% !important;
+  font-size: 1rem;
+  overflow: auto;
+}
+
+table th {
+  text-align: center;
+  font-weight: nomal;
+  background-color: #f0f0f0;
+  color: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+table tr {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+table td {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+a {
+  color: #5484c8;
+}
+
+.margin-clear {
+  margin-left: 0;
+}
+
+blockquote {
+  border-left: 4px #ddd solid;
+  padding: 0;
+  margin: 2rem;
+}
+
+blockquote * {
+  color: #999;
+}
+
+blockquote p {
+  padding: 0 1rem;
+  text-indent: 0;
+}
+
+img,
+iframe,
+figure {
+  max-width: 100%;
+}
+
+p img {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+pre,
+code,
+var,
+samp,
+kbd,
+.mono {
+  font-family: "Ricty Diminished", "Consolas", 'Courier New', Courier, Monaco, monospace;
+  line-height: 1.2;
+}
+
+table code,
+p code,
+ul code,
+ol code {
+  display: inline-block;
+  border: 1px solid #eaeaea;
+  background-color: rgb(119, 119, 119);
+  color: #f8f8f8;
+  white-space: nowrap;
+  border-radius: 2px;
+  display: inline-block;
+  padding-top: 6px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 0px;
+  margin: 0 4px;
+}
+
+pre code {
+  border: 1px solid #eaeaea;
+  background-color: #f5f5f5;
+  border-radius: 2px;
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  font-size: 1rem;
+}
+
+.highlight pre {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+div.sourceCode {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+div.sourceCode pre,
+div.sourceCode code {
+  background-color: transparent;
+  margin: 0;
+}
+
+pre code,
+pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+table.sourceCode,
+tr.sourceCode,
+td.lineNumbers,
+td.sourceCode {
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
+  border: none;
+}
+
+table.sourceCode pre {
+  padding: 2px;
+  margin: 0;
+  border: none;
+  color: inherit;
+}
+table.sourceCode code {
+  color: inherit;
+}
+
+table.sourceCode {
+  width: 100%;
+  line-height: 100%;
+}
+
+td.lineNumbers {
+  text-align: right;
+  color: #aaaaaa;
+  border-right: 1px solid #aaaaaa;
+}
+</style>
+</head>
+<body>
+  <header>
+  <h1 class="title">配列</h1>
+        </header>
+<blockquote>
+<p>オブジェクト指向プログラミングおよび演習1 第2回</p>
+</blockquote>
+<h1>データを一つの変数にまとめる</h1>
+<h2 id="1">単一次元の配列(1次元配列)</h2>
+<p>配列とは、データをまとめて管理する方法の一つです。 変数一つに同じ型の複数の値を入れられるようにします。</p>
+<h3>配列を使用するには</h3>
+<ul>
+<li>配列の宣言</li>
+<li>領域の確保</li>
+<li>配列の各要素へのアクセス</li>
+<li>まとめて初期化</li>
+<li>配列の領域数を取得</li>
+</ul>
+<h4>配列の宣言</h4>
+<p>配列を宣言するには、型名か変数名の後に<code>[]</code>を付けます。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="dt">int</span>[] a;
+<span class="dt">int</span> a[];</code></pre></div>
+<p>どちらでも同じです。</p>
+<h4>領域の確保</h4>
+<p>配列を宣言しただけでは使えません。 配列に、どれだけの要素を入れるかを指定する必要があります。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="dt">int</span>[] scores;       <span class="co">//宣言</span>
+scores = <span class="kw">new</span> <span class="dt">int</span>[<span class="dv">5</span>];    <span class="co">//領域を5つ確保する</span></code></pre></div>
+<p><code>scores[0]〜scores[4]</code>までの領域が確保されます。</p>
+<p><code>new</code>演算子は、インスタンス化を明示的に行う制御構文です。配列の初期化の他に、参照型変数へのインスタンス化と代入の際に使用するほか、単純にインスタンス化してメソッドを呼び出したいときなどに使用する大変重要な演算子です。</p>
+<h4>配列の各要素へのアクセス</h4>
+<p>配列の各要素へは、[]の中に配列のインデックスを整数値で指定することでアクセスが可能です。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="co">//各要素へ代入</span>
+scores[<span class="dv">0</span>] = <span class="dv">74</span>;
+scores[<span class="dv">1</span>] = <span class="dv">88</span>;
+scores[<span class="dv">2</span>] = <span class="dv">98</span>;
+scores[<span class="dv">3</span>] = <span class="dv">53</span>;
+scores[<span class="dv">4</span>] = <span class="dv">25</span>;
+
+<span class="co">//指定したインデックスの要素を取り出し</span>
+<span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(scores[<span class="dv">3</span>]); <span class="co">//53と表示される</span></code></pre></div>
+<h4>まとめて初期化</h4>
+<p>配列の宣言と領域の確保を同時に行う場合は以下のように書けます。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="dt">int</span>[] scores;       <span class="co">//宣言</span>
+scores = <span class="kw">new</span> <span class="dt">int</span>[<span class="dv">5</span>];    <span class="co">//領域を5つ確保する</span>
+<span class="co">//↓</span>
+<span class="dt">int</span>[] scores = <span class="kw">new</span> <span class="dt">int</span>[<span class="dv">5</span>];</code></pre></div>
+<p>配列の宣言と、領域の確保、値の代入をまとめて行う場合は、<code>{ }</code>を使い、リテラルをカンマ区切りで必要数分記入します。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="dt">int</span>[] scores = {<span class="dv">74</span>, <span class="dv">88</span>, <span class="dv">98</span>, <span class="dv">53</span>, <span class="dv">25</span>};</code></pre></div>
+<h4>配列の領域数を取得</h4>
+<p>確保された領域の数を取得するには、配列の変数の<code>length</code>を参照します。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="dt">int</span>[] scores = {<span class="dv">74</span>, <span class="dv">88</span>, <span class="dv">98</span>, <span class="dv">53</span>, <span class="dv">25</span>};
+<span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(scores.<span class="fu">length</span>);    <span class="co">//5と表示</span></code></pre></div>
+<p>for文の条件や、配列の要素の最後にアクセスする場合などに使用できます。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="dt">int</span>[] scores = {<span class="dv">74</span>, <span class="dv">88</span>, <span class="dv">98</span>, <span class="dv">53</span>, <span class="dv">25</span>};
+
+<span class="co">//要素の最後にアクセス</span>
+<span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(scores[scores.<span class="fu">length</span> - <span class="dv">1</span>]); <span class="co">//25と表示される</span>
+
+<span class="co">//各要素を順に表示</span>
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; scores.<span class="fu">length</span>; i++) {
+  <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">print</span>(scores[i] + <span class="st">&quot;, &quot;</span>); <span class="co">//74, 88, 98, 53, 25と表示される。</span>
+}</code></pre></div>
+<h2>複数次元の配列(多次元配列)</h2>
+<p>先ほどまでのは、1次元配列と呼ばれるものです。要素は単一のインデックス(整数値による連番:0からスタート)でアクセスできます。 それに対して、複数の次元を持たせた配列を使うこともできます。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="co">//教科ごとの点数(1次元)を生徒ごと(2次元)で管理したい</span>
+<span class="dt">int</span>[][] scoresOfStudents = <span class="kw">new</span> <span class="dt">int</span>[<span class="dv">3</span>][<span class="dv">5</span>];</code></pre></div>
+<p>必要な次元の数だけ[]をつなげます。</p>
+<h4 id="-1">配列の各要素へのアクセス</h4>
+<p>基本は1次元配列と同じです。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="co">//一人目の点数を代入</span>
+scoresOfStudents[<span class="dv">0</span>][<span class="dv">0</span>] = <span class="dv">100</span>;
+scoresOfStudents[<span class="dv">0</span>][<span class="dv">1</span>] = <span class="dv">70</span>;
+scoresOfStudents[<span class="dv">0</span>][<span class="dv">2</span>] = <span class="dv">50</span>;
+scoresOfStudents[<span class="dv">0</span>][<span class="dv">3</span>] = <span class="dv">98</span>;
+scoresOfStudents[<span class="dv">0</span>][<span class="dv">4</span>] = <span class="dv">45</span>;
+<span class="co">//二人目</span>
+scoresOfStudents[<span class="dv">1</span>][<span class="dv">0</span>] = <span class="dv">70</span>;
+scoresOfStudents[<span class="dv">1</span>][<span class="dv">1</span>] = <span class="dv">70</span>;
+scoresOfStudents[<span class="dv">1</span>][<span class="dv">2</span>] = <span class="dv">45</span>;
+scoresOfStudents[<span class="dv">1</span>][<span class="dv">3</span>] = <span class="dv">68</span>;
+scoresOfStudents[<span class="dv">1</span>][<span class="dv">4</span>] = <span class="dv">70</span>;
+
+<span class="co">//...以下省略</span></code></pre></div>
+<h4 id="-1">まとめて初期化</h4>
+<p>{}をカンマで区切ることで、多次元の配列を同時に宣言、初期化、代入ができます。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="dt">int</span>[][] scoresOfStudents = {
+    {<span class="dv">70</span>, <span class="dv">60</span>, <span class="dv">80</span>, <span class="dv">90</span>, <span class="dv">50</span>},
+    {<span class="dv">81</span>, <span class="dv">45</span>, <span class="dv">32</span>, <span class="dv">78</span>, <span class="dv">100</span>},
+    {<span class="dv">32</span>, <span class="dv">44</span>, <span class="dv">34</span>, <span class="dv">55</span>, <span class="dv">70</span>},
+};</code></pre></div>
+<h4 id="-1">配列の領域数を取得</h4>
+<p>先ほどの多次元配列にて</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(scores.<span class="fu">length</span>);    <span class="co">//3と表示</span></code></pre></div>
+<p>次元ごとの領域数を取得するには、</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(scores[<span class="dv">0</span>].<span class="fu">length</span>);    <span class="co">//5と表示</span></code></pre></div>
+<h1>配列内のデータを降順でソートするサンプル</h1>
+<p>以下のソースコードは、隣り合った値同士を比較し、数値を降順で並び替えるプログラムです。</p>
+<p>解説は講義内で行います。</p>
+<p>ファイル名: <code>ArraySortSample.java</code></p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">import</span><span class="im"> java.util.Scanner;</span>
+<span class="kw">public</span> <span class="kw">class</span> ArraySortSample {
+  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {
+    <span class="bu">Scanner</span> in = <span class="kw">new</span> <span class="bu">Scanner</span>(<span class="bu">System</span>.<span class="fu">in</span>);
+
+    <span class="dt">int</span>[] test = <span class="kw">new</span> <span class="dt">int</span>[<span class="dv">5</span>];
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(test.<span class="fu">length</span> + <span class="st">&quot;人の点数を入力してください。&quot;</span>);
+
+    <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; test.<span class="fu">length</span>; i++) {
+      <span class="bu">String</span> str = in.<span class="fu">nextLine</span>();
+      test[i] = <span class="bu">Integer</span>.<span class="fu">parseInt</span>(str);
+    }
+
+    <span class="kw">for</span> (<span class="dt">int</span> s = <span class="dv">0</span>; s &lt; test.<span class="fu">length</span> - <span class="dv">1</span>; s++) { <span class="co">//0〜3までのループ(比較元)</span>
+      <span class="kw">for</span> (<span class="dt">int</span> t = s + <span class="dv">1</span>; t &lt; test.<span class="fu">length</span>; t++) { <span class="co">//(s + 1)〜4までのループ(比較先)</span>
+        <span class="kw">if</span> (test[s] &lt; test[t]) {
+          <span class="co">//降順で並び替えるため、比較元より比較先が大きければ以下の入れ替え処理を行う</span>
+          <span class="dt">int</span> tmp = test[t];
+          test[t] = test[s];
+          test[s] = tmp;
+        }
+      }
+    }
+
+    <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; test.<span class="fu">length</span>; i++) {
+      <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>((i + <span class="dv">1</span>) + <span class="st">&quot;番目の人の点数は&quot;</span> + test[i] + <span class="st">&quot;です。&quot;</span>);
+    }
+  }
+}</code></pre></div>
+</body>
+</html>

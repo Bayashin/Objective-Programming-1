@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="generator" content="pandoc">
+  <title>型と式と演算子</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+<style type="text/css">
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+code {
+  white-space: pre-wrap;
+}
+
+span.smallcaps {
+  font-variant: small-caps;
+}
+
+span.underline {
+  text-decoration: underline;
+}
+
+div.column {
+  display: inline-block;
+  vertical-align: top;
+  width: 50%;
+}
+
+body {
+  font-size: 14pt;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN,
+    Arial, "メイリオ", Meiryo, sans-serif;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 2em;
+  background-color: #f8f8f8;
+  color: #232323;
+}
+
+hr {
+  height: 4px;
+  padding: 0;
+  margin: 6rem 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+  background:
+    url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC");
+}
+
+p,
+table {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  line-height: 2rem;
+  letter-spacing: 0.03rem;
+}
+
+strong {
+  text-decoration: none;
+  color: hsla(0, 75%, 55%, 1);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+  color: #232323;
+  letter-spacing: 0.05rem;
+  margin-top: 2rem;
+}
+
+h1 {
+  font-size: 2rem;
+  margin: 2rem auto 1rem;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+  margin: 2rem 0 1rem;
+}
+
+h5 {
+  font-size: 1.2rem;
+  margin: 2rem 0 1rem;
+}
+
+h6 {
+  font-size: 1.1rem;
+  margin: 2rem 0 1rem;
+}
+
+ul,
+ol {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  line-height: 1.6;
+  letter-spacing: 0.025rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding-left: 2rem;
+}
+
+ul li,
+ol li {
+  padding-left: .5rem;
+}
+
+ul ul,
+ol ul,
+ul ol,
+ol ol {
+  padding-left: 1.5rem;
+}
+
+table {
+  border-collapse: collapse;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  max-width: 100%;
+  width: 100% !important;
+  font-size: 1rem;
+  overflow: auto;
+}
+
+table th {
+  text-align: center;
+  font-weight: nomal;
+  background-color: #f0f0f0;
+  color: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+table tr {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+table td {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+a {
+  color: #5484c8;
+}
+
+.margin-clear {
+  margin-left: 0;
+}
+
+blockquote {
+  border-left: 4px #ddd solid;
+  padding: 0;
+  margin: 2rem;
+}
+
+blockquote * {
+  color: #999;
+}
+
+blockquote p {
+  padding: 0 1rem;
+  text-indent: 0;
+}
+
+img,
+iframe,
+figure {
+  max-width: 100%;
+}
+
+p img {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+pre,
+code,
+var,
+samp,
+kbd,
+.mono {
+  font-family: "Ricty Diminished", "Consolas", 'Courier New', Courier, Monaco, monospace;
+  line-height: 1.2;
+}
+
+table code,
+p code,
+ul code,
+ol code {
+  display: inline-block;
+  border: 1px solid #eaeaea;
+  background-color: rgb(119, 119, 119);
+  color: #f8f8f8;
+  white-space: nowrap;
+  border-radius: 2px;
+  display: inline-block;
+  padding-top: 6px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 0px;
+  margin: 0 4px;
+}
+
+pre code {
+  border: 1px solid #eaeaea;
+  background-color: #f5f5f5;
+  border-radius: 2px;
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  font-size: 1rem;
+}
+
+.highlight pre {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+div.sourceCode {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+div.sourceCode pre,
+div.sourceCode code {
+  background-color: transparent;
+  margin: 0;
+}
+
+pre code,
+pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+table.sourceCode,
+tr.sourceCode,
+td.lineNumbers,
+td.sourceCode {
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
+  border: none;
+}
+
+table.sourceCode pre {
+  padding: 2px;
+  margin: 0;
+  border: none;
+  color: inherit;
+}
+table.sourceCode code {
+  color: inherit;
+}
+
+table.sourceCode {
+  width: 100%;
+  line-height: 100%;
+}
+
+td.lineNumbers {
+  text-align: right;
+  color: #aaaaaa;
+  border-right: 1px solid #aaaaaa;
+}
+</style>
+</head>
+<body>
+  <header>
+  <h1 class="title">型と式と演算子</h1>
+        </header>
+<blockquote>
+<p>オブジェクト指向プログラミングおよび演習1 第2回</p>
+</blockquote>
+<p>オブジェクト指向以前に、Javaというプログラミング言語の基本構文を学びましょう。</p>
+<h2>型</h2>
+<p>型、またはデータ型とは、プログラミング言語における「データを保持する形式」という認識で良いでしょう。 Javaにおける基本的な型の種類は以下の表を参照してください。</p>
+<table>
+<thead>
+<tr class="header">
+<th>形名</th>
+<th>使用するメモリ領域</th>
+<th>用途</th>
+<th>想定される値</th>
+<th>ラッパークラス</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>boolean</code></td>
+<td>-</td>
+<td>真偽値</td>
+<td>true または false</td>
+<td>Boolean</td>
+</tr>
+<tr class="even">
+<td><code>char</code></td>
+<td>2byte</td>
+<td>⽂字(1文字分)</td>
+<td>¥u0000 〜 ¥uffff</td>
+<td>Character</td>
+</tr>
+<tr class="odd">
+<td><code>byte</code></td>
+<td>1byte</td>
+<td>整数</td>
+<td>-128 〜 127</td>
+<td>Byte</td>
+</tr>
+<tr class="even">
+<td><code>short</code></td>
+<td>2byte</td>
+<td>整数</td>
+<td>-32768 〜 32767</td>
+<td>Short</td>
+</tr>
+<tr class="odd">
+<td><code>int</code></td>
+<td>4byte</td>
+<td>整数</td>
+<td>-2147483648 〜 2147483647</td>
+<td>Integer</td>
+</tr>
+<tr class="even">
+<td><code>long</code></td>
+<td>8byte</td>
+<td>整数</td>
+<td>-9223372036854775808 〜 9223372036854775807</td>
+<td>Long</td>
+</tr>
+<tr class="odd">
+<td><code>float</code></td>
+<td>4byte</td>
+<td>単精度浮動⼩数点</td>
+<td>1.4E-45 〜 3.4028235E38</td>
+<td>Float</td>
+</tr>
+<tr class="even">
+<td><code>double</code></td>
+<td>8byte</td>
+<td>倍精度浮動⼩数点</td>
+<td>4.9E-324 〜 1.7976931348623157E308</td>
+<td>Double</td>
+</tr>
+</tbody>
+</table>
+<p>また、これらの型はプリミティブ型(または基本型)と呼ばれ、Java言語仕様では特殊な型となります。 見分け方は、先頭が小文字で始まっている型はプリミティブ型、先頭が大文字で始まっている型はクラス型と呼ばれ、文字列型であるStringは後者になります。</p>
+<p>Javaでのプリミティブ型には、すべてラッパークラスと呼ばれるクラス型にてプリミティブ型をラッピングしたクラスが存在します。表のラッパークラスはそれぞれの型に対応したクラス型で、それぞれのプリミティブ型特有の処理などが含まれています。(例えば文字列からそのプリミティブ型に変換する処理など)</p>
+<p>また、プリミティブ型の変数は、宣言時にメモリ上に値そのままで展開・配置され、その変数を実際に使用する前に必ず初期値の代入が要ります。</p>
+<h4>最大値最小値を見るサンプル</h4>
+<p>数値を表す型の最大値〜最小値を実際に見る場合は、以下のソースコードを使用してみると良いでしょう。</p>
+<p>ファイル名：MinMaxValues.java</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> MinMaxValues {
+    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args){
+        <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;short: &quot;</span> + <span class="bu">Short</span>.<span class="fu">MIN_VALUE</span> + <span class="st">&quot; 〜 &quot;</span> + <span class="bu">Short</span>.<span class="fu">MAX_VALUE</span>);
+        <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;int: &quot;</span> + <span class="bu">Integer</span>.<span class="fu">MIN_VALUE</span> + <span class="st">&quot; 〜 &quot;</span> + <span class="bu">Integer</span>.<span class="fu">MAX_VALUE</span>);
+        <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;long: &quot;</span> + <span class="bu">Long</span>.<span class="fu">MIN_VALUE</span> + <span class="st">&quot; 〜 &quot;</span> + <span class="bu">Long</span>.<span class="fu">MAX_VALUE</span>);
+        <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;float: &quot;</span> + <span class="bu">Float</span>.<span class="fu">MIN_VALUE</span> + <span class="st">&quot; 〜 &quot;</span> + <span class="bu">Float</span>.<span class="fu">MAX_VALUE</span>);
+        <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;double: &quot;</span> + <span class="bu">Double</span>.<span class="fu">MIN_VALUE</span> + <span class="st">&quot; 〜 &quot;</span> + <span class="bu">Double</span>.<span class="fu">MAX_VALUE</span>);
+    }
+}</code></pre></div>
+<h2>変数の宣言と利用</h2>
+<h3>変数を宣言する</h3>
+<p>変数は、プログラム中で繰り返し使用する値や、値を変化させ利用する場合にその値が入る場所に名前を付けることをいいます。</p>
+<p>変数は「今からこれを使用します。」という宣言を行わないと使用できません。</p>
+<p>宣言は、以下のように行います。</p>
+<pre><code>形名 識別子;</code></pre>
+<p>例えば、整数値の番号を表す変数の場合、</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="dt">int</span> number;</code></pre></div>
+<p>のように宣言します。 また、以下のように、同時に複数の変数を同じ型で宣言することも可能です。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="dt">double</span> score, money, point;</code></pre></div>
+<p>※この書き方は、読みにくいのでオススメしません。</p>
+<h4 id="java">Javaにおける変数宣言のポイント</h4>
+<p>Javaでは、変数の宣言を記述する箇所に制約が(C言語と比べると)あまりありません。</p>
+<p>「変数宣言はプログラムの先頭にすべて書きなさい。」なんてことはありません。必要になる直前で、「今からこの型を使用します」という意味合いで使用することをおすすめします。</p>
+<p>例えば…</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> Hoge {
+    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {
+
+        <span class="co">//数値Aの計算</span>
+        <span class="dt">int</span> numA;
+        numA = <span class="dv">10</span> + <span class="dv">20</span> + <span class="dv">30</span> + <span class="dv">40</span>;
+        <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;数値A:&quot;</span> + numA);
+
+        <span class="co">//数値Bの計算</span>
+        <span class="dt">int</span> numB;
+        numB = <span class="dv">10</span> * <span class="dv">20</span> * <span class="dv">30</span> * <span class="dv">40</span> + numA;
+        <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;数値B:&quot;</span> + numB);
+    }
+}</code></pre></div>
+<p>以上のように、数値Bで使用する変数は、使用する直前で宣言すると、他の人がこのプログラムのソースコードを見た時「今からnumBという変数が使用されるんだな」ということがわかりやすくなります。</p>
+<p>※これは、あくまでこうすると良いというだけの話です。強制するつもりはありませんが、こちらで慣れておくことをおすすめしています。</p>
+<h3>宣言と同時に初期化する</h3>
+<p>変数を宣言して使用しない場合は、コンパイルエラーとなります。<strong><em>初期化</em></strong> をしておくことで、そういったコンパイルエラーをなくせます。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="dt">int</span> number;
+number = <span class="dv">0</span>;</code></pre></div>
+<p>という書き方も初期化できますが、Javaでは以下の書き方が一般的です。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="dt">int</span> number = <span class="dv">0</span>;</code></pre></div>
+<p>初期化時、右辺が0ではない値でも指定は可能です。計算式の結果を初期値として代入することもできます。</p>
+<h2>リテラル</h2>
+<p>リテラルとは、プログラム中に値を直接用いた場合の内部的な値の型です。 以下各リテラルをまとめた表です。</p>
+<table>
+<thead>
+<tr class="header">
+<th>リテラル</th>
+<th>記入例</th>
+<th>内部的な型</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>整数</td>
+<td>30</td>
+<td>int</td>
+</tr>
+<tr class="even">
+<td>⼤きな整数</td>
+<td>30000000L</td>
+<td>long</td>
+</tr>
+<tr class="odd">
+<td>⼩数点あり(精度が⾼い)</td>
+<td>30.5 または 30.5d</td>
+<td>double</td>
+</tr>
+<tr class="even">
+<td>⼩数点あり(精度が低い)</td>
+<td>30.5f</td>
+<td>float</td>
+</tr>
+<tr class="odd">
+<td>真偽</td>
+<td>true</td>
+<td>boolean</td>
+</tr>
+<tr class="even">
+<td>シングルクォーテーションで囲われた⽂字</td>
+<td>'あ'</td>
+<td>char</td>
+</tr>
+<tr class="odd">
+<td>ダブルクォーテーションで囲わられた⽂字列</td>
+<td>&quot;あいうえお&quot;</td>
+<td><strong><em>String</em></strong></td>
+</tr>
+</tbody>
+</table>
+<h4>数値型のリテラルのポイント</h4>
+<p>ソースコード中に数値を記⼊する際、特に⼤きい数字を書く場合、数値の途中に「 <code>_</code> 」アンダースコアを⼊れることもできます。3桁ごとで区切るなどして、⾒やすくする⼯夫をしよう！</p>
+<h3 id="2816">特殊な数値リテラル(2進数、8進数、16進数)</h3>
+<p>2進数、8進数、16進数をソースコード中に記⼊する事もできます。</p>
+<table>
+<thead>
+<tr class="header">
+<th>リテラル</th>
+<th>例</th>
+<th>10進数の値</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>2進数</td>
+<td>0b1001</td>
+<td>9</td>
+</tr>
+<tr class="even">
+<td>8進数</td>
+<td>014</td>
+<td>12</td>
+</tr>
+<tr class="odd">
+<td>16進数</td>
+<td>0xFE</td>
+<td>254</td>
+</tr>
+</tbody>
+</table>
+<p>※8進数についてのみ、意図せず8進数になる場合がある点に注意が必要です。 先頭が0から始まる場合に、それ以降の数値は8進数として認識されてしまうため、意図しない数値が内部的に保持されます。</p>
+<h3 id="-">⽂字列 リテラル</h3>
+<p>char型ではないので注意が必要</p>
+<p>⽂字列は、⽂字列を扱うためのStringクラスのオブジェクトで操作します。</p>
+<p>ファイル名： HelloWorld.java</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HelloWorld {
+    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {
+        <span class="bu">String</span> s = <span class="st">&quot;Hello,&quot;</span>;
+        <span class="bu">String</span> t = <span class="st">&quot;World!!&quot;</span>;
+        <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(s + t); <span class="co">//Hello,World!!と表⽰される</span>
+    }
+}</code></pre></div>
+<h3>文字リテラルのエスケープシーケンス</h3>
+<p>⽂字リテラルに特殊な⽂字を⼊れたい場合は、エスケープシーケンスを使⽤します。 ※環境によって、「\」は「¥」で表⽰される場合があります。Windows日本語環境下の場合は¥です。</p>
+<table>
+<thead>
+<tr class="header">
+<th>エスケープシーケンス</th>
+<th>⽂字</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>\t</code></td>
+<td>タブ</td>
+</tr>
+<tr class="even">
+<td><code>\n</code></td>
+<td>改⾏</td>
+</tr>
+<tr class="odd">
+<td><code>\r</code></td>
+<td>復帰</td>
+</tr>
+<tr class="even">
+<td><code>\'</code></td>
+<td>'(シングルクォーテーション)</td>
+</tr>
+<tr class="odd">
+<td><code>\&quot;</code></td>
+<td>&quot;(ダブルクォーテーション)</td>
+</tr>
+<tr class="even">
+<td><code>\oxxxx</code></td>
+<td>文字の実体参照形式8進数表記 (xxxxには0〜7の数値が⼊ります。)</td>
+</tr>
+<tr class="odd">
+<td><code>\uxxxx</code></td>
+<td>文字の実体参照形式16進数表記 (xxxxには0〜9,A〜Fの数値が⼊ります。)</td>
+</tr>
+</tbody>
+</table>
+<p>文字の実体参照形式については、Unicodeと呼ばれる文字コードの表を参照して、該当の数値を入れることでキーボードから入力時変換できないような文字(英語以外の外国語など)を出力することができたりします。</p>
+<h2>演算⼦</h2>
+<h3>代入演算子</h3>
+<p>変数へ値を代⼊するには、 <code>=</code> を使⽤します。</p>
+<p>例：変数に代⼊を⾏う場合(aという変数に5を代⼊する)、</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java">a = <span class="dv">5</span>;</code></pre></div>
+<p>左辺に対して、右辺を代⼊します。逆はできません。</p>
+<p>以下は文法上可能だけど、あまり好ましくない例：</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java">a = b = <span class="dv">5</span>;</code></pre></div>
+<p>とすると、a,bどちらにも5が代⼊されますが、コードを見た時に認識しづらいので極⼒使わないようにしましょう。</p>
+<h3>算術演算子</h3>
+<p>算術演算子には、以下のものがあります。</p>
+<table>
+<thead>
+<tr class="header">
+<th>演算子記号</th>
+<th>役割</th>
+<th>算出時の優先順位</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>+</code></td>
+<td>足し算(加法演算子)</td>
+<td>後</td>
+</tr>
+<tr class="even">
+<td><code>-</code></td>
+<td>引き算(加法演算子)</td>
+<td>後</td>
+</tr>
+<tr class="odd">
+<td><code>*</code></td>
+<td>掛け算(乗法演算子)</td>
+<td>先</td>
+</tr>
+<tr class="even">
+<td><code>/</code></td>
+<td>割り算(乗法演算子)</td>
+<td>先</td>
+</tr>
+<tr class="odd">
+<td><code>%</code></td>
+<td>余り(乗法演算子)</td>
+<td>先</td>
+</tr>
+</tbody>
+</table>
+<h4>算術演算子サンプルプログラム</h4>
+<p>ファイル名： ArithmeticSample.java</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">class</span> ArithmeticSample {
+  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {
+    <span class="dt">int</span> num1 = <span class="dv">10</span>;
+    <span class="dt">int</span> num2 = <span class="dv">5</span>;
+
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;num1とnum2にいろいろな演算を行います。&quot;</span>);
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;num1 + num2は&quot;</span> + (num1 + num2) + <span class="st">&quot;です。&quot;</span>);
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;num1 - num2は&quot;</span> + (num1 - num2) + <span class="st">&quot;です。&quot;</span>);
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;num1 * num2は&quot;</span> + (num1 * num2) + <span class="st">&quot;です。&quot;</span>);
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;num1 / num2は&quot;</span> + (num1 / num2) + <span class="st">&quot;です。&quot;</span>);
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;num1 % num2は&quot;</span> + (num1 % num2) + <span class="st">&quot;です。&quot;</span>);
+  }
+}</code></pre></div>
+<p>実行してみて問題がなければ、num1, num2に代入する値を幾つか変えてみてください。</p>
+<h3>算術演算を伴う代入演算子（再帰代入演算子）</h3>
+<p>左辺に対して、右辺との算術演算を行った後に、左辺に代入する処理を省略して書くことができます。</p>
+<table>
+<thead>
+<tr class="header">
+<th>演算子記号</th>
+<th>役割</th>
+<th>同じ処理で違う書き方</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>+=</code></td>
+<td>左辺に右辺を足し算した後に左辺へ代入</td>
+<td><code>x += 5;</code>, <code>x = x + 5;</code></td>
+</tr>
+<tr class="even">
+<td><code>-=</code></td>
+<td>左辺に右辺を引き算した後に左辺へ代入</td>
+<td><code>x -= 5;</code>, <code>x = x - 5;</code></td>
+</tr>
+<tr class="odd">
+<td><code>*=</code></td>
+<td>左辺に右辺を掛け算した後に左辺へ代入</td>
+<td><code>x *= 5;</code>, <code>x = x * 5;</code></td>
+</tr>
+<tr class="even">
+<td><code>/=</code></td>
+<td>左辺に右辺を割り算した後に左辺へ代入</td>
+<td><code>x /= 5;</code>, <code>x = x / 5;</code></td>
+</tr>
+<tr class="odd">
+<td><code>%=</code></td>
+<td>左辺に右辺の値で余りを算出した後に左辺へ代入</td>
+<td><code>x %= 5;</code>, <code>x = x % 5;</code></td>
+</tr>
+</tbody>
+</table>
+<h3>ビット演算子</h3>
+<table>
+<thead>
+<tr class="header">
+<th>演算子</th>
+<th>例</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>&amp;</code></td>
+<td><code>a &amp; b</code></td>
+<td>aとbの(論理積)AND</td>
+</tr>
+<tr class="even">
+<td><code>|</code></td>
+<td><code>a | b</code></td>
+<td>aとbの(論理和)OR</td>
+</tr>
+<tr class="odd">
+<td><code>^</code></td>
+<td><code>a ^ b</code></td>
+<td>aとbの(排他的論理和)EOR</td>
+</tr>
+<tr class="even">
+<td><code>~</code></td>
+<td><code>~a</code></td>
+<td>aの反転した値</td>
+</tr>
+</tbody>
+</table>
+<h3>シフト演算子</h3>
+<table>
+<thead>
+<tr class="header">
+<th>演算子</th>
+<th>例</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>&lt;&lt;</code></td>
+<td><code>a &lt;&lt; b</code></td>
+<td>aをbビット左にシフト。あまった所は0を置く</td>
+</tr>
+<tr class="even">
+<td><code>&gt;&gt;</code></td>
+<td><code>a &gt;&gt; b</code></td>
+<td>aをbビット右にシフト。あまった所は符号ビットを置く</td>
+</tr>
+<tr class="odd">
+<td><code>&gt;&gt;&gt;</code></td>
+<td><code>a &gt;&gt;&gt; b</code></td>
+<td>aをbビット右にシフト。あまった所に0を置く</td>
+</tr>
+</tbody>
+</table>
+<h3>比較演算子</h3>
+<p>※両辺を比較する場合に使用し、演算子の結果はboolean型で戻ってきます。</p>
+<table>
+<thead>
+<tr class="header">
+<th>演算子</th>
+<th>例</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>==</code></td>
+<td><code>a == b</code></td>
+<td>aとbが等しいときtrue</td>
+</tr>
+<tr class="even">
+<td><code>!=</code></td>
+<td><code>a != b</code></td>
+<td>aとbが等しくないときtrue</td>
+</tr>
+<tr class="odd">
+<td><code>&gt;</code></td>
+<td><code>a &gt; b</code></td>
+<td>aがbより大きいときtrue</td>
+</tr>
+<tr class="even">
+<td><code>&lt;</code></td>
+<td><code>a &lt; b</code></td>
+<td>aがbより小さいきとtrue</td>
+</tr>
+<tr class="odd">
+<td><code>&gt;=</code></td>
+<td><code>a &gt;= b</code></td>
+<td>aがb以上のときtrue</td>
+</tr>
+<tr class="even">
+<td><code>&lt;=</code></td>
+<td><code>a &lt;= b</code></td>
+<td>aがb以下のときtrue</td>
+</tr>
+</tbody>
+</table>
+<h3>論理演算子(ショートサーキット演算子)</h3>
+<p>※両辺ともbooleanの場合に使用します。</p>
+<table>
+<thead>
+<tr class="header">
+<th>演算子</th>
+<th>例</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>&amp;&amp;</code></td>
+<td><code>a &amp;&amp; b</code></td>
+<td>aとbの両方がtrueのときtrue</td>
+</tr>
+<tr class="even">
+<td><code>||</code></td>
+<td><code>a || b</code></td>
+<td>aとbのどちらかがtrueのときtrue</td>
+</tr>
+<tr class="odd">
+<td><code>!</code></td>
+<td><code>!a</code></td>
+<td>aがfalseのときtrue。逆になる</td>
+</tr>
+</tbody>
+</table>
+<h3>インクリメント・デクリメント</h3>
+<p>インクリメント・デクリメントの演算子は、それぞれ2種類づつあります。 この演算子を式中で使う場合、この違いがとても大きく、間違えやすい点ですので、注意が必要です。</p>
+<h4>インクリメント</h4>
+<table>
+<thead>
+<tr class="header">
+<th>演算子<br>(位置に注意)</th>
+<th>式中で行われるものと<br>同義のステートメント</th>
+<th>式中での評価、更新順序</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>y++</code></td>
+<td><code>y = y + 1;</code></td>
+<td>y を評価してから式を演算し、 y + 1 に更新</td>
+</tr>
+<tr class="even">
+<td><code>++y</code></td>
+<td><code>y = y + 1;</code></td>
+<td>y + 1 に更新してから式の評価、演算</td>
+</tr>
+</tbody>
+</table>
+<h4>デクリメント</h4>
+<table>
+<thead>
+<tr class="header">
+<th>演算子<br>(位置に注意)</th>
+<th>式中で行われるものと<br>同義のステートメント</th>
+<th>式中での評価、更新順序</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>y--</code></td>
+<td><code>y = y - 1;</code></td>
+<td>y を評価してから式を演算し、 y - 1 に更新</td>
+</tr>
+<tr class="even">
+<td><code>--y</code></td>
+<td><code>y = y - 1;</code></td>
+<td>y - 1 に更新してから式の評価、演算</td>
+</tr>
+</tbody>
+</table>
+<h4>式の評価と演算のタイミングの違いを見るサンプル</h4>
+<p>ファイル名 : IncDecSample.java</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> IncDecSample {
+  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {
+    <span class="dt">int</span> a = <span class="dv">10</span>;
+    <span class="dt">int</span> b = <span class="dv">10</span>;
+
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;初期値&quot;</span>);
+    <span class="co">// a:10 b:10</span>
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;a:&quot;</span> + a + <span class="st">&quot; b:&quot;</span> + b);
+
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;++a, --bによる式を出力&quot;</span>);
+    <span class="co">// a:11 b:9</span>
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;a:&quot;</span> + ++a + <span class="st">&quot; b:&quot;</span> + --b);
+
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;上記処理終了後&quot;</span>);
+    <span class="co">// a:11 b:9</span>
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;a:&quot;</span> + a + <span class="st">&quot; b:&quot;</span> + b);
+
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;--a, ++bによる式を出力&quot;</span>);
+    <span class="co">// a:10 b:10</span>
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;a:&quot;</span> + --a + <span class="st">&quot; b:&quot;</span> + ++b);
+
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;上記処理終了後&quot;</span>);
+    <span class="co">// a:10 b:10</span>
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;a:&quot;</span> + a + <span class="st">&quot; b:&quot;</span> + b);
+
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;a++, b--による式を出力&quot;</span>);
+    <span class="co">// a:10 b:10</span>
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;a:&quot;</span> + a++ + <span class="st">&quot; b:&quot;</span> + b--);
+
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;上記処理終了後&quot;</span>);
+    <span class="co">// a:11 b:9</span>
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;a:&quot;</span> + a + <span class="st">&quot; b:&quot;</span> + b);
+
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;a--, b++による式を出力&quot;</span>);
+    <span class="co">// a:11 b:9</span>
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;a:&quot;</span> + a-- + <span class="st">&quot; b:&quot;</span> + b++);
+
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;上記処理終了後&quot;</span>);
+    <span class="co">// a:10 b:10</span>
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;a:&quot;</span> + a + <span class="st">&quot; b:&quot;</span> + b);
+
+  }
+}</code></pre></div>
+<h3>データ型による演算の制約</h3>
+<p>演算時の注意点として、データ型による丸めの発生があります。</p>
+<ul>
+<li>整数型同士の除算は、小数点以下切り捨て
+<ul>
+<li>10 / 4 = 2</li>
+</ul></li>
+<li>どちらかに浮動小数点型の数値がある場合は、小数点以下も計算されます。
+<ul>
+<li>10.0 / 4 = 2.5</li>
+<li>この場合、計算結果は浮動小数点型となります。</li>
+</ul></li>
+</ul>
+<h3>キャスト演算子</h3>
+<p>整数型の変数に、浮動小数点型の数値を代入しようとするとエラーとなります。</p>
+<p>浮動小数点数を整数に<strong><em>強制的に変換</em></strong>してから代入すればエラーは出ません。ただし、小数点以下の値は切り捨てられてしまうので注意が必要です。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="dt">float</span> s = <span class="fl">1234.</span>567f;
+<span class="dt">int</span> num = (<span class="dt">int</span>)s; <span class="co">// ← numには、1234 が代入される</span></code></pre></div>
+<h3>文字列との連結</h3>
+<p><code>+</code> を使います。</p>
+<p>&quot;Hello, &quot; + &quot;World!!&quot; → &quot;Hello, World!!&quot;</p>
+<p>次のプログラムはどういう結果を出力するでしょう？</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="dt">int</span> a = <span class="dv">3</span>;
+<span class="dt">int</span> b = <span class="dv">5</span>;
+<span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;文字列と数値を結合すると...&quot;</span> + a + b);</code></pre></div>
+<p>出力結果：</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">文字列と数値を結合すると<span class="ex">...35</span></code></pre></div>
+<p>基本的には、式中に文字列がある場合、その式が返す値はすべて文字列になります。(ただし、括弧などにより、数値の演算のみを優先的に行うことは可能です。) 数値は暗黙的に文字列へ変換されてしまいますので、表示結果をコントロールしたい場合は特に注意が必要です。</p>
+</body>
+</html>

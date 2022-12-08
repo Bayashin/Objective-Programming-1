@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="generator" content="pandoc">
+  <title>第11回課題</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+<style type="text/css">
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+code {
+  white-space: pre-wrap;
+}
+
+span.smallcaps {
+  font-variant: small-caps;
+}
+
+span.underline {
+  text-decoration: underline;
+}
+
+div.column {
+  display: inline-block;
+  vertical-align: top;
+  width: 50%;
+}
+
+body {
+  font-size: 14pt;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN,
+    Arial, "メイリオ", Meiryo, sans-serif;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 2em;
+  background-color: #f8f8f8;
+  color: #232323;
+}
+
+hr {
+  height: 4px;
+  padding: 0;
+  margin: 6rem 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+  background:
+    url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC");
+}
+
+p,
+table {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  line-height: 2rem;
+  letter-spacing: 0.03rem;
+}
+
+strong {
+  text-decoration: none;
+  color: hsla(0, 75%, 55%, 1);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+  color: #232323;
+  letter-spacing: 0.05rem;
+  margin-top: 2rem;
+}
+
+h1 {
+  font-size: 2rem;
+  margin: 2rem auto 1rem;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+  margin: 2rem 0 1rem;
+}
+
+h5 {
+  font-size: 1.2rem;
+  margin: 2rem 0 1rem;
+}
+
+h6 {
+  font-size: 1.1rem;
+  margin: 2rem 0 1rem;
+}
+
+ul,
+ol {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  line-height: 1.6;
+  letter-spacing: 0.025rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding-left: 2rem;
+}
+
+ul li,
+ol li {
+  padding-left: .5rem;
+}
+
+ul ul,
+ol ul,
+ul ol,
+ol ol {
+  padding-left: 1.5rem;
+}
+
+table {
+  border-collapse: collapse;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  max-width: 100%;
+  width: 100% !important;
+  font-size: 1rem;
+  overflow: auto;
+}
+
+table th {
+  text-align: center;
+  font-weight: nomal;
+  background-color: #f0f0f0;
+  color: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+table tr {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+table td {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+a {
+  color: #5484c8;
+}
+
+.margin-clear {
+  margin-left: 0;
+}
+
+blockquote {
+  border-left: 4px #ddd solid;
+  padding: 0;
+  margin: 2rem;
+}
+
+blockquote * {
+  color: #999;
+}
+
+blockquote p {
+  padding: 0 1rem;
+  text-indent: 0;
+}
+
+img,
+iframe,
+figure {
+  max-width: 100%;
+}
+
+p img {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+pre,
+code,
+var,
+samp,
+kbd,
+.mono {
+  font-family: "Ricty Diminished", "Consolas", 'Courier New', Courier, Monaco, monospace;
+  line-height: 1.2;
+}
+
+table code,
+p code,
+ul code,
+ol code {
+  display: inline-block;
+  border: 1px solid #eaeaea;
+  background-color: rgb(119, 119, 119);
+  color: #f8f8f8;
+  white-space: nowrap;
+  border-radius: 2px;
+  display: inline-block;
+  padding-top: 6px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 0px;
+  margin: 0 4px;
+}
+
+pre code {
+  border: 1px solid #eaeaea;
+  background-color: #f5f5f5;
+  border-radius: 2px;
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  font-size: 1rem;
+}
+
+.highlight pre {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+div.sourceCode {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+div.sourceCode pre,
+div.sourceCode code {
+  background-color: transparent;
+  margin: 0;
+}
+
+pre code,
+pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+table.sourceCode,
+tr.sourceCode,
+td.lineNumbers,
+td.sourceCode {
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
+  border: none;
+}
+
+table.sourceCode pre {
+  padding: 2px;
+  margin: 0;
+  border: none;
+  color: inherit;
+}
+table.sourceCode code {
+  color: inherit;
+}
+
+table.sourceCode {
+  width: 100%;
+  line-height: 100%;
+}
+
+td.lineNumbers {
+  text-align: right;
+  color: #aaaaaa;
+  border-right: 1px solid #aaaaaa;
+}
+</style>
+</head>
+<body>
+  <header>
+  <h1 class="title">第11回課題</h1>
+        </header>
+<blockquote>
+<p>オブジェクト指向プログラミングおよび演習1 第11回</p>
+</blockquote>
+<p><em><strong>※パッケージ構文で指定されているk00000は各自自分の学籍番号に置き換えてください。</strong></em></p>
+<h1 id="提出に関して">提出に関して</h1>
+<p>今回は、1,2それぞれの課題について別のプロジェクトを作成してもらいます。</p>
+<p>提出内容は、動作確認で行ったファイルもチェックしたいので、それぞれの「<em><strong>プロジェクトフォルダごと</strong></em>」圧縮したzipファイルを提出します。
+そのため、プロジェクト名は必ず指定のプロジェクト名で作成してください。※提出前に変えないように気をつけてください。</p>
+<h1 id="1-csvファイルを読み込んで画面に表示するプログラムの作成">1.
+CSVファイルを読み込んで画面に表示するプログラムの作成</h1>
+<p>画面より、開きたいファイルパスを入力させ、指定されたパスの任意のカンマ区切りのCSVファイルとして読み込み、画面上に行番号、列番号を併せてタブ区切りとして表示するプログラムを作成してください。</p>
+<p>CSVファイルの形式として、1行1レコードとし、文字コードはUTF-8、文字列データはダブルクォーテーションで囲わないものとして、各自で用意してください。</p>
+<p>タブ文字は文字列中に、<code>\t</code>を入力することで使用できます。</p>
+<p>たとえば、以下のようなファイルを読み込ませた場合、</p>
+<pre><code>伊藤 正明,いとう まさあき,男
+川上 麻衣,かわかみ まい,女
+山口 聡,やまぐち さとし,男
+村田 真知子,むらた まちこ,女
+松本 若菜,まつもと わかな
+坂下 瑞穂,さかした みずほ
+大和田 晴子,おおわだ はるこ</code></pre>
+<p>実行結果は以下のようになります。</p>
+<pre><code>1:  1:伊藤 正明 2:いとう まさあき   3:男
+2:  1:川上 麻衣 2:かわかみ まい 3:女
+3:  1:山口 聡   2:やまぐち さとし   3:男
+4:  1:村田 真知子   2:むらた まちこ 3:女
+5:  1:松本 若菜 2:まつもと わかな
+6:  1:坂下 瑞穂 2:さかした みずほ
+7:  1:大和田 晴子   2:おおわだ はるこ</code></pre>
+<h2 id="制約事項">制約事項</h2>
+<ol type="1">
+<li>プロジェクト名とメインクラス名は、<code>CSVFileViewer</code>としてください。</li>
+<li>パッケージは、<code>jp.ac.ait.k00000</code>としてください。</li>
+</ol>
+<h1 id="2-オープンデータを活用してみる">2.
+オープンデータを活用してみる</h1>
+<p>繰り返し、CSVファイルについて課題を出します。</p>
+<p>以下のURLを見てください。</p>
+<ul>
+<li><a href="https://www.data.go.jp/">DATA GO JP</a></li>
+</ul>
+<p>各都道府県の自治体が提供しているデータを、オープンデータなどといいます。<br />
+アプリの開発者や、サービスの開発者は、このデータを利用することで云々できます。</p>
+<p>課題として出すのは、オープンデータの中から愛知県の農業振興課が出している「あいちの都市・農村交流ガイドルートマップ」のデータを用います（下記URL参照）</p>
+<ul>
+<li><a href="http://www.pref.aichi.jp/soshiki/joho/0000069385.html">愛知県オープンデータカタログ（まなぶ、あそぶ）
+- 愛知県</a></li>
+</ul>
+<p>ここより、対象とするファイルは、以下の4ファイルです。</p>
+<ol type="1">
+<li>ルートスポット - c200326.csv</li>
+<li>寄ってこみゃ - c200328.csv</li>
+<li>地域資源スポット（風景・自然）- c200329.csv</li>
+<li>地域資源スポット（施設）- c200330.csv</li>
+</ol>
+<p>これらのファイルから、以下の情報を取り出して統合します。(上記データの元データには、CSVのセル内改行という厄介なデータが含まれていましたので、moodleにアップロードされたセル内改行を取り除いたファイルを使用してください。)</p>
+<ol type="1">
+<li>データの緯度経度情報
+<ul>
+<li>「<code>POINT(136.80953740291 35.3576773867654)</code>」のように1つのデータとしてまとめられてしまっているため、これより緯度経度情報をそれぞれ取り出します</li>
+</ul></li>
+<li>データ名
+<ul>
+<li>施設名や地名が含まれるデータです。そのまま使いましょう</li>
+</ul></li>
+</ol>
+<p>処理内容は、以下の条件に従います。</p>
+<ol type="1">
+<li>出力するファイル名は、「<code>TouristSpot.csv</code>」</li>
+<li>出力データ形式は以下に従う
+<ul>
+<li>「<code>緯度情報,経度情報,愛工大からの距離,データ名</code>」</li>
+<li>愛工大からの距離については、後述する計算手法に則ってください。</li>
+<li><code>緯度情報</code>,<code>経度情報</code>,<code>愛工大からの距離</code>に関しては小数点以下10桁程度は出力されることが望ましいです。</li>
+<li>文字列データはダブルクォーテーションで囲わないでください。</li>
+<li>1行に1件分のデータを持たせ、各データには改行コードを含むことがないようにしてください。</li>
+</ul></li>
+<li>1行目には、<code>緯度情報,経度情報,愛工大からの距離,データ名</code>を出力し、列名とする</li>
+<li>出力データは愛工大からの距離昇順で並び替えを行う</li>
+<li><em><strong>チャレンジ課題</strong></em>:
+データ名が同一（完全一致）の施設がある場合、そのデータの中で愛工大からの距離が近いものだけを残し一意とする
+<ul>
+<li>同一データ名の施設の中で、注意してほしいデータは愛工大からの距離が違うものです。そのデータは以下の通りです。（目視でのチェックのため、ここに挙げたもの以外にもあるかもしれません）
+<ul>
+<li>兒（ちご）の森</li>
+<li>おかざき農遊館</li>
+<li>MIZKAN MUSEUM</li>
+<li>半田運河</li>
+<li>産直広場一色下方店</li>
+<li>加藤牧場</li>
+<li>食と健康の館</li>
+</ul></li>
+<li>「あいち海上の森センター」と「あいち海上（かいしょ）の森センター」は施設としては同じですが、データ名としては異なるものです。これらは削除しないでください。<br />
+全角・半角の文字違い、読み方の表記揺れなどはデータ名が異なるものとして扱って頂ければOKです。</li>
+</ul></li>
+<li>出力されるCSVファイルは、文字コードUTF-8（システム標準）とする</li>
+<li>同一のファイル名のファイルがすでに存在する場合は、消去して生成し直すこと</li>
+</ol>
+<h5 id="愛工大からの距離計算方法">「愛工大からの距離」計算方法</h5>
+<p>愛工大の緯度経度情報を［35.1834122,
+137.1130419］として、各地点の緯度経度情報より単純な2点間の距離を計算してください。</p>
+<p>座標1の緯度をa, 座標1の経度をb, 座標2の緯度をc,
+座標2の経度をdとして、2点間の距離Dを求める場合</p>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAbYAAABeCAYAAABPaTErAAAMSWlDQ1BJQ0MgUHJvZmlsZQAASImVVwdYk9caPv/IJGEFwpAR9hJlyJYRwoogIFNwEZJAwoghIYi4LaUK1i0i4EKrIoqtVkDqRK2LIrit46IUlUotDlyo3JMBtfa59z73e57z/2++833vN3L+/z8HAJ1anlSah+oCkC8plCVEhrKmpqWzSD0AA3RgBMyBPY8vl7Lj42MAlJH73+X1DYAo71ddlVz/nP+voicQyvkAIPEQZwrk/HyIfwQAL+VLZYUAEH2h3mZOoVSJp0NsIIMJQixV4mw1LlXiTDWuUtkkJXAg3gcAmcbjybIB0G6BelYRPxvyaN+C2E0iEEsA0CFDHMQX8QQQR0E8Nj9/thJDO+CY+RlP9t84M0c5ebzsUayuRSXkMLFcmseb+3+2439Lfp5iJIY9HDSRLCpBWTPs263c2dFKTIO4X5IZGwexPsRvxQKVPcQoVaSISlbbo2Z8OQf2DDAhdhPwwqIhNoM4QpIXG6PRZ2aJI7gQwxWCFosLuUka32VCeXiihrNWNjshbgRnyThsjW8jT6aKq7Q/o8hNZmv4b4mE3BH+VyWipFR1zhi1SJwSC7E2xEx5bmK02gazLRFxYkdsZIoEZf62EPsLJZGhan5sZpYsIkFjL8uXj9SLLROJubEaXF0oSorS8Ozj81T5G0PcIpSwk0d4hPKpMSO1CIRh4erasU6hJFlTL9YtLQxN0Pi+kObFa+xxqjAvUqm3hthMXpSo8cWDCuGCVPPjsdLC+CR1nnhmDm9SvDofvBjEAA4IAyyggCMTzAY5QNzR39wPf6lnIgAPyEA2EAJXjWbEI1U1I4HXRFAC/oBICOSjfqGqWSEogvqPo1r11RVkqWaLVB654BHE+SAa5MHfCpWXZDRaCvgNasT/iM6HuebBoZz7p44NNTEajWKEl6UzYkkMJ4YRo4gRRCfcFA/CA/AYeA2BwwP3xf1Gsv3LnvCI0EV4SLhO6CbcniVeKvuiHhaYDLphhAhNzZmf14zbQ1YvPBQPhPyQG2fipsAVnwAjsfFgGNsLajmazJXVf8n9txo+67rGjuJGQSlGlBCK45ee2s7aXqMsyp5+3iF1rpmjfeWMznwZn/NZpwXwHv2lJbYMO4Sdw05hF7CjWDNgYSewFqwdO6bEo6voN9UqGomWoMonF/KI/xGPp4mp7KTcrcGtz+2Deq5QWKx8PwLObOlcmThbVMhiwze/kMWV8MeNZXm4ufsBoPyOqF9TL5mq7wPCvPiXruAkAH7lUJn9l45nA8CRRwAwXv+ls3kBH4/VABzr5CtkRWodrrwQABXowCfKBFgAG+AI6/EA3iAAhIBwMAnEgSSQBmbCLovgepaBOWA+WALKQAVYDTaAarAV7AB7wH5wEDSDo+AU+BlcAp3gOrgDV08veAoGwGswhCAICaEjDMQEsUTsEBfEA/FFgpBwJAZJQNKQDCQbkSAKZD7yFVKBrEWqke1IPfIDcgQ5hVxAupDbyAOkD3mBvEcxlIYaoOaoPToe9UXZaDSahM5As9ECtAQtRVeiVWgdug9tQk+hl9DraDf6FB3EAKaFMTErzBXzxThYHJaOZWEybCFWjlVidVgj1gr/56tYN9aPvcOJOANn4a5wBUfhyTgfL8AX4ivwanwP3oSfwa/iD/AB/BOBTjAjuBD8CVzCVEI2YQ6hjFBJ2EU4TDgLn6ZewmsikcgkOhB94NOYRswhziOuIG4mHiCeJHYRe4iDJBLJhORCCiTFkXikQlIZaRNpH+kE6Qqpl/SWrEW2JHuQI8jpZAl5KbmSvJd8nHyF/Jg8RNGl2FH8KXEUAWUuZRVlJ6WVcpnSSxmi6lEdqIHUJGoOdQm1itpIPUu9S32ppaVlreWnNUVLrLVYq0rre63zWg+03tH0ac40Dm06TUFbSdtNO0m7TXtJp9Pt6SH0dHohfSW9nn6afp/+VpuhPU6bqy3QXqRdo92kfUX7mQ5Fx06HrTNTp0SnUueQzmWdfl2Krr0uR5enu1C3RveI7k3dQT2GnrtenF6+3gq9vXoX9J7ok/Tt9cP1Bfql+jv0T+v3MDCGDYPD4DO+YuxknGX0GhANHAy4BjkGFQb7DToMBgz1DScYphgWG9YYHjPsZmJMeyaXmcdcxTzIvMF8b2RuxDYSGi03ajS6YvTGeIxxiLHQuNz4gPF14/cmLJNwk1yTNSbNJvdMcVNn0ymmc0y3mJ417R9jMCZgDH9M+ZiDY341Q82czRLM5pntMGs3GzS3MI80l5pvMj9t3m/BtAixyLFYb3Hcos+SYRlkKbZcb3nC8neWIYvNymNVsc6wBqzMrKKsFFbbrTqshqwdrJOtl1ofsL5nQ7XxtcmyWW/TZjNga2k72Xa+bYPtr3YUO187kd1Gu3N2b+wd7FPtv7Fvtn/iYOzAdShxaHC460h3DHYscKxzvOZEdPJ1ynXa7NTpjDp7OYuca5wvu6Au3i5il80uXWMJY/3GSsbWjb3pSnNluxa5Nrg+GMccFzNu6bjmcc/G245PH79m/Lnxn9y83PLcdrrdcdd3n+S+1L3V/YWHswffo8bjmifdM8JzkWeL5/MJLhOEE7ZMuOXF8Jrs9Y1Xm9dHbx9vmXejd5+PrU+GT63PTV8D33jfFb7n/Qh+oX6L/I76vfP39i/0P+j/Z4BrQG7A3oAnEx0mCifunNgTaB3IC9we2B3ECsoI2hbUHWwVzAuuC34YYhMiCNkV8pjtxM5h72M/C3ULlYUeDn3D8ecs4JwMw8Iiw8rDOsL1w5PDq8PvR1hHZEc0RAxEekXOizwZRYiKjloTdZNrzuVz67kDk3wmLZh0JpoWnRhdHf0wxjlGFtM6GZ08afK6yXdj7WIlsc1xII4bty7uXrxDfEH8T1OIU+Kn1Ex5lOCeMD/hXCIjcVbi3sTXSaFJq5LuJDsmK5LbUnRSpqfUp7xJDUtdm9o9dfzUBVMvpZmmidNa0knpKem70genhU/bMK13utf0suk3ZjjMKJ5xYabpzLyZx2bpzOLNOpRByEjN2JvxgRfHq+MNZnIzazMH+Bz+Rv5TQYhgvaBPGChcK3ycFZi1NutJdmD2uuw+UbCoUtQv5oirxc9zonK25rzJjcvdnTucl5p3IJ+cn5F/RKIvyZWcmW0xu3h2l9RFWibtLvAv2FAwIIuW7ZIj8hnylkIDuGFvVzgqvlY8KAoqqil6OydlzqFivWJJcftc57nL5z4uiSj5bh4+jz+vbb7V/CXzHyxgL9i+EFmYubBtkc2i0kW9iyMX71lCXZK75JelbkvXLn31VepXraXmpYtLe76O/LqhTLtMVnbzm4Bvti7Dl4mXdSz3XL5p+adyQfnFCreKyooPK/grLn7r/m3Vt8Mrs1Z2rPJetWU1cbVk9Y01wWv2rNVbW7K2Z93kdU3rWevL17/aMGvDhcoJlVs3UjcqNnZXxVS1bLLdtHrTh2pR9fWa0JoDtWa1y2vfbBZsvrIlZEvjVvOtFVvfbxNvu7U9cntTnX1d5Q7ijqIdj3am7Dz3ne939btMd1Xs+rhbsrt7T8KeM/U+9fV7zfauakAbFA19+6bv69wftr+l0bVx+wHmgYrvwfeK73//IeOHGwejD7Yd8j3U+KPdj7WHGYfLm5CmuU0DzaLm7pa0lq4jk460tQa0Hv5p3E+7j1odrTlmeGzVcerx0uPDJ0pODJ6Unuw/lX2qp21W253TU09fOzPlTMfZ6LPnf474+fQ59rkT5wPPH73gf+HIRd+LzZe8LzW1e7Uf/sXrl8Md3h1Nl30ut3T6dbZ2Tew6fiX4yqmrYVd/vsa9dul67PWuG8k3bt2cfrP7luDWk9t5t5//WvTr0J3Fdwl3y+/p3qu8b3a/7l9O/zrQ7d197EHYg/aHiQ/v9PB7nv4m/+1Db+kj+qPKx5aP6594PDnaF9HX+fu033ufSp8O9Zf9ofdH7TPHZz/+GfJn+8DUgd7nsufDL1a8NHm5+9WEV22D8YP3X+e/HnpT/tbk7Z53vu/OvU99/3hozgfSh6qPTh9bP0V/ujucPzws5cl4qq0ABgealQXAi90A0NPg3qETAOo09TlPJYj6bKpC4D9h9VlQJd4A7A4BIHkxADFwj7IFDjuIafCu3KonhQDU03N0aESe5emh5qLBEw/h7fDwS3MASK0AfJQNDw9tHh7+uBMmexuAkwXq86VSiPBssM1JiTraqeBL+TcdSn508wJ6BQAAAAlwSFlzAAAWJQAAFiUBSVIk8AAAAZxpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IlhNUCBDb3JlIDUuNC4wIj4KICAgPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICAgICAgPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIKICAgICAgICAgICAgeG1sbnM6ZXhpZj0iaHR0cDovL25zLmFkb2JlLmNvbS9leGlmLzEuMC8iPgogICAgICAgICA8ZXhpZjpQaXhlbFhEaW1lbnNpb24+NDM4PC9leGlmOlBpeGVsWERpbWVuc2lvbj4KICAgICAgICAgPGV4aWY6UGl4ZWxZRGltZW5zaW9uPjk0PC9leGlmOlBpeGVsWURpbWVuc2lvbj4KICAgICAgPC9yZGY6RGVzY3JpcHRpb24+CiAgIDwvcmRmOlJERj4KPC94OnhtcG1ldGE+Ckyf/wcAAAAcaURPVAAAAAIAAAAAAAAALwAAACgAAAAvAAAALwAACZoM7YKOAAAJZklEQVR4AeydechMXxjHn9e+K2Tfiuz+QdlCKNnKH/QKkSWhkCiUIrKUP0j2P2RXZInIvpd9KVuyhLLv+875Pc/pd48Z89537r1zZ8x77vfU+87MPcs9z+c8c7/3bHdyFAdCAAEQAAEQAAFLCORA2CxpSZgBAiAAAiCgCUDY4AggAAIgAAJWEYCwWdWcMAYEQAAEQADCBh8AARAAARCwigCEzarmhDEgAAIgAAIQNvgACIAACICAVQQgbFY1J4wBARAAARCAsMEHQAAEQAAErCIAYbOqOWEMCIAACIAAhA0+AAIgAAIgYBUBCJtVzQljQAAEQAAEIGzwARAAARAAAasIQNisak4YAwIgAAIgAGGDD4AACIAACFhFAMJmVXPCGBAAARAAAQgbfAAEQAAEQMAqAhA2q5oTxoAACIAACEDY4AMgAAIgAAJWEYCwWdWcMAYEQAAEQADCBh8AARAAARCwigCEzarmhDEgAAIgAAIQNvgACIAACICAVQQgbFY1J4wBARAAARCAsMEHQAAEQAAErCIAYbOqOWEMCIAACIAAhA0+AAIgAAIgYBUBCJtVzQljQAAEQAAEIGwR8YHfv3/Ts2fPEqytUqUKFSpUKOE4DoAACIBAQSUAYSuoLeez3idPnqSOHTsm5Dpy5Ah17tw54TgOgAAIgEBBJQBhK6gt57PeM2bMoFmzZvnMheQgAAIgED4BpVT4hcaUCGGLgWHz23bt2tHp06epevXq1KFDB2Pq5s2bzXu8AQEQAIFMEICwZYKy5ed49+4dVapUiX7+/EnTpk2j2bNnW24xzAMBEIgyAfTYItD6u3btoj59+mhLjx07Rp06dYqA1TARBEAgqgQgbBFo+fHjx9PixYupTJky9Pr1aypatGgErIaJIAACUSUAYYtAyzdu3Jhu3rxJPXv2pD179kTAYpgIAiAQZQIQNstb/+HDh1SrVi1t5cKFC2nChAmWWwzzQAAEok4Awma5B6xdu5aGDh2qrbx27Ro1bdrUcoujad6DBw9o9+7ddPv2bbp//z59+vSJ6tSpQ23atKEhQ4ZQsWLFogkGVqeVwI8fP+jw4cN05swZ7XePHz+mUqVKUZMmTWjAgAHUvHnztJ7frXAImxsZS44PHjyYNmzYQDVq1CDpvQUNsjxXLpyLFi2iVatW6Ytm0LKQ7w+B69ev06RJk2jixInUrVu3PxEe3+3bt4+mT59O58+fNzkqVqxIb9++pV+/fuljInCHDh2i+vXrmzTZ/CYMX/v27Zv20y9fvpDzJ8fq1q1LY8eOzWbzk9bt3LlzWkgcu+RVVjzLDaxXIUnV7+RJRsOGDSNZmCa+JkHm7mUe/82bN/qzPNFoypQpNHfuXP05o//YidIeDh48qJYtW5bn34oVKxT3KtTWrVvV2bNnFS9NT3t9onSCqlWryk5IxXftgczmOzK1fv161axZM12OlMXiFqgsZEokwJvmDdcWLVqoLVu2KBakxIQuR3j7hsnfvXt3dfHiRZ3y5cuXioXSxPHTZVxKyJ7DYfrapUuXjO3is85f7969s8fggDXhnpCxx7FLXo8fP+65xFT9TtrKOTcLmlq9erVigdPn37Ztm+IRAhPvp16eDUiSkJLEhxLdpUsXY6QDw+2VVV7169fPfEFDqUBEC7l69arhLuLkN0h+vsM1ZZQuXVrxE0zUx48f/RaF9C4E5EaO72pViRIlDOcGDRqoO3fuuOSIP+wIW+XKldWLFy/iInlYSOXk5Ohy5eLz/fv3uPhs+pAOX+PhWDV58mTDVa453HvIJrMD1YV7Z+ry5cuqfPnyxraSJUsq7pF6Li9Vv4sVtpkzZyacd9SoUaZucs3IdMiIsAmEefPmGUPFwXi4RPEydDVy5EjF+6oUP4w3Ll7SyB0oenDBXYIXi2imcnF78uSJr4J4zkbx8KXOLzcbPOygHj165KsMJPZOgOfF1MCBA40Q1atXTz19+jRpAbzaVW3fvl2JMOQVqlWrZr5XXsrLq4x0H0unr/H8j7FfrilHjx5NtzkZK79Hjx7GNuk8BAlB/U7OtXPnTrVjxw4l1/e/w8qVK03dRo8e/Xd02j9nRNjEitjegzhY//79E4zj+QJVu3ZtA0TS9e3bNyEdDngj0KtXL82Sx929Zfg/lQxjNWrUyLQDP6nEV34kDk5g6tSphrsMTb5//z5wYV+/flXFixfX5fGEfp4XIK+Fy/BokSJFdFm8ytZrtqTp0u1ra9asMTyl/tKLsyU0bNjQ2CZDi6mEMP1O6iG9NLl+y9+cOXNSqVqgvBkTNhEtx1B5ld5EXkG+yPwsw7i0CxYsyCspjuVDQIadeCJXc+SFCfmkjI+SLz6vpDP85a6QJ4rjE+FT2gjIMJOMYDjfla5du/oaYoqt2NKlS005w4cPj43y/V6EzamTzNuGETLha+PGjTP1btmyZRjVzooy5DopIylOm/Cvd6RUrzD9Tm6oatasqesmQ+B3795NqW5BMmdM2JYsWWIaQRqDH8jrWl8ZP45tNLnT4pU2rukRkUjgxIkThvfevXsTE7gciZ1Ult7zq1evXFLicLoIyLCxs+hHvitBFuvcunVLlStXTvuAtOPf829+654OYcuEr7Vq1cp8D3g1pF+zsza9LMhzRM3v/JqbUWH4nZQ9ZswYU7f58+e7nS6txzMmbCNGjDDGyooZUfX8wqBBg0x6aUC5UCN4J8BLwDU/GYryOvwiY+XOvJowl/FzhH9DYN26dcb/ZcjJT5CbEd5HpPPLAgO3+Tc/ZYYtbJnwtc+fP5vhU/HnTZs2+TE5q9PKgg1H2KRXH1ZIxe+kDsuXLzf1kmv+vwoZ28cmG4Nv3LjBbUHUunVrvQ9Df3D5x5OPxJOOJpa3CxDfCZjPeJM/gfbt29OpU6f0j4jKj4l6CbwIgXhOUyflCyI9f/488MZevnEhXuarN23KL3dXqFBB732TfUSyr4p7E16qVKDS8EpGunLlin58GS/YIe4pEfcYiIVJ7zPiLz2VLVuWZG9h4cKF87Xtw4cPxCsdSThKkH1ofAHLN49E8hCVTnfhwgW9p+jAgQPUtm3bpPmSJZB9S06duTdJfHefLEu+8WH6Wix3OSkPg5H8TJNsFuZhXVOPe/fukfifDYEX1tH+/fu1KfJrHfKrHRJkryovkCHZsM+ra7X9vDBPx3n5F9TvpOyNGzfqhwGIr+Tm5hLfSBif8XLuMNP8BwAA//+9TdrxAAARH0lEQVTtXQfMFEUUHuyoqGAX7IBi7xFRsWAwVDt2MMSGqGgkAgpWFDtGLCBKscUaGyhYCAqiomCsgGIFjCKgoKi08X1r3mRu/9272b25u73730suW+ZN++btvClv3ildBvr99991gwYNtFIq+F1++eUFc504caLhR7yLL764YBxh+B8B4L3OOusE+N1yyy3OsBxzzDEG83POOcc5ns3422+/6QsvvFA3atTIpMXtbl9//PFHO1pV33/11Ve6S5cukfWF3B933HG6VatWQfhGG22kV61a5VTfE044waR54oknFozz119/6cMPPzyIs/HGG+t33323YBxXhtWrV5uybLPNNq7RYvl8yFoh3LfccktT5m233Ta2LNUWgLbYdNNNTd2mTJmi//33X33FFVfo9ddf37zH99akSRM9efLkRFVMKndI/IUXXjB9zsknn6xXrlyZKE/fzA2QIAFQUiIlpdq3b2/yeOqpp9Tpp59unqNuZs2apagzMEHUOSikk4Zef/11RY2fJmreOB06dFCHHXZYXp5KBL788suqa9euQdbTp09XBx10UMFihPF+5ZVXVKdOnQrGsxneeuutoF1JuQWv9957b3XaaaepzTbbTN13331qzpw5wfsttthCLVy40I5atffPPvusOvPMMxUpK1PnU045Re20007qnXfeUY888khO3Y4++mj19ttv57yLe3jyySfVWWedFQSvvfba6vvvv1fNmjWLZF+xYoUi5aomTJigNtxwQ/Xaa6+pI488MpI3zcs1a9YolAFEik39/PPPaZIJ4viQtTDu++67rwLu1LEryH/4ez/ppJPU888/n7rMWYr4+eefK3xbILT1d999F3xnpMAii0kKXv3www+qYcOGkeHhl0nkDnHRL3fu3FlBBmkApp555hlFA+twsuV99q0po9K74YYbckYR1BBRbDnv3nvvvZw41EHmhCd5wGyPUPX+u/nmm5MUo2y8l156aVDXzTffXGN050LDhg0z+GC0jxFgEqLOWtOHY9LA6NFOA+HcBh07dkySdGZ5X3zxRb3uuuuaemElwq4zCn7AAQeYcNR/4MCBzvVZunSpGQUj7mOPPRYb97zzzgvy2WCDDTQNMGL50gb4nLEVK2th3K+88kpNnWpO1Xbeeecc3O+8886c8Gp+GD58uKlb27Zt9VFHHRU80yBb04BGz58/X5966qmGB7Lz8MMPO1c5idyRkjWrM/iuw+3gnKlnRuU5vcjkjj/+eAPy1ltvHckTfomPmDtCXPv27RtmcX6ub4qNl70g3K509dVXG7z32GMP12gB399//61pJmHiR+WLJUpuzxtvvDFR+llkRueBZUWuE61ARBbzmmuuMTzgpdWDSL64lzauccvKDz30UJDHWmutFSwJhdOi2bdu3LixhkJISz4VWzGy5oo7lsO5bXDFQLlWqHv37jl1Q/2wtIulaCaaUWvIA2Nw0UUXcZDT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" /></p>
+<p>に従い計算を行います。</p>
+<p>※本来は、地球を球体として見る場合に緯度情報が異なると経度間の距離も異なってしまいます。
+今回の課題では、単純に角度情報の数値的な距離を求めていただければOKです。</p>
+<p>参考:</p>
+<ul>
+<li><a href="https://keisan.casio.jp/exec/system/1257670779">２地点間の距離と方位角
+- 高精度計算サイト</a></li>
+<li><a href="https://s-giken.info/distance/distance.php">緯度経度より
+2点間の距離を計算　｜　有限会社　エス技研</a></li>
+</ul>
+<h2 id="オープンデータを扱う上での注意点">オープンデータを扱う上での注意点</h2>
+<p>残念ながら文字コードは、UTF-8ではありません。<br />
+行政データの基本は、Shift-JIS(ms932)という日本では古くからある文字コードです。</p>
+<p>JavaでShift-JIS(ms932)の文字コードを扱う場合、読みこませる時にちょいちょいっと工夫する必要があります。</p>
+<p>また、上でも書きましたが、CSVのセル内改行という厄介なデータが含まれている場合などもあります。<br />
+データ処理のプログラムを作成する前に、データをしっかりと見てあげる必要があります。ご注意ください。</p>
+<h2 id="実行後のサンプルファイル">実行後のサンプルファイル</h2>
+<p>moodleにアップロードしておきます。
+（チャレンジ課題対応版と非対応版があります。）</p>
+<h2 id="制約事項-1">制約事項</h2>
+<ol type="1">
+<li>プロジェクト名とメインクラス名は、<code>AichiTouristSpot</code>としてください。</li>
+<li>パッケージは、<code>jp.ac.ait.k00000</code>としてください。<code>k00000</code>は各自の学籍番号としましょう。</li>
+</ol>
+</body>
+</html>

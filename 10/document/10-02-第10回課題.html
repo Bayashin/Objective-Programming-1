@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="generator" content="pandoc">
+  <title>第10回課題</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+<style type="text/css">
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+code {
+  white-space: pre-wrap;
+}
+
+span.smallcaps {
+  font-variant: small-caps;
+}
+
+span.underline {
+  text-decoration: underline;
+}
+
+div.column {
+  display: inline-block;
+  vertical-align: top;
+  width: 50%;
+}
+
+body {
+  font-size: 14pt;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN,
+    Arial, "メイリオ", Meiryo, sans-serif;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 2em;
+  background-color: #f8f8f8;
+  color: #232323;
+}
+
+hr {
+  height: 4px;
+  padding: 0;
+  margin: 6rem 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+  background:
+    url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC");
+}
+
+p,
+table {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  line-height: 2rem;
+  letter-spacing: 0.03rem;
+}
+
+strong {
+  text-decoration: none;
+  color: hsla(0, 75%, 55%, 1);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+  color: #232323;
+  letter-spacing: 0.05rem;
+  margin-top: 2rem;
+}
+
+h1 {
+  font-size: 2rem;
+  margin: 2rem auto 1rem;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+  margin: 2rem 0 1rem;
+}
+
+h5 {
+  font-size: 1.2rem;
+  margin: 2rem 0 1rem;
+}
+
+h6 {
+  font-size: 1.1rem;
+  margin: 2rem 0 1rem;
+}
+
+ul,
+ol {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  line-height: 1.6;
+  letter-spacing: 0.025rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding-left: 2rem;
+}
+
+ul li,
+ol li {
+  padding-left: .5rem;
+}
+
+ul ul,
+ol ul,
+ul ol,
+ol ol {
+  padding-left: 1.5rem;
+}
+
+table {
+  border-collapse: collapse;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  max-width: 100%;
+  width: 100% !important;
+  font-size: 1rem;
+  overflow: auto;
+}
+
+table th {
+  text-align: center;
+  font-weight: nomal;
+  background-color: #f0f0f0;
+  color: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+table tr {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+table td {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+a {
+  color: #5484c8;
+}
+
+.margin-clear {
+  margin-left: 0;
+}
+
+blockquote {
+  border-left: 4px #ddd solid;
+  padding: 0;
+  margin: 2rem;
+}
+
+blockquote * {
+  color: #999;
+}
+
+blockquote p {
+  padding: 0 1rem;
+  text-indent: 0;
+}
+
+img,
+iframe,
+figure {
+  max-width: 100%;
+}
+
+p img {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+pre,
+code,
+var,
+samp,
+kbd,
+.mono {
+  font-family: "Ricty Diminished", "Consolas", 'Courier New', Courier, Monaco, monospace;
+  line-height: 1.2;
+}
+
+table code,
+p code,
+ul code,
+ol code {
+  display: inline-block;
+  border: 1px solid #eaeaea;
+  background-color: rgb(119, 119, 119);
+  color: #f8f8f8;
+  white-space: nowrap;
+  border-radius: 2px;
+  display: inline-block;
+  padding-top: 6px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 0px;
+  margin: 0 4px;
+}
+
+pre code {
+  border: 1px solid #eaeaea;
+  background-color: #f5f5f5;
+  border-radius: 2px;
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  font-size: 1rem;
+}
+
+.highlight pre {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+div.sourceCode {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+div.sourceCode pre,
+div.sourceCode code {
+  background-color: transparent;
+  margin: 0;
+}
+
+pre code,
+pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+table.sourceCode,
+tr.sourceCode,
+td.lineNumbers,
+td.sourceCode {
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
+  border: none;
+}
+
+table.sourceCode pre {
+  padding: 2px;
+  margin: 0;
+  border: none;
+  color: inherit;
+}
+table.sourceCode code {
+  color: inherit;
+}
+
+table.sourceCode {
+  width: 100%;
+  line-height: 100%;
+}
+
+td.lineNumbers {
+  text-align: right;
+  color: #aaaaaa;
+  border-right: 1px solid #aaaaaa;
+}
+</style>
+</head>
+<body>
+  <header>
+  <h1 class="title">第10回課題</h1>
+        </header>
+<blockquote>
+<p>オブジェクト指向プログラミングおよび演習1 第10回</p>
+<ol type="1">
+<li>エラー処理と例外処理の練習</li>
+<li>実行時例外を拡張し、パスワードの入力チェックにおける例外的状況に対応する</li>
+</ol>
+</blockquote>
+<p><em><strong>※パッケージ構文で指定されているk00000は各自自分の学籍番号に置き換えてください。</strong></em></p>
+<p>プロジェクトを1つ作成し、その中に以下2つの課題を入れてください。</p>
+<h1 id="1-エラー処理と例外処理の練習">1. エラー処理と例外処理の練習</h1>
+<p>以下のプログラムは、ランダムな値(0〜999)を要素に持つ配列を指定された要素数で生成し、その配列から指定されたインデックスの値を取り出して表示させるべく作成しています。</p>
+<p>現状は、<code>// TODO: </code>のコメントにあるように
+<em><strong>未完成</strong></em> です。</p>
+<p>これを完成させるように、ソースコードと下記説明文をよく読み完成させましょう。</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span><span class="im"> jp</span><span class="op">.</span><span class="im">ac</span><span class="op">.</span><span class="im">ait</span><span class="op">.</span><span class="im">k00000</span><span class="op">;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">util</span><span class="op">.</span><span class="im">Random</span><span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">util</span><span class="op">.</span><span class="im">Scanner</span><span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Kadai1 <span class="op">{</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Kadai1 の共通スキャナ</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="dt">static</span> <span class="dt">final</span> <span class="bu">Scanner</span> sc <span class="op">=</span> <span class="kw">new</span> <span class="bu">Scanner</span><span class="op">(</span><span class="bu">System</span><span class="op">.</span><span class="fu">in</span><span class="op">);</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">/**</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>     <span class="co">*</span> main</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">     * @</span>param args</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>     <span class="co">*/</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>        <span class="co">/*</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">         * 配列の生成</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co">         */</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>        <span class="co">// </span><span class="al">TODO</span><span class="co">: 【エラー処理】int型の整数値に変換可能な文字列が入力されるまで繰り返したい</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">print</span><span class="op">(</span><span class="st">&quot;生成する配列の大きさを入力してください &gt; &quot;</span><span class="op">);</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>        <span class="bu">String</span> input <span class="op">=</span> sc<span class="op">.</span><span class="fu">nextLine</span><span class="op">();</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>        <span class="co">// ここは例外処理しない(整数値に変換できる文字列しか来ないはず)</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> size <span class="op">=</span> <span class="bu">Integer</span><span class="op">.</span><span class="fu">parseInt</span><span class="op">(</span>input<span class="op">);</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span><span class="op">[]</span> arr <span class="op">=</span> <span class="fu">createRandomIntArray</span><span class="op">(</span>size<span class="op">);</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 生成された配列を画面表示</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">print</span><span class="op">(</span><span class="st">&quot;生成された配列: &quot;</span><span class="op">);</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> a <span class="op">:</span> arr<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>            <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">print</span><span class="op">(</span>a <span class="op">+</span> <span class="st">&quot; &quot;</span><span class="op">);</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">();</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>        <span class="co">/*</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="co">         * 配列の要素を取り出し</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="co">         */</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>        <span class="co">// </span><span class="al">TODO</span><span class="co">: 【エラー処理】int型の整数値に変換可能な文字列が入力されるまで繰り返したい</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">print</span><span class="op">(</span><span class="st">&quot;取り出す配列のインデックスを指定してください &gt; &quot;</span><span class="op">);</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>        input <span class="op">=</span> sc<span class="op">.</span><span class="fu">nextLine</span><span class="op">();</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>        <span class="co">// ここは例外処理しない(整数値に変換できる文字列しか来ないはず)</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> index <span class="op">=</span> <span class="bu">Integer</span><span class="op">.</span><span class="fu">parseInt</span><span class="op">(</span>input<span class="op">);</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;値: &quot;</span> <span class="op">+</span> <span class="fu">getValueByIndex</span><span class="op">(</span>arr<span class="op">,</span> index<span class="op">));</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>    <span class="co">/**</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>     <span class="co">*</span> <span class="co">指定された要素数で各要素がランダムな値を持つ配列を生成して返す</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="co">     * @</span>param size <span class="co">要素数</span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>     <span class="co">*</span> <span class="co">@</span>return <span class="co">生成されたランダムな値を持つ配列オブジェクト</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>     <span class="co">*/</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">int</span><span class="op">[]</span> <span class="fu">createRandomIntArray</span><span class="op">(</span><span class="dt">int</span> size<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>        <span class="co">// </span><span class="al">TODO</span><span class="co">: 【例外処理】配列の要素数として正しくない値が渡された場合の例外を捕捉し、その場合は要素数0の配列を生成する</span></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span><span class="op">[]</span> arr <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>size<span class="op">];</span></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>        <span class="bu">Random</span> random <span class="op">=</span>  <span class="kw">new</span> <span class="bu">Random</span><span class="op">();</span></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> arr<span class="op">.</span><span class="fu">length</span><span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>            arr<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span>random<span class="op">.</span><span class="fu">nextInt</span><span class="op">(</span><span class="dv">1000</span><span class="op">);</span>   <span class="co">// 0〜999まででランダム</span></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> arr<span class="op">;</span></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>    <span class="co">/**</span></span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>     <span class="co">*</span> <span class="co">配列とインデックスを渡し、その要素を取り出して返す</span></span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a><span class="co">     * @</span>param arr <span class="co">配列のオブジェクト</span></span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>     <span class="co">*</span> <span class="co">@</span>param index <span class="co">インデックス</span></span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>     <span class="co">*</span> <span class="co">@</span>return <span class="co">取り出した要素</span></span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>     <span class="co">*/</span></span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">int</span> <span class="fu">getValueByIndex</span><span class="op">(</span><span class="dt">int</span><span class="op">[]</span> arr<span class="op">,</span> <span class="dt">int</span> index<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>        <span class="co">// </span><span class="al">TODO</span><span class="co">: 【エラー処理】引数arrがnullだった場合、-1を返す</span></span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>        <span class="co">// </span><span class="al">TODO</span><span class="co">: 【例外処理】配列のインデックスとして正しくない値が渡された場合の例外を捕捉し、その場合は-1を返す</span></span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> arr<span class="op">[</span>index<span class="op">];</span></span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>このプログラムにおいて、以下のメソッドに指定されたエラー処理または、例外処理を追加してください。</p>
+<ul>
+<li><code>public static void main(String[] args)</code>
+<ul>
+<li>入力された値が「int型の整数値」かどうかを判定し、整数値でない場合は再入力させ、正しい値が入力されるまで繰り返す</li>
+</ul></li>
+<li><code>private static int[] createRandomIntArray(int size)</code>
+<ul>
+<li>引数<code>size</code>が配列の要素数として正しくない値で渡された場合の例外を捕捉し、その場合は要素数0の配列を生成する</li>
+</ul></li>
+<li><code>public static int getValueByIndex(int[] arr, int index)</code>
+<ul>
+<li>引数<code>arr</code>がnullの場合、-1を返す</li>
+<li>引数<code>index</code>が引数<code>arr</code>の配列のインデックスとして正しくない値が渡された場合の例外を捕捉し、その場合は-1を返す</li>
+</ul></li>
+</ul>
+<p>※ある程度プログラムソースが書かれた状態ではありますが、実装方法は各自でお任せします。クラスやメソッドの追加は必要なものであればいくつでもOKです。<br />
+ただし、2つのメソッド<code>private static int[] createRandomIntArray(int size)</code>,
+<code>public static int getValueByIndex(int[] arr, int index)</code>の名前、引数、戻り値の型を変更することは許可しません。</p>
+<p>また、例外処理の注意点として、<code>Exception</code>でのアップキャストを用いた総合的な捕捉を行う例外処理だけでなく、それぞれ詳細な例外を捕捉するようにしてください。たとえば、配列のインデックスを指定する際に、範囲外の値を指定してしまった場合に発生する例外は、<code>catch (Exeption e)</code>ではなく、<code>catch (ArrayIndexOutOfBoundsException e)</code>として捕捉を行ってください。</p>
+<h2 id="課題1のヒント">課題1のヒント</h2>
+<ul>
+<li>文字列が「int型の整数値」のみで構成されているかのチェック方法には以下の手法があります(他にもあります)
+<ol type="1">
+<li>文字列をcharの配列で取得、1文字ずつ<code>Character.isDigit(charのインスタンス)</code>でチェックする(マイナスの値をどうするかは仕様と照らし合わせて適切な実装にすること)</li>
+<li>正規表現(<code>java.util.regex</code>パッケージ以下)を用いる</li>
+<li>あえて変換で例外を発生させ、例外が発生した場合は正しくない(できれば避けたい)</li>
+</ol></li>
+<li>入力した整数値文字列がint型の最大値を超えないかを判断する方法
+<ol type="1">
+<li>BigIntegerクラスを使い、compareToでInteger.MIN_VALUE,Integer.MAX_VALUEと比較する</li>
+<li>(配列の要素数の最大値は、<code>Integer.MAX_VALUE</code>未満は確実でVMのメモリサイズに依存する)</li>
+<li>あえて変換で例外を発生させ、例外が発生した場合は正しくない(できれば避けたい)</li>
+</ol></li>
+<li>配列生成時、要素数が最大値を超えないかどうかのチェック方法
+<ul>
+<li>厳密には無理なのであえてやらない。(VMのメモリサイズによって異なる場合がある)</li>
+<li><code>int[] arr = new int[Integer.MAX_VALUE];</code>
+これは確実に<code>java.lang.OutOfMemoryError</code>が発生する</li>
+<li>負の要素数を指定すると<code>java.lang.NegativeArraySizeException</code>が投げられるのでこれはちゃんと捕捉して適切な処理をさせること</li>
+</ul></li>
+</ul>
+<p>　</p>
+<p>　</p>
+<p>　</p>
+<hr />
+<h1 id="2-独自の検査例外を作成してパスワードの入力チェックにおける例外的状況に対応しましょう">2.
+独自の検査例外を作成して、パスワードの入力チェックにおける例外的状況に対応しましょう。</h1>
+<p>動作確認のためのメインクラス名は、「<code>Kadai2</code>」として作成します。<br />
+パッケージは、「<code>jp.ac.ait.k00000</code>」としてください。</p>
+<h2 id="ストーリー">ストーリー</h2>
+<p>あなたはとある会社の顧客情報を管理するコンピュータ・システム(以下、顧客管理システム)のセキュリティ担当者になりました。</p>
+<p>この度、顧客管理システムをWebシステムとして載せ替える開発が進んでおり、現在はユーザー認証として、ユーザーIDとパスワードでの基本的な認証を実装する段階に来ています。</p>
+<p>ただ、あなたには一つ心配事があります。この会社の顧客管理システムにアクセスできる権利を持つ社員は、面倒くさがりな社員が非常に多く、システムにログインするパスワードをとても簡単なパスワードにしてしまいます。これでは、外部からどうぞ顧客情報を持って行ってくださいと言っているようなものです。</p>
+<p>そのため、パスワードを設定する際に以下のルールを設けることにしました。</p>
+<ol type="1">
+<li>パスワードは16文字以上128文字以下とする</li>
+<li>パスワードにはアルファベット(a-z,
+A-Z)と数字(0-9)と一部の記号(&quot;,(カンマ)&quot;,&quot;.(ピリオド)&quot;,&quot;+(プラス)&quot;,&quot;-(ハイフン)&quot;,&quot;*(アスタリスク)&quot;,&quot;/(スラッシュ)&quot;,&quot;=(イコール)&quot;,&quot;_(アンダーバー)&quot;,&quot;#(井桁)&quot;,&quot;!(エクスクラメーション)&quot;,&quot;?(クエスチョン)&quot;,&quot;@(アットマーク)&quot;,
+&quot; (半角スペース)&quot;)が使用できる</li>
+<li>パスワードには必ず、大文字のアルファベット、小文字のアルファベット、数字、記号のうちそれぞれ一文字以上使用されること</li>
+<li>容易に推測される文字列を「含む」事はできない（大文字小文字関係なく、以下の文字列は使用できない）
+<ol type="1">
+<li><code>password</code></li>
+<li><code>p@ssw0rd</code></li>
+<li><code>p@55w0rd</code></li>
+<li><code>qwerty</code></li>
+<li><code>asdfgh</code></li>
+<li><code>zxcvbn</code></li>
+<li><code>abcdef</code></li>
+<li><code>123456</code></li>
+</ol></li>
+</ol>
+<p>これらのルールをすべてクリアする場合はboolean値で「true」、どれか一つでも違反がある場合は<strong>自作の例外(検査例外)を投げる</strong>プログラムを作成してください。検査例外として実装することで、パスワードのチェックを行いたい他のプログラマさんは、この例外を適切に処理しなければいけないことを暗に伝えることができます。</p>
+<p>また、上記の4で指定されている使用できない文字列は、後から拡張できる形でコードを書いてもらうことが望ましいです。</p>
+<h2 id="自作の例外について">自作の例外について</h2>
+<p>独自の名前を持つ例外クラスを作成します。
+機能的には検査例外を実装する形になりますが、大事な部分はクラス名のみです。
+クラス名がどういった例外なのかを表しているので、機能的な実装は行いません。以下の内容に従って例外クラスを作成してください。</p>
+<h3 id="パッケージクラス名">パッケージ、クラス名</h3>
+<ul>
+<li><code>jp.ac.ait.k00000.PasswordRulesViolationException</code></li>
+</ul>
+<h3 id="実装内容">実装内容</h3>
+<p>親クラスとして、検査例外である<code>java.lang.Exception</code>を継承します。
+実装内容は、コンストラクタのみの実装となります。<code>java.lang.Exception</code>の持っているコンストラクタを、それぞれ調べて実装しましょう。コンストラクタの内容は、すべて親クラスで該当する引数を持つコンストラクタを<code>super</code>で呼び出しましょう。</p>
+<p>コンストラクタは、今回の課題で未使用なものもあります。
+例外クラス自体少し特殊な使われ方をするため、課題で使わないからという理由で未実装なコンストラクタがないようにしましょう。</p>
+<h2 id="パスワード管理クラスの作成">パスワード管理クラスの作成</h2>
+<p>パスワードがルールどおりに入力されているかをチェックするクラスを作成します。</p>
+<h3 id="パッケージクラス名-1">パッケージ、クラス名</h3>
+<ul>
+<li><code>jp.ac.ait.k00000.PasswordManager</code></li>
+</ul>
+<h4 id="メソッド">メソッド</h4>
+<ul>
+<li><code>public static boolean validate(String password) throws PasswordRulesViolationException</code>
+<ul>
+<li>パスワードが規則を満たしているかどうかをチェックし、満たしている場合はtrueを、満たしていない場合は、PasswordRulesViolationExceptionの例外を投げます。</li>
+<li>この場合、<code>public PasswordRulesViolationException(String message)</code>のコンストラクタを用いて、簡単な例外メッセージを用意しましょう。
+<ul>
+<li>動作確認時に、例外メッセージからどんな問題があるのか確認しやすくなります。</li>
+</ul></li>
+</ul></li>
+</ul>
+<h2 id="メインメソッドkadai2javaでの挙動について">メインメソッド(Kadai2.java)での挙動について</h2>
+<p>パスワードを標準入力より入力させるようにしてください。</p>
+<p>その入力させたパスワードをPasswordManagerクラスのvalidateメソッドにてチェックを行い、PasswordRulesViolationException例外が発生した場合は例外処理内にて、ExceptionのgetMessage()メソッドを活用し、<code>System.out.printf(&quot;パスワードのルール基準を満たしていません。%s /n&quot;, e.getMessage())</code>の様に、「パスワードのルール基準を満たしていません。<em><strong>getMessage()で取得した詳細説明をここに</strong></em>」と表示して終了してください。</p>
+<h2 id="課題2のヒント">課題2のヒント</h2>
+<p>↓これらを使え、というものでもありません。<br />
+ご参考までに。</p>
+<h3 id="使用可能な記号のリスト">使用可能な記号のリスト</h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">//入力可能な記号をリストで保持</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">List</span><span class="op">&lt;</span><span class="bu">Character</span><span class="op">&gt;</span> symbolList <span class="op">=</span> <span class="bu">Arrays</span><span class="op">.</span><span class="fu">asList</span><span class="op">(</span><span class="ch">&#39;,&#39;</span><span class="op">,</span> <span class="ch">&#39;.&#39;</span><span class="op">,</span> <span class="ch">&#39;+&#39;</span><span class="op">,</span> <span class="ch">&#39;-&#39;</span><span class="op">,</span> <span class="ch">&#39;*&#39;</span><span class="op">,</span> <span class="ch">&#39;/&#39;</span><span class="op">,</span> <span class="ch">&#39;=&#39;</span><span class="op">,</span> <span class="ch">&#39;_&#39;</span><span class="op">,</span> <span class="ch">&#39;#&#39;</span><span class="op">,</span> <span class="ch">&#39;!&#39;</span><span class="op">,</span> <span class="ch">&#39;?&#39;</span><span class="op">,</span> <span class="ch">&#39;@&#39;</span><span class="op">,</span> <span class="ch">&#39; &#39;</span><span class="op">);</span></span></code></pre></div>
+<p>このリストにある文字は使用してよい記号です。<br />
+パスワードの文字を１文字ずつ走査していく場合にリストに存在するかどうかで使用可能な記号かどうかを判定する事ができます。</p>
+<p>また、以下のCharacterクラスのメソッドを使うことで、その他のチェックも可能です。</p>
+<ul>
+<li>大文字アルファベットかどうかをチェックする場合、<code>Character.isUpperCase(charのインスタンス)</code>メソッド</li>
+<li>小文字アルファベットかどうかをチェックする場合、<code>Character.isLowerCase(charのインスタンス)</code>メソッド</li>
+<li>数字かどうかをチェックする場合、<code>Character.isDigit(charのインスタンス)</code>メソッド</li>
+</ul>
+<h3 id="使っちゃいけない安全でない文字列">使っちゃいけない安全でない文字列</h3>
+<div class="sourceCode" id="cb3"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">Set</span><span class="op">&lt;</span><span class="bu">String</span><span class="op">&gt;</span> unusableStringSet <span class="op">=</span> <span class="kw">new</span> <span class="bu">HashSet</span><span class="op">&lt;&gt;(</span><span class="bu">Arrays</span><span class="op">.</span><span class="fu">asList</span><span class="op">(</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;password&quot;</span><span class="op">,</span> <span class="st">&quot;p@ssw0rd&quot;</span><span class="op">,</span> <span class="st">&quot;p@55w0rd&quot;</span><span class="op">,</span> <span class="st">&quot;qwerty&quot;</span><span class="op">,</span> <span class="st">&quot;asdfgh&quot;</span><span class="op">,</span> <span class="st">&quot;zxcvbn&quot;</span><span class="op">,</span> <span class="st">&quot;abcdef&quot;</span><span class="op">,</span> <span class="st">&quot;123456&quot;</span><span class="op">));</span></span></code></pre></div>
+<p>こちらのSetは使っちゃいけないパスワードです。<br />
+なので、1つのパスワードに対して、これらすべてをチェックする必要があります。</p>
+<p>Stringのインスタンスには、.containsメソッドがあります。文字列の中に、指定された引数の文字列が含まれている場合Trueを返してくれます。<br />
+<code>password.contains( Setから取り出した文字列1つづつ )</code>のように使うと良いでしょう。</p>
+<p>また、<em><strong>大文字小文字関係なく</strong></em>、という点にご注意ください。</p>
+<h1 id="課題の提出に関して">課題の提出に関して</h1>
+<p>提出するファイルは以下の通りです。</p>
+<ol type="1">
+<li>プロジェクトフォルダにある<code>src</code>フォルダをzip圧縮したファイル</li>
+</ol>
+<p>srcフォルダの中身は、以下のような構成になっているはずです。</p>
+<pre><code>[src]
+  └[jp]
+    └[ac]
+       └[ait]
+          └[k00000] ※各自の学籍番号に変える
+             ├Kadai1.java ※課題1 メインクラス
+             ├Kadai2.java ※課題2 メインクラス
+             ├PasswordManager.java ※課題2 パスワード管理クラス
+             └PasswordRulesViolationException.java ※課題2 パスワードが規定通りに作成されていない例外</code></pre>
+<p>moodleの指定された提出場所に提出を行ってください。</p>
+</body>
+</html>

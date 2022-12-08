@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="generator" content="pandoc">
+  <title>コレクションのソートとStream API</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+<style type="text/css">
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+code {
+  white-space: pre-wrap;
+}
+
+span.smallcaps {
+  font-variant: small-caps;
+}
+
+span.underline {
+  text-decoration: underline;
+}
+
+div.column {
+  display: inline-block;
+  vertical-align: top;
+  width: 50%;
+}
+
+body {
+  font-size: 14pt;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN,
+    Arial, "メイリオ", Meiryo, sans-serif;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 2em;
+  background-color: #f8f8f8;
+  color: #232323;
+}
+
+hr {
+  height: 4px;
+  padding: 0;
+  margin: 6rem 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+  background:
+    url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC");
+}
+
+p,
+table {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  line-height: 2rem;
+  letter-spacing: 0.03rem;
+}
+
+strong {
+  text-decoration: none;
+  color: hsla(0, 75%, 55%, 1);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+  color: #232323;
+  letter-spacing: 0.05rem;
+  margin-top: 2rem;
+}
+
+h1 {
+  font-size: 2rem;
+  margin: 2rem auto 1rem;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+  margin: 2rem 0 1rem;
+}
+
+h5 {
+  font-size: 1.2rem;
+  margin: 2rem 0 1rem;
+}
+
+h6 {
+  font-size: 1.1rem;
+  margin: 2rem 0 1rem;
+}
+
+ul,
+ol {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  line-height: 1.6;
+  letter-spacing: 0.025rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding-left: 2rem;
+}
+
+ul li,
+ol li {
+  padding-left: .5rem;
+}
+
+ul ul,
+ol ul,
+ul ol,
+ol ol {
+  padding-left: 1.5rem;
+}
+
+table {
+  border-collapse: collapse;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  max-width: 100%;
+  width: 100% !important;
+  font-size: 1rem;
+  overflow: auto;
+}
+
+table th {
+  text-align: center;
+  font-weight: nomal;
+  background-color: #f0f0f0;
+  color: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+table tr {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+table td {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+a {
+  color: #5484c8;
+}
+
+.margin-clear {
+  margin-left: 0;
+}
+
+blockquote {
+  border-left: 4px #ddd solid;
+  padding: 0;
+  margin: 2rem;
+}
+
+blockquote * {
+  color: #999;
+}
+
+blockquote p {
+  padding: 0 1rem;
+  text-indent: 0;
+}
+
+img,
+iframe,
+figure {
+  max-width: 100%;
+}
+
+p img {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+pre,
+code,
+var,
+samp,
+kbd,
+.mono {
+  font-family: "Ricty Diminished", "Consolas", 'Courier New', Courier, Monaco, monospace;
+  line-height: 1.2;
+}
+
+table code,
+p code,
+ul code,
+ol code {
+  display: inline-block;
+  border: 1px solid #eaeaea;
+  background-color: rgb(119, 119, 119);
+  color: #f8f8f8;
+  white-space: nowrap;
+  border-radius: 2px;
+  display: inline-block;
+  padding-top: 6px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 0px;
+  margin: 0 4px;
+}
+
+pre code {
+  border: 1px solid #eaeaea;
+  background-color: #f5f5f5;
+  border-radius: 2px;
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  font-size: 1rem;
+}
+
+.highlight pre {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+div.sourceCode {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+div.sourceCode pre,
+div.sourceCode code {
+  background-color: transparent;
+  margin: 0;
+}
+
+pre code,
+pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+table.sourceCode,
+tr.sourceCode,
+td.lineNumbers,
+td.sourceCode {
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
+  border: none;
+}
+
+table.sourceCode pre {
+  padding: 2px;
+  margin: 0;
+  border: none;
+  color: inherit;
+}
+table.sourceCode code {
+  color: inherit;
+}
+
+table.sourceCode {
+  width: 100%;
+  line-height: 100%;
+}
+
+td.lineNumbers {
+  text-align: right;
+  color: #aaaaaa;
+  border-right: 1px solid #aaaaaa;
+}
+</style>
+</head>
+<body>
+  <header>
+  <h1 class="title">コレクションのソートとStream API</h1>
+        </header>
+<blockquote>
+<p>オブジェクト指向プログラミングおよび演習1 第9回</p>
+</blockquote>
+<h1>配列のソート</h1>
+<p>以前の課題で、皆さんにはせっせと比較・並び替えを行っていただきました。</p>
+<p>Javaには、実は配列のソートのための機能が最初から備わっています。</p>
+<p>以下のサンプルソースを試してください。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">package</span><span class="im"> arrayssortsample;</span>
+<span class="kw">import</span><span class="im"> java.util.Arrays;</span>
+<span class="kw">import</span><span class="im"> java.util.Collections;</span>
+<span class="kw">public</span> <span class="kw">class</span> ArraysSortSample {
+
+  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {
+
+    <span class="co">// 昇順ソート</span>
+    <span class="dt">int</span>[] arr = {<span class="dv">10</span>, <span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">7</span>, <span class="dv">0</span>, <span class="dv">8</span>, <span class="dv">3</span>, <span class="dv">9</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">6</span>};
+    <span class="bu">Arrays</span>.<span class="fu">sort</span>(arr);
+    <span class="kw">for</span> (<span class="dt">int</span> a : arr) {
+      <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">print</span>(a + <span class="st">&quot;,&quot;</span>);
+    }
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>();
+
+    <span class="co">// 降順ソート</span>
+    <span class="co">// 降順ソートの場合、Comparatorを使用するため、intではなくラッパークラスで宣言します。</span>
+    <span class="bu">Integer</span>[] arr2 = {<span class="dv">10</span>, <span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">7</span>, <span class="dv">0</span>, <span class="dv">8</span>, <span class="dv">3</span>, <span class="dv">9</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">6</span>};
+    <span class="bu">Arrays</span>.<span class="fu">sort</span>(arr2, <span class="bu">Collections</span>.<span class="fu">reverseOrder</span>());
+    <span class="kw">for</span> (<span class="dt">int</span> a : arr2) {
+      <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">print</span>(a + <span class="st">&quot;,&quot;</span>);
+    }
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>();
+  }
+
+}</code></pre></div>
+<p>配列のソートには、<code>Arrays.sort</code>メソッドを使えば良いというのが分かっていただければ良いです。</p>
+<h1>コレクションのソート</h1>
+<p>では、本題に入ります。</p>
+<p>コレクションのソートも、以前の課題のようにせっせと比較と要素の入れかえを行えばソートは可能です。 しかし、データ構造を考慮した上でコレクションを扱う場合、並び替え都度あのコードを書くのは現実的ではありません。</p>
+<p>そこで登場するのが、<code>Collections.sort</code>メソッドです。</p>
+<p>使い方は、配列のソートで使用した<code>Arrays.sort</code>とほぼ同じです。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">package</span><span class="im"> collectionssortsample;</span>
+
+<span class="kw">import</span><span class="im"> java.util.ArrayList;</span>
+<span class="kw">import</span><span class="im"> java.util.Collections;</span>
+<span class="kw">import</span><span class="im"> java.util.List;</span>
+
+<span class="kw">public</span> <span class="kw">class</span> CollectionsSortSample {
+  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {
+    <span class="bu">List</span>&lt;<span class="bu">Integer</span>&gt; l = <span class="kw">new</span> <span class="bu">ArrayList</span>&lt;&gt;();
+    l.<span class="fu">add</span>(<span class="dv">10</span>);
+    l.<span class="fu">add</span>(<span class="dv">5</span>);
+    l.<span class="fu">add</span>(<span class="dv">4</span>);
+    l.<span class="fu">add</span>(<span class="dv">7</span>);
+    l.<span class="fu">add</span>(<span class="dv">0</span>);
+    l.<span class="fu">add</span>(<span class="dv">8</span>);
+    l.<span class="fu">add</span>(<span class="dv">3</span>);
+    l.<span class="fu">add</span>(<span class="dv">9</span>);
+    l.<span class="fu">add</span>(<span class="dv">2</span>);
+    l.<span class="fu">add</span>(<span class="dv">1</span>);
+    l.<span class="fu">add</span>(<span class="dv">6</span>);
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(l);
+
+    <span class="co">// 昇順ソート</span>
+    <span class="bu">Collections</span>.<span class="fu">sort</span>(l);
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(l);
+
+    <span class="co">// 降順ソート</span>
+    <span class="bu">Collections</span>.<span class="fu">sort</span>(l, <span class="bu">Collections</span>.<span class="fu">reverseOrder</span>());
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(l);
+
+  }
+}</code></pre></div>
+<p>単一の値のListならこれで良いでしょう。</p>
+<p>しかし問題は、Listに格納するインスタンスが独自に作成されたクラスのもので、かつソートに使用するフィールドが複数あるような場合や、ソートの条件をもっと詳しく指定したい場合に発生します。</p>
+<h2 id="collections.sortlistt-comparator-super-t"><code>Collections.sort(List&lt;T&gt;, Comparator&lt;? super T&gt;)</code></h2>
+<p>ソートの条件を細かく指定する場合は、Comparator<T>インターフェイスを実装するクラスを新規に作成し、使用することで解決します。</p>
+<p>例えば、以下のようなデータを扱う場合を考えます。</p>
+<table>
+<thead>
+<tr class="header">
+<th>名前</th>
+<th>数値1(昇順でソートしたい)</th>
+<th>数値2(降順でソートしたい)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Tom</td>
+<td>100</td>
+<td>50</td>
+</tr>
+<tr class="even">
+<td>Alex</td>
+<td>30</td>
+<td>20</td>
+</tr>
+<tr class="odd">
+<td>Eric</td>
+<td>130</td>
+<td>80</td>
+</tr>
+<tr class="even">
+<td>Chris</td>
+<td>60</td>
+<td>50</td>
+</tr>
+<tr class="odd">
+<td>Adam</td>
+<td>90</td>
+<td>50</td>
+</tr>
+</tbody>
+</table>
+<p>これらを数値1、数値2でそれぞれ昇順ソート,降順ソートする場合について考えていきましょう。</p>
+<p>まずはListでデータを管理するために1レコード単位のクラスを作成します。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">package</span><span class="im"> customsortsample;</span>
+
+<span class="kw">public</span> <span class="kw">class</span> Datum {
+  <span class="kw">private</span> <span class="bu">String</span> name;
+  <span class="kw">private</span> <span class="dt">int</span> value1;
+  <span class="kw">private</span> <span class="dt">int</span> value2;
+
+  <span class="kw">public</span> <span class="fu">Datum</span>() {
+  }
+
+  <span class="kw">public</span> <span class="fu">Datum</span>(<span class="bu">String</span> name, <span class="dt">int</span> value1, <span class="dt">int</span> value2) {
+    <span class="kw">this</span>.<span class="fu">name</span> = name;
+    <span class="kw">this</span>.<span class="fu">value1</span> = value1;
+    <span class="kw">this</span>.<span class="fu">value2</span> = value2;
+  }
+
+  <span class="kw">public</span> <span class="bu">String</span> <span class="fu">getName</span>() {
+    <span class="kw">return</span> name;
+  }
+
+  <span class="kw">public</span> <span class="dt">int</span> <span class="fu">getValue1</span>() {
+    <span class="kw">return</span> value1;
+  }
+
+  <span class="kw">public</span> <span class="dt">int</span> <span class="fu">getValue2</span>() {
+    <span class="kw">return</span> value2;
+  }
+
+  <span class="kw">public</span> <span class="dt">void</span> <span class="fu">setName</span>(<span class="bu">String</span> name) {
+    <span class="kw">this</span>.<span class="fu">name</span> = name;
+  }
+
+  <span class="kw">public</span> <span class="dt">void</span> <span class="fu">setValue1</span>(<span class="dt">int</span> value1) {
+    <span class="kw">this</span>.<span class="fu">value1</span> = value1;
+  }
+
+  <span class="kw">public</span> <span class="dt">void</span> <span class="fu">setValue2</span>(<span class="dt">int</span> value2) {
+    <span class="kw">this</span>.<span class="fu">value2</span> = value2;
+  }
+
+  <span class="at">@Override</span>
+  <span class="kw">public</span> <span class="bu">String</span> <span class="fu">toString</span>() {
+    <span class="kw">return</span> <span class="bu">String</span><span class="fu">.format</span>(<span class="st">&quot;{name: </span><span class="sc">%s</span><span class="st">, value1: </span><span class="sc">%d</span><span class="st">, value2: </span><span class="sc">%d</span><span class="st">}&quot;</span>, name, value1, value2);
+  }
+}</code></pre></div>
+<p>DatumクラスをArrayListに格納する形で、表に示したデータを表現します。</p>
+<p>メインクラスのメインメソッドでは、以下のように初期化を行います。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">package</span><span class="im"> customsortsample;</span>
+<span class="kw">import</span><span class="im"> java.util.ArrayList;</span>
+<span class="kw">import</span><span class="im"> java.util.List;</span>
+<span class="kw">public</span> <span class="kw">class</span> CustomSortSample {
+  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {
+    <span class="bu">List</span>&lt;Datum&gt; data = <span class="kw">new</span> <span class="bu">ArrayList</span>&lt;&gt;();
+    data.<span class="fu">add</span>(<span class="kw">new</span> <span class="fu">Datum</span>(<span class="st">&quot;Tom&quot;</span>, <span class="dv">100</span>, <span class="dv">50</span>));
+    data.<span class="fu">add</span>(<span class="kw">new</span> <span class="fu">Datum</span>(<span class="st">&quot;Alex&quot;</span>, <span class="dv">30</span>, <span class="dv">20</span>));
+    data.<span class="fu">add</span>(<span class="kw">new</span> <span class="fu">Datum</span>(<span class="st">&quot;Eric&quot;</span>, <span class="dv">130</span>, <span class="dv">80</span>));
+    data.<span class="fu">add</span>(<span class="kw">new</span> <span class="fu">Datum</span>(<span class="st">&quot;Chris&quot;</span>, <span class="dv">60</span>, <span class="dv">50</span>));
+    data.<span class="fu">add</span>(<span class="kw">new</span> <span class="fu">Datum</span>(<span class="st">&quot;Adam&quot;</span>, <span class="dv">90</span>, <span class="dv">50</span>));
+
+    <span class="kw">for</span> (Datum d : data) {
+      <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(d);
+    }
+  }
+}</code></pre></div>
+<p>実際に、数値1で昇順ソート、数値2で降順ソートを行う方法について幾つかの方法を示します。</p>
+<h2 id="comparatordatum"><code>Comparator&lt;Datum&gt;</code>インターフェイスを実装したクラスを作成して昇順ソートを行う</h2>
+<p>まずは、数値1を昇順で並び替える処理を実装します。</p>
+<p>新規クラスで、以下のクラスを作成しましょう。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">package</span><span class="im"> customsortsample;</span>
+<span class="kw">import</span><span class="im"> java.util.Comparator;</span>
+<span class="kw">public</span> <span class="kw">class</span> DatumValue1ComparatorByAsc <span class="kw">implements</span> <span class="bu">Comparator</span>&lt;Datum&gt; {
+
+  <span class="at">@Override</span>
+  <span class="kw">public</span> <span class="dt">int</span> <span class="fu">compare</span>(Datum o1, Datum o2) {
+    <span class="kw">return</span> o1.<span class="fu">getValue1</span>() - o2.<span class="fu">getValue1</span>();
+    <span class="co">// return o1.getValue1().compareTo(o2.getValue1());  // こちらでもOKです</span>
+  }
+
+}</code></pre></div>
+<p><code>Comparator&lt;T&gt;</code>インターフェイスの抽象メソッド<code>int compare(T o1, T o2)</code>は、o1とo2を比べて戻り値の値が+の値ならo1とo2を入れ替え、0または-の値の場合は入れ替えなしという処理をソートの内部処理で使用しています。</p>
+<p>メインクラスを以下のようにします。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">package</span><span class="im"> customsortsample;</span>
+<span class="kw">import</span><span class="im"> java.util.ArrayList;</span>
+<span class="kw">import</span><span class="im"> java.util.Collections;</span>
+<span class="kw">import</span><span class="im"> java.util.List;</span>
+<span class="kw">public</span> <span class="kw">class</span> CustomSortSample {
+  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {
+    <span class="bu">List</span>&lt;Datum&gt; data = <span class="kw">new</span> <span class="bu">ArrayList</span>&lt;&gt;();
+    data.<span class="fu">add</span>(<span class="kw">new</span> <span class="fu">Datum</span>(<span class="st">&quot;Tom&quot;</span>, <span class="dv">100</span>, <span class="dv">50</span>));
+    data.<span class="fu">add</span>(<span class="kw">new</span> <span class="fu">Datum</span>(<span class="st">&quot;Alex&quot;</span>, <span class="dv">30</span>, <span class="dv">20</span>));
+    data.<span class="fu">add</span>(<span class="kw">new</span> <span class="fu">Datum</span>(<span class="st">&quot;Eric&quot;</span>, <span class="dv">130</span>, <span class="dv">80</span>));
+    data.<span class="fu">add</span>(<span class="kw">new</span> <span class="fu">Datum</span>(<span class="st">&quot;Chris&quot;</span>, <span class="dv">60</span>, <span class="dv">50</span>));
+    data.<span class="fu">add</span>(<span class="kw">new</span> <span class="fu">Datum</span>(<span class="st">&quot;Adam&quot;</span>, <span class="dv">90</span>, <span class="dv">50</span>));
+
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;初期データ&quot;</span>);
+    <span class="kw">for</span> (Datum d : data) {
+      <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(d);
+    }
+
+    <span class="co">// Collections.sortによるソートはもとのオブジェクトを破壊的に変更するのでコピーします。</span>
+    <span class="bu">List</span>&lt;Datum&gt; dataV1 = <span class="kw">new</span> <span class="bu">ArrayList</span>&lt;&gt;(data);
+    <span class="co">// value1の昇順で並び替え</span>
+    <span class="bu">Collections</span>.<span class="fu">sort</span>(dataV1, <span class="kw">new</span> <span class="fu">DatumValue1ComparatorByAsc</span>());
+    <span class="co">// dataV1.sort(new DatumValue1ComparatorByAsc()); でも同じ処理です。</span>
+
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;数値1の昇順で並び替え&quot;</span>);
+    <span class="kw">for</span> (Datum d : dataV1) {
+      <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(d);
+    }
+  }
+}</code></pre></div>
+<p>実行結果は以下のようになります。</p>
+<pre><code>初期データ
+{name: Tom, value1: 100, value2: 50}
+{name: Alex, value1: 30, value2: 20}
+{name: Eric, value1: 130, value2: 80}
+{name: Chris, value1: 60, value2: 50}
+{name: Adam, value1: 90, value2: 50}
+数値1の昇順で並び替え
+{name: Alex, value1: 30, value2: 20}
+{name: Chris, value1: 60, value2: 50}
+{name: Adam, value1: 90, value2: 50}
+{name: Tom, value1: 100, value2: 50}
+{name: Eric, value1: 130, value2: 80}</code></pre>
+<p>value1の昇順で並び替えが行われたことがわかります。</p>
+<p>ソートしたい時にはComparatorを使えば良いことがわかりました。</p>
+<p>ですが、データのソート都度、新規クラスを用意するのは長期的に見てメンテナンスしづらくなってしまったり、単純にクラスが増えすぎて困ることがあります。</p>
+<p>そこで、匿名クラスを使用する方法があります。</p>
+<h2>匿名クラスを使った降順ソート</h2>
+<p>メインクラスを以下のようにしてみましょう。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">package</span><span class="im"> customsortsample;</span>
+<span class="kw">import</span><span class="im"> java.util.ArrayList;</span>
+<span class="kw">import</span><span class="im"> java.util.Collections;</span>
+<span class="kw">import</span><span class="im"> java.util.Comparator;</span>
+<span class="kw">import</span><span class="im"> java.util.List;</span>
+<span class="kw">public</span> <span class="kw">class</span> CustomSortSample {
+  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {
+    <span class="bu">List</span>&lt;Datum&gt; data = <span class="kw">new</span> <span class="bu">ArrayList</span>&lt;&gt;();
+    data.<span class="fu">add</span>(<span class="kw">new</span> <span class="fu">Datum</span>(<span class="st">&quot;Tom&quot;</span>, <span class="dv">100</span>, <span class="dv">50</span>));
+    data.<span class="fu">add</span>(<span class="kw">new</span> <span class="fu">Datum</span>(<span class="st">&quot;Alex&quot;</span>, <span class="dv">30</span>, <span class="dv">20</span>));
+    data.<span class="fu">add</span>(<span class="kw">new</span> <span class="fu">Datum</span>(<span class="st">&quot;Eric&quot;</span>, <span class="dv">130</span>, <span class="dv">80</span>));
+    data.<span class="fu">add</span>(<span class="kw">new</span> <span class="fu">Datum</span>(<span class="st">&quot;Chris&quot;</span>, <span class="dv">60</span>, <span class="dv">50</span>));
+    data.<span class="fu">add</span>(<span class="kw">new</span> <span class="fu">Datum</span>(<span class="st">&quot;Adam&quot;</span>, <span class="dv">90</span>, <span class="dv">50</span>));
+
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;初期データ&quot;</span>);
+    <span class="kw">for</span> (Datum d : data) {
+      <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(d);
+    }
+
+    <span class="co">// Collections.sortによるソートはもとのオブジェクトを破壊的に変更するのでコピーします。</span>
+    <span class="bu">List</span>&lt;Datum&gt; dataV1 = <span class="kw">new</span> <span class="bu">ArrayList</span>&lt;&gt;(data);
+    <span class="co">// value1の昇順で並び替え</span>
+    <span class="bu">Collections</span>.<span class="fu">sort</span>(dataV1, <span class="kw">new</span> <span class="fu">DatumValue1ComparatorByAsc</span>());
+    <span class="co">// dataV1.sort(new DatumValue1ComparatorByAsc()); でも同じ処理です。</span>
+
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;数値1の昇順で並び替え&quot;</span>);
+    <span class="kw">for</span> (Datum d : dataV1) {
+      <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(d);
+    }
+
+    <span class="bu">List</span>&lt;Datum&gt; dataV2 = <span class="kw">new</span> <span class="bu">ArrayList</span>&lt;&gt;(data);
+    <span class="co">// value2の降順で並び替え</span>
+    <span class="bu">Collections</span>.<span class="fu">sort</span>(dataV2, <span class="kw">new</span> <span class="bu">Comparator</span>&lt;Datum&gt;() {
+      <span class="at">@Override</span>
+      <span class="kw">public</span> <span class="dt">int</span> <span class="fu">compare</span>(Datum o1, Datum o2) {
+        <span class="co">// 今度は降順にしたいので、o1 と o2の位置を変更します。</span>
+        <span class="kw">return</span> o2.<span class="fu">getValue2</span>() - o1.<span class="fu">getValue2</span>();
+        <span class="co">// return o2.getValue2().compareTo(o1.getValue2());  // こちらでもOKです</span>
+      }
+    });
+
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;数値2の降順で並び替え&quot;</span>);
+    <span class="kw">for</span> (Datum d : dataV2) {
+      <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(d);
+    }
+  }
+}</code></pre></div>
+<p>実行結果は以下のようになります。</p>
+<pre><code>初期データ
+{name: Tom, value1: 100, value2: 50}
+{name: Alex, value1: 30, value2: 20}
+{name: Eric, value1: 130, value2: 80}
+{name: Chris, value1: 60, value2: 50}
+{name: Adam, value1: 90, value2: 50}
+数値1の昇順で並び替え
+{name: Alex, value1: 30, value2: 20}
+{name: Chris, value1: 60, value2: 50}
+{name: Adam, value1: 90, value2: 50}
+{name: Tom, value1: 100, value2: 50}
+{name: Eric, value1: 130, value2: 80}
+数値2の降順で並び替え
+{name: Eric, value1: 130, value2: 80}
+{name: Tom, value1: 100, value2: 50}
+{name: Chris, value1: 60, value2: 50}
+{name: Adam, value1: 90, value2: 50}
+{name: Alex, value1: 30, value2: 20}</code></pre>
+<p>匿名クラスを使うことで、一度しか使用しないComparatorの実装クラスを用意する必要がなくなり、スッキリとコードを書けるようになりました。</p>
+<p>更にラムダを使用すると……</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="bu">Collections</span>.<span class="fu">sort</span>(dataV2, (Datum o1, Datum o2) -&gt; o2.<span class="fu">getValue2</span>() - o1.<span class="fu">getValue2</span>());
+
+<span class="co">// または</span>
+<span class="bu">Collections</span>.<span class="fu">sort</span>(dataV2, (Datum o1, Datum o2) -&gt; o2.<span class="fu">getValue2</span>().<span class="fu">compareTo</span>(o1.<span class="fu">getValue2</span>()));</code></pre></div>
+<p>ソートの部分だけですが、ここまでシンプルになります。</p>
+<h2>もうちょっと工夫してみよう</h2>
+<p>value2の降順ソートの際、同じ数値のデータが3件あります。同じ数値のデータの並び順は、初期データの追加順で並び替えられていることがわかります。</p>
+<p>これでも良いのですが、もうちょっと便利に扱いたい場合、同じ数値のデータは更に名前の順番で並び替えを行うように機能追加してみましょう。</p>
+<p>メインメソッドに追加する部分のみ記載します。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="bu">List</span>&lt;Datum&gt; dataV2C = <span class="kw">new</span> <span class="bu">ArrayList</span>&lt;&gt;(data);
+<span class="co">// value2の降順で並び替え(同値の場合はnameの昇順)</span>
+<span class="bu">Collections</span>.<span class="fu">sort</span>(dataV2C, (Datum o1, Datum o2) -&gt; {
+  <span class="kw">if</span> (o2.<span class="fu">getValue2</span>() == o1.<span class="fu">getValue2</span>()) {
+    <span class="co">// 同じ値の場合は、名前の昇順でソート</span>
+    <span class="kw">return</span> o1.<span class="fu">getName</span>().<span class="fu">compareTo</span>(o2.<span class="fu">getName</span>());
+  } <span class="kw">else</span> {
+    <span class="co">// 違う値の場合は通常通り降順でソート</span>
+    <span class="kw">return</span> o2.<span class="fu">getValue2</span>() - o1.<span class="fu">getValue2</span>();
+    <span class="co">// return o2.getValue2().compareTo(o1.getValue2());  // こちらでもOKです</span>
+  }
+});
+
+<span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;数値2の降順で並び替え(同値の場合は名前の昇順)&quot;</span>);
+<span class="kw">for</span> (Datum d : dataV2C) {
+  <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(d);
+}</code></pre></div>
+<p>実行結果には以下の内容が追加されます。</p>
+<pre><code>数値2の降順で並び替え(同値の場合は名前の昇順)
+{name: Eric, value1: 130, value2: 80}
+{name: Adam, value1: 90, value2: 50}
+{name: Chris, value1: 60, value2: 50}
+{name: Tom, value1: 100, value2: 50}
+{name: Alex, value1: 30, value2: 20}</code></pre>
+<p>value2が同じ値に注目すると、きちんと名前の昇順になっていることがわかります。</p>
+<p>ちなみに、StringクラスのcompareToメソッドは、文字のUnicode値がどれくらい離れているかを整数値で返すメソッドです。</p>
+<h1>まとめ</h1>
+<ul>
+<li>配列、コレクションのソートにはComparatorインターフェイスを使えば簡単に実装できる。</li>
+<li>ソートの昇順、降順はわざわざクラスを作るのは手間がかかる上に管理が大変なので、匿名クラスを使うと良い。</li>
+<li>コレクションのソートはListのみのソートを紹介したが、Set,Mapも同様にソート可能。</li>
+</ul>
+<p>　</p>
+<p>　</p>
+<p>　</p>
+<hr />
+<h2 id="stream-api-">Stream API とラムダを用いたコレクションの操作</h2>
+<p>覚えておくと便利なラムダ操作を、サンプルソースでいくつか提示します。</p>
+<p>詳しい説明は、とても長くなってしまうので避けますが、プログラムを実行することで得られる結果を確認し、時間があるときに仕組みを調べてみると良いでしょう。</p>
+<h3 id="foreach">forEach</h3>
+<p>リストに格納されたデータを取り出して処理を行わせる。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="bu">List</span>&lt;<span class="bu">Integer</span>&gt; numList = <span class="kw">new</span> <span class="bu">ArrayList</span>&lt;&gt;(<span class="bu">Arrays</span>.<span class="fu">asList</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>));
+numList.<span class="fu">forEach</span>(elm -&gt; <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(elm));
+<span class="co">// numList.forEach(System.out::println);  // これでもOK</span></code></pre></div>
+<p>複数行のコードを取り出し処理にて書きたい場合は、<code>{}</code>を使います。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="bu">List</span>&lt;<span class="bu">Integer</span>&gt; numList = <span class="kw">new</span> <span class="bu">ArrayList</span>&lt;&gt;(<span class="bu">Arrays</span>.<span class="fu">asList</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>));
+numList.<span class="fu">forEach</span>(elm -&gt; {
+  <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(elm);
+  <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(elm * elm);
+});</code></pre></div>
+<p>Mapを用いる場合、以下のような取り出しも可能。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="bu">Map</span>&lt;<span class="bu">String</span>, <span class="bu">String</span>&gt; langMap = <span class="kw">new</span> <span class="bu">HashMap</span>&lt;&gt;();
+langMap.<span class="fu">put</span>(<span class="st">&quot;japan&quot;</span>, <span class="st">&quot;japanese&quot;</span>);
+langMap.<span class="fu">put</span>(<span class="st">&quot;usa&quot;</span>, <span class="st">&quot;english&quot;</span>);
+langMap.<span class="fu">put</span>(<span class="st">&quot;england&quot;</span>, <span class="st">&quot;english&quot;</span>);
+
+langMap.<span class="fu">forEach</span>((key, value) -&gt; {
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(key);
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(value);
+});</code></pre></div>
+<p>forEach自体は、いくつかのリスト操作を行ったあとに、データの取り出しに使用すると良いでしょう。(ループ、繰り返しと書かないのは理由がありますが割愛)</p>
+<h3 id="filter">filter</h3>
+<p>リストの抽出条件を指定してリストを変換する。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="bu">List</span>&lt;<span class="bu">String</span>&gt; list = <span class="kw">new</span> <span class="bu">ArrayList</span>&lt;&gt;();
+list.<span class="fu">add</span>(<span class="st">&quot;A&quot;</span>);
+list.<span class="fu">add</span>(<span class="st">&quot;B&quot;</span>);
+list.<span class="fu">add</span>(<span class="st">&quot;C&quot;</span>);
+list.<span class="fu">add</span>(<span class="st">&quot;&quot;</span>);   <span class="co">// 空文字データ</span>
+list.<span class="fu">add</span>(<span class="kw">null</span>); <span class="co">// null</span>
+
+list.<span class="fu">stream</span>() <span class="co">// ListをStreamとして扱う</span>
+        .<span class="fu">filter</span>(elm -&gt; elm != <span class="kw">null</span> &amp;&amp; !elm.<span class="fu">isEmpty</span>()) <span class="co">//ここでリストにある空文字とnullを除去</span>
+        .<span class="fu">forEach</span>(e -&gt; <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(e));</code></pre></div>
+<h3 id="map-collect">map, collect</h3>
+<p>リストの中身の型を変換する(map)。値を集めてリスト化する(collect)。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="bu">List</span>&lt;<span class="bu">String</span>&gt; list = <span class="kw">new</span> <span class="bu">ArrayList</span>&lt;&gt;();
+list.<span class="fu">add</span>(<span class="st">&quot;1111111111&quot;</span>);
+list.<span class="fu">add</span>(<span class="st">&quot;2222222222&quot;</span>);
+list.<span class="fu">add</span>(<span class="st">&quot;3333333333&quot;</span>);
+list.<span class="fu">add</span>(<span class="st">&quot;4444444444&quot;</span>);
+list.<span class="fu">add</span>(<span class="st">&quot;5555555555&quot;</span>);
+
+<span class="bu">List</span>&lt;<span class="bu">Long</span>&gt; longList = list.<span class="fu">stream</span>()
+        .<span class="fu">map</span>(elm -&gt; <span class="bu">Long</span>.<span class="fu">valueOf</span>(elm))  <span class="co">// 内部値を変換</span>
+        .<span class="fu">collect</span>(Collectors.<span class="fu">toList</span>());  <span class="co">// リストに再変換</span>
+
+longList.<span class="fu">stream</span>().<span class="fu">forEach</span>(e -&gt; <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(e));</code></pre></div>
+<p>mapには、特定の型変換に対応した<code>mapToObj</code> <code>mapToInt</code> <code>mapToLong</code> <code>mapToDouble</code>などがあるので、そちらを利用しても良い。</p>
+<p><code>collect</code>は、Stream APIを用いた値の変換や取得を行ったあと、StreamをListなどのコレクションに変換する際に使用します。</p>
+<h3 id="stream-api">Stream API参考資料</h3>
+<ul>
+<li><a href="http://nowokay.hatenablog.com/entry/20130504/1367702641">Java8のStreamを使いこなす - きしだのHatena</a></li>
+<li><a href="https://www.slideshare.net/zoetrope/java8-lambdaandstream">社内Java8勉強会 ラムダ式とストリームAPI</a></li>
+<li><a href="https://employment.en-japan.com/engineerhub/entry/2019/04/25/103000">ラムダ式とStream APIで学ぶモダンJava ― 関数型を取り入れて変化するJava言語の現在（by 谷本心/cero_t） - エンジニアHub｜若手Webエンジニアのキャリアを考える！</a></li>
+</ul>
+</body>
+</html>

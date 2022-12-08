@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="generator" content="pandoc">
+  <title>抽象クラスと抽象メソッド</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+<style type="text/css">
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+code {
+  white-space: pre-wrap;
+}
+
+span.smallcaps {
+  font-variant: small-caps;
+}
+
+span.underline {
+  text-decoration: underline;
+}
+
+div.column {
+  display: inline-block;
+  vertical-align: top;
+  width: 50%;
+}
+
+body {
+  font-size: 14pt;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN,
+    Arial, "メイリオ", Meiryo, sans-serif;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 2em;
+  background-color: #f8f8f8;
+  color: #232323;
+}
+
+hr {
+  height: 4px;
+  padding: 0;
+  margin: 6rem 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+  background:
+    url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC");
+}
+
+p,
+table {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  line-height: 2rem;
+  letter-spacing: 0.03rem;
+}
+
+strong {
+  text-decoration: none;
+  color: hsla(0, 75%, 55%, 1);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+  color: #232323;
+  letter-spacing: 0.05rem;
+  margin-top: 2rem;
+}
+
+h1 {
+  font-size: 2rem;
+  margin: 2rem auto 1rem;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+  margin: 2rem 0 1rem;
+}
+
+h5 {
+  font-size: 1.2rem;
+  margin: 2rem 0 1rem;
+}
+
+h6 {
+  font-size: 1.1rem;
+  margin: 2rem 0 1rem;
+}
+
+ul,
+ol {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  line-height: 1.6;
+  letter-spacing: 0.025rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding-left: 2rem;
+}
+
+ul li,
+ol li {
+  padding-left: .5rem;
+}
+
+ul ul,
+ol ul,
+ul ol,
+ol ol {
+  padding-left: 1.5rem;
+}
+
+table {
+  border-collapse: collapse;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  max-width: 100%;
+  width: 100% !important;
+  font-size: 1rem;
+  overflow: auto;
+}
+
+table th {
+  text-align: center;
+  font-weight: nomal;
+  background-color: #f0f0f0;
+  color: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+table tr {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+table td {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+a {
+  color: #5484c8;
+}
+
+.margin-clear {
+  margin-left: 0;
+}
+
+blockquote {
+  border-left: 4px #ddd solid;
+  padding: 0;
+  margin: 2rem;
+}
+
+blockquote * {
+  color: #999;
+}
+
+blockquote p {
+  padding: 0 1rem;
+  text-indent: 0;
+}
+
+img,
+iframe,
+figure {
+  max-width: 100%;
+}
+
+p img {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+pre,
+code,
+var,
+samp,
+kbd,
+.mono {
+  font-family: "Ricty Diminished", "Consolas", 'Courier New', Courier, Monaco, monospace;
+  line-height: 1.2;
+}
+
+table code,
+p code,
+ul code,
+ol code {
+  display: inline-block;
+  border: 1px solid #eaeaea;
+  background-color: rgb(119, 119, 119);
+  color: #f8f8f8;
+  white-space: nowrap;
+  border-radius: 2px;
+  display: inline-block;
+  padding-top: 6px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 0px;
+  margin: 0 4px;
+}
+
+pre code {
+  border: 1px solid #eaeaea;
+  background-color: #f5f5f5;
+  border-radius: 2px;
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  font-size: 1rem;
+}
+
+.highlight pre {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+div.sourceCode {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+div.sourceCode pre,
+div.sourceCode code {
+  background-color: transparent;
+  margin: 0;
+}
+
+pre code,
+pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+table.sourceCode,
+tr.sourceCode,
+td.lineNumbers,
+td.sourceCode {
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
+  border: none;
+}
+
+table.sourceCode pre {
+  padding: 2px;
+  margin: 0;
+  border: none;
+  color: inherit;
+}
+table.sourceCode code {
+  color: inherit;
+}
+
+table.sourceCode {
+  width: 100%;
+  line-height: 100%;
+}
+
+td.lineNumbers {
+  text-align: right;
+  color: #aaaaaa;
+  border-right: 1px solid #aaaaaa;
+}
+</style>
+</head>
+<body>
+  <header>
+  <h1 class="title">抽象クラスと抽象メソッド</h1>
+        </header>
+<blockquote>
+<p>オブジェクト指向プログラミングおよび演習1 第7回</p>
+<p>抽象クラスと抽象メソッドについて</p>
+</blockquote>
+<h1>抽象クラス(アブストラクトクラス)</h1>
+<h2>抽象クラスとは</h2>
+<ol>
+<li>親クラス(スーパークラス)としてのみ使用されることを想定しているクラスのこと。</li>
+<li>抽象クラスは、抽象メソッド(アブストラクトメソッド)を持つことができる。
+<ul>
+<li>抽象メソッドの処理内容は、抽象クラス内で定義しません。</li>
+<li>抽象メソッドは、子クラス(サブクラス)にて必ずオーバーライドしなければいけません。</li>
+</ul></li>
+</ol>
+<h2>どんなときに使うのか</h2>
+<p>継承されることが前提の親クラスとしてクラスを書いているけれど、メソッドの処理自体は継承を行った子クラスで処理内容が決定するので以下のようにメソッドを定義しておきます。</p>
+<p>(これはとても良くない例です。)</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> SuperClass {
+    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">overRidableMethod</span>() {
+        <span class="co">//何らかの処理</span>
+
+        <span class="co">//このメソッドは、オーバーライドしてもしなくても良いメソッド</span>
+    }
+
+    <span class="co">//このメソッドは、オーバーライドして中身を書いて欲しいメソッドとする</span>
+    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">mustOverRideMethod</span>(<span class="dt">int</span> a) { <span class="co">/* 子クラスで実装してください */</span> }
+}</code></pre></div>
+<p>これでは、<code>mustOverRideMethod</code>が子クラスでオーバーライドされるかどうかは子クラスの作成者次第となってしまいます。</p>
+<p>アップキャストを使用した仕組みが別のクラスにて定義されている場合、このメソッドを用いて子クラスごとの処理をさせたい場合などではオーバーライドした上で子クラス個別の処理を必ず書く必要があります。<br />
+しかし、強制力がありません。</p>
+<p>親クラスとして作成している<code>SuperClass</code>は、これ自体をインスタンス化して使用することはありません。</p>
+<p>こういった場合に、抽象クラスの仕組みを使用することができます。</p>
+<h2>抽象クラスの宣言</h2>
+<p>クラス宣言部に、<strong>abstract修飾子</strong> を付けます。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">abstract</span> <span class="kw">class</span> SuperClass {
+    ...
+}</code></pre></div>
+<p>こうすることで<code>SuperClass</code>は抽象クラスとして動作します。</p>
+<p>制約として、<code>new SuperClass();</code>のようにSuperClass自体をインスタンス化することはできません。<br />
+(<code>SuperClass</code>親とする子クラスとして、<code>SubClass</code>を定義している場合、<code>SuperClass s = new SubClass();</code>は可能です。)</p>
+<h2>抽象クラスを継承するには</h2>
+<p>通常のクラスを継承するのと同様に、子クラスの宣言部にて<strong>extends</strong>構文で継承できます。</p>
+<h2>抽象メソッドの宣言</h2>
+<p>メソッドの宣言部に、<strong>abstract修飾子</strong> を付け、<code>{}</code>ではなく、<code>;</code>でメソッド定義だけを1文とします。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">abstract</span> <span class="dt">void</span> <span class="fu">mustOverRideMethod</span>(<span class="dt">int</span> a);</code></pre></div>
+<h2>抽象メソッドを持つ抽象クラスを継承した場合</h2>
+<p>上記の良くない例を、抽象クラス、抽象メソッドで書きなおしたものが以下のものになります。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="co">//抽象クラス</span>
+<span class="kw">public</span> <span class="kw">abstract</span> <span class="kw">class</span> SuperClass {
+    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">overRidableMethod</span>() {
+        <span class="co">//何らかの処理</span>
+
+        <span class="co">//このメソッドは、オーバーライドしてもしなくても良いメソッド</span>
+    }
+
+    <span class="co">//このメソッドは、オーバーライドして中身を書いて欲しいメソッドとする</span>
+    <span class="kw">public</span> <span class="kw">abstract</span> <span class="dt">void</span> <span class="fu">mustOverRideMethod</span>(<span class="dt">int</span> a);
+}
+
+
+<span class="co">//子クラス</span>
+<span class="kw">public</span> <span class="kw">class</span> SubClass <span class="kw">extends</span> SuperClass {
+
+    <span class="co">//overRidableMethodはオーバーライドしてもしなくてもよい</span>
+
+    <span class="at">@Override</span>
+    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">mustOverRideMethod</span>(<span class="dt">int</span> a) {
+
+        <span class="co">//子クラスにて確定しているmustOverRideMethodの処理の中身を書く</span>
+
+    }
+    <span class="co">//↑このメソッドを書かいてオーバーライドしないとエラーとなる。</span>
+}</code></pre></div>
+<h2>抽象メソッドのメリット</h2>
+<p>子クラスでオーバーライドしないとコンパイルエラーとなり、オーバーライドを強制することができる。</p>
+<p>抽象クラスを継承した複数の子クラスにて、処理内容の違う抽象メソッドと同じ名前のメソッドが作られる形となり、アップキャストによる処理をより便利に書くことができる。</p>
+<p>例えば、</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="co">//抽象クラス</span>
+<span class="kw">public</span> <span class="kw">abstract</span> <span class="kw">class</span> SuperClass {
+    <span class="kw">public</span> <span class="kw">abstract</span> <span class="dt">void</span> <span class="fu">showMessage</span>();
+}
+<span class="co">//子クラス1</span>
+<span class="kw">public</span> <span class="kw">class</span> SubClass1 <span class="kw">extends</span> SuperClass {
+    <span class="at">@Override</span>
+    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">showMessage</span>() {
+        <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;1&quot;</span>);
+    }
+}
+<span class="co">//子クラス2</span>
+<span class="kw">public</span> <span class="kw">class</span> SubClass2 <span class="kw">extends</span> SuperClass {
+    <span class="at">@Override</span>
+    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">showMessage</span>() {
+        <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;2&quot;</span>);
+    }
+}
+<span class="kw">public</span> <span class="kw">class</span> Sample {
+    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {
+        SuperClass[] sa = {
+            <span class="kw">new</span> <span class="fu">SubClass1</span>(),
+            <span class="kw">new</span> <span class="fu">SubClass2</span>(),
+        };
+
+        <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; sa.<span class="fu">length</span>; i++) {
+            sa[i].<span class="fu">showMessage</span>();
+        }
+    }
+}</code></pre></div>
+<p>として実行すると、以下の結果が得られます。</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">1</span>
+<span class="ex">2</span></code></pre></div>
+<p>このように、抽象クラスを親に持つ子クラスは、親クラスにアップキャストして同じメソッド名でメソッドを呼び出すと、それぞれの子クラスのメソッドの処理が行われます。</p>
+<h2>抽象クラスのコンストラクタ</h2>
+<p>抽象クラス自体をインスタンス化することはできないため、コンストラクタも不要なように思われるかも知れません。</p>
+<p>親クラスにて定義されているコンストラクタは、子クラスでも定義しないと行けない制約がありますので、子クラスに必要となるコンストラクタを書いておくことで、子クラスに必要となるコンストラクタを抽象クラスで先に定義する事ができます。</p>
+<h2>抽象クラス抽象メソッドまとめ</h2>
+<ul>
+<li>内容未確定のメソッドを持つクラスを定義できる</li>
+<li>直接インスタンス化はできない
+<ul>
+<li><code>new</code>演算子を使うことはできないが、型として宣言することは可能</li>
+</ul></li>
+<li>子クラスごとに異なる機能を持つ同じメソッド名のメソッドを必ず持たせる事ができる
+<ul>
+<li>「なにもしない」メソッドとは区別が必要です。</li>
+</ul></li>
+<li>抽象クラスを型とした変数を用意すればアップキャストにより子クラスを格納することができる</li>
+<li>引数として抽象クラスを型とすれば子クラスのインスタンスを渡す事ができる
+<ul>
+<li>どの子クラスが渡されたかを判断する演算子として、<strong>instanceof演算子</strong> があります。</li>
+</ul></li>
+</ul>
+<h2 id="instanceof">instanceof演算子</h2>
+<p>instanceof演算子は、そのオブジェクトが指定したクラスのインスタンスかどうかをbooleanで返す演算子です。</p>
+<p>構文としては以下のようになります。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">if</span> (変数名 <span class="kw">instanceof</span> クラス名) {
+    <span class="co">//変数が指定したクラスのオブジェクトである場合</span>
+}</code></pre></div>
+<p><code>抽象メソッドのメリット</code>で書いた抽象クラスと抽象メソッドはそのままでの使用例を以下に書きます。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> Sample {
+    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {
+        SuperClass[] sa = {
+            <span class="kw">new</span> <span class="fu">SubClass1</span>(),
+            <span class="kw">new</span> <span class="fu">SubClass2</span>(),
+        };
+
+        <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; sa.<span class="fu">length</span>; i++) {
+            <span class="kw">if</span> (sa[i] <span class="kw">instanceof</span> SubClass1){
+                <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">print</span>(<span class="st">&quot;これは子クラス1です。：&quot;</span>);
+            } <span class="kw">else</span> {
+                <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">print</span>(<span class="st">&quot;これは子クラス1ではありません。：&quot;</span>);
+            }
+            sa[i].<span class="fu">showMessage</span>();
+        }
+    }
+}</code></pre></div>
+<p>として実行すると、以下の結果が得られます。</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">これは子クラス<span class="ex">1</span>です。：1
+これは子クラス<span class="ex">1</span>ではありません。：2</code></pre></div>
+<p>どのクラスのインスタンスかを判断できる演算子ですので、抽象クラスに限らず、アップキャストを利用した仕組みを作成する場合に有効活用できるでしょう。</p>
+</body>
+</html>

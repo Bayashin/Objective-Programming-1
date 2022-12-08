@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="generator" content="pandoc">
+  <title>ガイダンス資料</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+<style type="text/css">
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+code {
+  white-space: pre-wrap;
+}
+
+span.smallcaps {
+  font-variant: small-caps;
+}
+
+span.underline {
+  text-decoration: underline;
+}
+
+div.column {
+  display: inline-block;
+  vertical-align: top;
+  width: 50%;
+}
+
+body {
+  font-size: 14pt;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN,
+    Arial, "メイリオ", Meiryo, sans-serif;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 2em;
+  background-color: #f8f8f8;
+  color: #232323;
+}
+
+hr {
+  height: 4px;
+  padding: 0;
+  margin: 6rem 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+  background:
+    url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC");
+}
+
+p,
+table {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  line-height: 2rem;
+  letter-spacing: 0.03rem;
+}
+
+strong {
+  text-decoration: none;
+  color: hsla(0, 75%, 55%, 1);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+  color: #232323;
+  letter-spacing: 0.05rem;
+  margin-top: 2rem;
+}
+
+h1 {
+  font-size: 2rem;
+  margin: 2rem auto 1rem;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+  margin: 2rem 0 1rem;
+}
+
+h5 {
+  font-size: 1.2rem;
+  margin: 2rem 0 1rem;
+}
+
+h6 {
+  font-size: 1.1rem;
+  margin: 2rem 0 1rem;
+}
+
+ul,
+ol {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  line-height: 1.6;
+  letter-spacing: 0.025rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding-left: 2rem;
+}
+
+ul li,
+ol li {
+  padding-left: .5rem;
+}
+
+ul ul,
+ol ul,
+ul ol,
+ol ol {
+  padding-left: 1.5rem;
+}
+
+table {
+  border-collapse: collapse;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  max-width: 100%;
+  width: 100% !important;
+  font-size: 1rem;
+  overflow: auto;
+}
+
+table th {
+  text-align: center;
+  font-weight: nomal;
+  background-color: #f0f0f0;
+  color: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+table tr {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+table td {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+a {
+  color: #5484c8;
+}
+
+.margin-clear {
+  margin-left: 0;
+}
+
+blockquote {
+  border-left: 4px #ddd solid;
+  padding: 0;
+  margin: 2rem;
+}
+
+blockquote * {
+  color: #999;
+}
+
+blockquote p {
+  padding: 0 1rem;
+  text-indent: 0;
+}
+
+img,
+iframe,
+figure {
+  max-width: 100%;
+}
+
+p img {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+pre,
+code,
+var,
+samp,
+kbd,
+.mono {
+  font-family: "Ricty Diminished", "Consolas", 'Courier New', Courier, Monaco, monospace;
+  line-height: 1.2;
+}
+
+table code,
+p code,
+ul code,
+ol code {
+  display: inline-block;
+  border: 1px solid #eaeaea;
+  background-color: rgb(119, 119, 119);
+  color: #f8f8f8;
+  white-space: nowrap;
+  border-radius: 2px;
+  display: inline-block;
+  padding-top: 6px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 0px;
+  margin: 0 4px;
+}
+
+pre code {
+  border: 1px solid #eaeaea;
+  background-color: #f5f5f5;
+  border-radius: 2px;
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  font-size: 1rem;
+}
+
+.highlight pre {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+div.sourceCode {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+div.sourceCode pre,
+div.sourceCode code {
+  background-color: transparent;
+  margin: 0;
+}
+
+pre code,
+pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+table.sourceCode,
+tr.sourceCode,
+td.lineNumbers,
+td.sourceCode {
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
+  border: none;
+}
+
+table.sourceCode pre {
+  padding: 2px;
+  margin: 0;
+  border: none;
+  color: inherit;
+}
+table.sourceCode code {
+  color: inherit;
+}
+
+table.sourceCode {
+  width: 100%;
+  line-height: 100%;
+}
+
+td.lineNumbers {
+  text-align: right;
+  color: #aaaaaa;
+  border-right: 1px solid #aaaaaa;
+}
+</style>
+</head>
+<body>
+  <header>
+  <h1 class="title">ガイダンス資料</h1>
+        </header>
+<blockquote>
+<p>オブジェクト指向プログラミングおよび演習1 ガイダンス資料</p>
+</blockquote>
+<h1 id="はじめに">はじめに</h1>
+<p>この講義では、座学と演習を通じてオブジェクト指向プログラミングの基礎を学びます。
+<strong>講義時間外の成果が露骨に成績に現れる講義です</strong>
+ので、みなさんがんばってください。</p>
+<p>当講義の「オブジェクト指向プログラミングおよび演習1」ではオブジェクト指向プログラミング言語である「Java」を用いたプログラミングを学ぶことでオブジェクト指向プログラミングの基本的な考え方についての理解を深めます。<br />
+後期に開講する「オブジェクト指向プログラミングおよび演習2」では、オブジェクト指向の考え方を用いて実践的なプログラミングを学ぶ構成となっています。(後期はJavaではないプログラミング言語を使用します。)</p>
+<p>前期だけ、後期だけという履修でも問題はありませんが、できる限り前後期通して受講するとより理解が深まります。</p>
+<h1 id="講義計画">講義計画</h1>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th style="text-align: left;">講義内容</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>第1回</td>
+<td style="text-align: left;">ガイダンス（学習の進め方）、Java開発環境の構築、標準入出力を用いた課題</td>
+</tr>
+<tr class="even">
+<td>第2回</td>
+<td style="text-align: left;">Java言語の基礎（プリミティブ型、クラス型、文字列型、変数、式、制御構文、配列等）</td>
+</tr>
+<tr class="odd">
+<td>第3回</td>
+<td style="text-align: left;">オブジェクトとクラス、フィールド、メソッドなど</td>
+</tr>
+<tr class="even">
+<td>第4回</td>
+<td style="text-align: left;">クラスの機能１：アクセス制限、カプセル化、多態性(オーバーロード)など</td>
+</tr>
+<tr class="odd">
+<td>第5回</td>
+<td style="text-align: left;">クラスの機能２：クラスの初期化(コンストラクタ)、クラス型オブジェクト、クラスライブラリなど</td>
+</tr>
+<tr class="even">
+<td>第6回</td>
+<td style="text-align: left;">継承、メソッドのオーバーライド</td>
+</tr>
+<tr class="odd">
+<td>第7回</td>
+<td style="text-align: left;">抽象クラス、インターフェイス</td>
+</tr>
+<tr class="even">
+<td>第8回</td>
+<td style="text-align: left;">列挙型とコレクションフレームワーク</td>
+</tr>
+<tr class="odd">
+<td>第9回</td>
+<td style="text-align: left;">クラス内クラスと匿名クラス、ラムダ、StreamAPI、コレクションのソート</td>
+</tr>
+<tr class="even">
+<td>第10回</td>
+<td style="text-align: left;">エラー処理と例外処理</td>
+</tr>
+<tr class="odd">
+<td>第11回</td>
+<td style="text-align: left;">テキストファイル処理とファイルストリーム</td>
+</tr>
+<tr class="even">
+<td>第12回</td>
+<td style="text-align: left;">ファイル処理とバイナリデータの取り扱い</td>
+</tr>
+<tr class="odd">
+<td>第13回</td>
+<td style="text-align: left;">マルチスレッドとネットワークアプリケーション</td>
+</tr>
+<tr class="even">
+<td>第14回</td>
+<td style="text-align: left;">Swingを用いたGUIアプリケーション1</td>
+</tr>
+<tr class="odd">
+<td>第15回</td>
+<td style="text-align: left;">Swingを用いたGUIアプリケーション2</td>
+</tr>
+</tbody>
+</table>
+<h1 id="成績について">成績について</h1>
+<p>成績は各回ごとに出題される課題及びテストにより、以下のように点数を付け、合計
+100 点で評価します。</p>
+<ul>
+<li>提出物: 70 点</li>
+<li>テスト: 30 点</li>
+</ul>
+<h2 id="不合格の条件">不合格の条件</h2>
+<p>点数の合計が、60 点未満のものは不可(F)です。
+最終課題が未提出、または、通常課題が4つ以上未提出の場合は、出席不十分の扱いとなり失(Q)です。</p>
+<p>また、提出物の内容に関しての不正行為、下記注意点が守られなかった場合など、目に余る行為があった場合は評価点に対して相応の対応をいたします。</p>
+<h1 id="この講義での注意点">この講義での注意点</h1>
+<ol type="1">
+<li>この講義では、資料の配布、提出物の管理、テスト等にmoodleを使用する
+<ul>
+<li>遠隔講義の増加に伴い、moodle自体が不安定になりアクセス不可能な状態になる場合があります。</li>
+<li>その場合の代替案として都度指示を行います。その指示に従ってください。</li>
+</ul></li>
+<li>資料などは基本的に Mac OS(M1チップ搭載のMacbook
+Air)を用いることを基準に作成されている
+<ul>
+<li>WindowsやLinuxなどの他のOSでも問題なく講義に参加できますが、指定の環境以外の開発環境に起因するバグ等へのサポートは行いません</li>
+</ul></li>
+<li>課題の解答例等の提示は提出期限後に行われる
+<ul>
+<li>各自で課題内容の復習は必ず行うようにしましょう。</li>
+</ul></li>
+<li>講義内で指定する提出物は必ず出すこと
+<ul>
+<li>提出期限は課題を出した次の講義の開催日の18時を期限とし、それ以降も提出は可能ですがその場合は提出のみの評価となります。</li>
+<li>講義時間中、前回の講義の課題を行なっていたことによる講義内容を聞いていないなど場合の責任は講師側にはありません。<br>
+本来は次の講義時間開始前までに提出を完了していることが望ましいですが、それだと課題に対して質問できる時間が限られるため次回講義の終了後18時まで認めている形となっております。決して前回の講義の課題を解くために講義時間を設けている訳ではないことを承知しておきましょう。</li>
+<li>期限後の課題再提出は、課題の採点の都合上点数が落ちる場合があるため、一度提出済みとなった課題を期限後にアップロードし直さないようにしてください。期限後の提出があった場合はどんな理由であれ遅延提出扱いにします。</li>
+<li>課題が未提出で期限を迎えてしまった場合は、どうすることもできないのですが、未提出扱いよりは提出した方が良いので必ず提出を行いましょう。</li>
+</ul></li>
+<li>テキストは指定しない
+<ul>
+<li>必修科目のプログラミング演習で行われていたであろうプログラミングの条件分岐やループ処理などの基本構造の解説は、講義内で行わない場合があります。</li>
+<li>プログラミングに不慣れな方はおすすめの入門書をいくつか紹介しますのでそれの中から自分に合ったものを購入し、手元に置いていつでも読めるようにしておきましょう。</li>
+</ul></li>
+<li>講義時間中には、情報科学科コンピュータシステム専攻1年次に開講されていた「プログラミング及び演習」のC言語による演習内容に関連する手続型言語の基礎的な知識やポインタ等のコンピュータ内部の知識に関して触れることがある
+<ul>
+<li>この講義を受講するにあたって、「プログラミング及び演習」は必修ではないが、その演習講義を受講された方向けの話をすることあるため受講されていない方、他学科の方はそう言った知識が必要である旨を承知しておくと良いです。</li>
+</ul></li>
+<li>分からないことは必ず聞くこと
+<ul>
+<li>講師に聞く以外にも相談できる相手を見つけましょう。</li>
+<li>講師やTAに聞く場合は、基本的には講義時間内に挙手等でアピールの上、聞いてください。(講義時間外でもメール等で相談を受けることは可能ですが反応できない場合が多いです。)</li>
+</ul></li>
+<li>講義の進行が速い場合はその場で必ず申し出ること
+<ul>
+<li>講義時間中にできる限りフィードバックできることが望ましいため講義時間を有意義に使用しましょう。</li>
+</ul></li>
+<li>メモを取れるようにしておくこと
+<ul>
+<li>配布資料にないことを口頭でしゃべる場合が多々あります。いつでもメモを取れるようにしておきましょう。</li>
+<li>とくに作業効率に関連する「こうすると早い」などの情報は、資料に記載がありません。</li>
+</ul></li>
+<li>テストが出題されたら期限内に必ず受験すること
+<ul>
+<li>講義後に確認のためのテストを用意する回があります。課題提出と併せてテストも必ず受験してください。</li>
+<li>受験忘れについて毎年相談がありますが、受験期間を過ぎてしまった試験についていかなる理由があろうと個別に再オープンすることはありません。</li>
+<li>状況次第ですが、講義時間中にテストを出題することもあります。</li>
+</ul></li>
+<li>講義中、他者に迷惑をかける行為は行わないこと
+<ul>
+<li>携帯電話等の使用に関しては、講義を阻害することのないようにお願いします。</li>
+<li>生徒同士の相談等はどんどん行ってください。もちろん、TAや講師に質問してもらったほうが良い場合もあります。</li>
+<li>この講義では出席を取りません。</li>
+</ul></li>
+<li>当講義にて配布される資料(ソースコード含む)及び動画等のコンテンツについては、講義内、自主学習の範疇での使用のみ許可する
+<ul>
+<li>第三者への再配布及び加工を伴う配布を行う場合には担当講師へ問い合わせの上許可を取ること</li>
+<li>質問サイト等での課題代行依頼などが発覚した場合は不正行為と見做し、相応の対処をいたします</li>
+</ul></li>
+</ol>
+<h1 id="使用するソフトウェアについて">使用するソフトウェアについて</h1>
+<p>この講義では次のソフトウェアを使用します。</p>
+<ol type="1">
+<li>JavaSDK(JDK)
+<ul>
+<li>プログラミング言語 Java の開発キット</li>
+<li>インストールするバージョンは、別途インストールに関する資料にて記載してあります。基本的にはLTSバージョンを用います。</li>
+<li>※講義進行中にアップデートなど置き換えを行っていただく場合もあります。</li>
+</ul></li>
+<li>IntelliJ IDEA Community Edition (JetBrains Toolbox
+Appよりインストール)
+<ul>
+<li>Java プログラムの総合開発環境
+<ul>
+<li>第2回以降、こちらの開発環境を使用します。今回の資料にインストール手順があります。そちらを見て次回までにインストールしておきましょう。</li>
+</ul></li>
+</ul></li>
+<li>その他、必要に応じて随時アナウンスします。</li>
+</ol>
+</body>
+</html>

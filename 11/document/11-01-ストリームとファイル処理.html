@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="generator" content="pandoc">
+  <title>ストリームとファイル処理</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+<style type="text/css">
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+code {
+  white-space: pre-wrap;
+}
+
+span.smallcaps {
+  font-variant: small-caps;
+}
+
+span.underline {
+  text-decoration: underline;
+}
+
+div.column {
+  display: inline-block;
+  vertical-align: top;
+  width: 50%;
+}
+
+body {
+  font-size: 14pt;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN,
+    Arial, "メイリオ", Meiryo, sans-serif;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 2em;
+  background-color: #f8f8f8;
+  color: #232323;
+}
+
+hr {
+  height: 4px;
+  padding: 0;
+  margin: 6rem 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+  background:
+    url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC");
+}
+
+p,
+table {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  line-height: 2rem;
+  letter-spacing: 0.03rem;
+}
+
+strong {
+  text-decoration: none;
+  color: hsla(0, 75%, 55%, 1);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+  color: #232323;
+  letter-spacing: 0.05rem;
+  margin-top: 2rem;
+}
+
+h1 {
+  font-size: 2rem;
+  margin: 2rem auto 1rem;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+  margin: 2rem 0 1rem;
+}
+
+h5 {
+  font-size: 1.2rem;
+  margin: 2rem 0 1rem;
+}
+
+h6 {
+  font-size: 1.1rem;
+  margin: 2rem 0 1rem;
+}
+
+ul,
+ol {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  line-height: 1.6;
+  letter-spacing: 0.025rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding-left: 2rem;
+}
+
+ul li,
+ol li {
+  padding-left: .5rem;
+}
+
+ul ul,
+ol ul,
+ul ol,
+ol ol {
+  padding-left: 1.5rem;
+}
+
+table {
+  border-collapse: collapse;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  max-width: 100%;
+  width: 100% !important;
+  font-size: 1rem;
+  overflow: auto;
+}
+
+table th {
+  text-align: center;
+  font-weight: nomal;
+  background-color: #f0f0f0;
+  color: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+table tr {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+table td {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+a {
+  color: #5484c8;
+}
+
+.margin-clear {
+  margin-left: 0;
+}
+
+blockquote {
+  border-left: 4px #ddd solid;
+  padding: 0;
+  margin: 2rem;
+}
+
+blockquote * {
+  color: #999;
+}
+
+blockquote p {
+  padding: 0 1rem;
+  text-indent: 0;
+}
+
+img,
+iframe,
+figure {
+  max-width: 100%;
+}
+
+p img {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+pre,
+code,
+var,
+samp,
+kbd,
+.mono {
+  font-family: "Ricty Diminished", "Consolas", 'Courier New', Courier, Monaco, monospace;
+  line-height: 1.2;
+}
+
+table code,
+p code,
+ul code,
+ol code {
+  display: inline-block;
+  border: 1px solid #eaeaea;
+  background-color: rgb(119, 119, 119);
+  color: #f8f8f8;
+  white-space: nowrap;
+  border-radius: 2px;
+  display: inline-block;
+  padding-top: 6px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 0px;
+  margin: 0 4px;
+}
+
+pre code {
+  border: 1px solid #eaeaea;
+  background-color: #f5f5f5;
+  border-radius: 2px;
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  font-size: 1rem;
+}
+
+.highlight pre {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+div.sourceCode {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+div.sourceCode pre,
+div.sourceCode code {
+  background-color: transparent;
+  margin: 0;
+}
+
+pre code,
+pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+table.sourceCode,
+tr.sourceCode,
+td.lineNumbers,
+td.sourceCode {
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
+  border: none;
+}
+
+table.sourceCode pre {
+  padding: 2px;
+  margin: 0;
+  border: none;
+  color: inherit;
+}
+table.sourceCode code {
+  color: inherit;
+}
+
+table.sourceCode {
+  width: 100%;
+  line-height: 100%;
+}
+
+td.lineNumbers {
+  text-align: right;
+  color: #aaaaaa;
+  border-right: 1px solid #aaaaaa;
+}
+</style>
+</head>
+<body>
+  <header>
+  <h1 class="title">ストリームとファイル処理</h1>
+        </header>
+<blockquote>
+<p>オブジェクト指向プログラミングおよび演習1 第11回</p>
+<p>Javaでのファイル入出力について学ぼう</p>
+</blockquote>
+<h1 id="はじめに">はじめに</h1>
+<h2 id="ファイル処理の基本から押さえよう">ファイル処理の基本から押さえよう</h2>
+<p>Javaで入出力処理、とくにファイル処理を行う場合、ファイルのデータすべてを変数へ一度に読み込ませるようなことは通常行いません。</p>
+<p>理由は、単にファイルのサイズが非常に大きかった場合（たとえば2GByteとかそれ以上）、読み込んだタイミングでメモリが足りなくなってしまう可能性があるからです。
+メモリが足りなくなってしまった際に出るエラーには、<code>OutOfMemoryError</code>というプログラムの実行が即座に止まってしまうエラーがあります。
+これはプログラム自体にとって致命的な例外で、エラーが出た場合には回復の見込みがなく、プログラムが強制終了してしまうことは前回の授業でお話しました。</p>
+<p>ではどうやってファイルを扱うのか、それはファイルのデータ自体を「少しずつ読む・書く」ことで解決できます。<br />
+この、「少しずつ読む・書く」ことは<strong>ストリーム(stream)</strong>
+という考え方です。</p>
+<h2 id="ストリームとは">ストリームとは</h2>
+<p>データの流れのことです。</p>
+<p>例えて言うなら、ファイルなどの大量なデータが小川を少しずつ流れるようなものです。<br />
+プログラムは、この小川の流れからデータを読み取る、もしくは小川へデータを流し込む（書き出す）などして、少しずつ処理をします。</p>
+<p>Javaでは、ファイル以外にも、標準入出力（System.outやSystem.in)などもストリームで処理を行います。
+また、Javaに限らず他の言語でもストリームを扱える言語は数多く存在します。</p>
+<h2 id="java-se-6-以前と-7-以降の入出力処理">Java SE 6 以前と 7
+以降の入出力処理</h2>
+<p>ここで紹介するファイル処理はごく一部の機能です。
+用途よっては異なる機能を使用しなければならない場合もあります。その点ご了承ください。</p>
+<h4 id="java8からのラムダで使用するようなstream-apiとは違います">※Java8からのラムダで使用するようなStream
+APIとは違います。</h4>
+<p>Java8には、コレクションをストリームとして扱い、ラムダで処理する記法が追加されましたが、今回お話するストリームはそれとは違います。</p>
+<h2 id="java-se-6以前ファイル読み込み処理">Java SE
+6以前ファイル読み込み処理</h2>
+<p>もっとも原初的な方法で、ファイル<code>hoge.txt</code>から1byteずつデータを取り出し、画面に出力するサンプルソースは以下のようになります。</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">//import java.io.*;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">String</span> filename <span class="op">=</span> <span class="st">&quot;hoge.txt&quot;</span><span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">FileReader</span> fr <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">//ファイルオープン</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    fr <span class="op">=</span> <span class="kw">new</span> <span class="bu">FileReader</span><span class="op">(</span>filename<span class="op">);</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> r<span class="op">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">//fr.read()はファイルに含まれる次の1文字をint型で値を返します。</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">//intで取得した値をchar型にキャストすることで文字になります。</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">//EOFで-1を返します。(-1がきたらファイルの最後まで来たと言うこと)</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span><span class="op">((</span>r <span class="op">=</span> fr<span class="op">.</span><span class="fu">read</span><span class="op">())</span> <span class="op">!=</span> <span class="op">-</span><span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        <span class="co">//1文字ずつ画面に表示</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">print</span><span class="op">((</span><span class="dt">char</span><span class="op">)</span>r<span class="op">);</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">IOException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">//入出力時例外</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">//ファイルが見つからなかったなどの例外発生時に画面にメッセージを表示し終了</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>e<span class="op">.</span><span class="fu">getMessage</span><span class="op">());</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">exit</span><span class="op">(</span><span class="dv">1</span><span class="op">);</span> <span class="co">//プログラムの異常終了</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">finally</span> <span class="op">{</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">//ファイルクローズ</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>fr <span class="op">!=</span> <span class="kw">null</span><span class="op">)</span> fr<span class="op">.</span><span class="fu">close</span><span class="op">();</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">IOException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>        <span class="co">//入出力時例外</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>        <span class="co">//ファイルを閉じる処理以前に、ファイル処理中で何らかの原因によりファイルが勝手に閉じられてしまった場合などに例外が発生します。</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>e<span class="op">.</span><span class="fu">getMessage</span><span class="op">());</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">exit</span><span class="op">(</span><span class="dv">1</span><span class="op">);</span> <span class="co">//プログラムの異常終了</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">finally</span> <span class="op">{</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>        <span class="co">//ファイルストリームの変数にnullを代入し、GCによるメモリの開放を促します。</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>        fr <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>C言語等の言語でも同じですが、ファイルを開いた後、何らかの処理を実行したら、<em><strong>ファイルは必ず閉じる</strong></em>
+処理が必要です。</p>
+<p>ファイル読み込み用のストリーム<code>FileReader</code>は使用し終わったら必ずclose()メソッドを呼び出さなければ、プログラムがファイルを開いた状態でロックしてしまい、他のプログラムで開くことができなくなってしまいます。</p>
+<p>しかも、取り出せる文字は1文字ずつです。</p>
+<p>ストリームを扱う場合は、このように確実な後始末をする必要があります。</p>
+<p>これをもう少し発展させてみましょう。<br />
+以下のサンプルソースは、<code>バッファストリーム (BufferedStream)</code>を用いて、<strong>1行ずつ</strong>
+ファイルを読み込む処理です。</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">//import java.io.*;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">String</span> filename <span class="op">=</span> <span class="st">&quot;hoge.txt&quot;</span><span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="bu">FileReader</span> fr <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="bu">BufferedReader</span> br <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">//ファイルオープン</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    fr <span class="op">=</span> <span class="kw">new</span> <span class="bu">FileReader</span><span class="op">(</span>filename<span class="op">);</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">//バッファを経由させ、以降はバッファから読み込み</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    br <span class="op">=</span> <span class="kw">new</span> <span class="bu">BufferedReader</span><span class="op">(</span>fr<span class="op">);</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">String</span> line<span class="op">;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">//br.readLine()は、EOFでnullを返す。</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span><span class="op">((</span>line <span class="op">=</span> br<span class="op">.</span><span class="fu">readLine</span><span class="op">())</span> <span class="op">!=</span> <span class="kw">null</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        <span class="co">//読み込まれた1行分の文字列には改行は含まれない。</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>line<span class="op">);</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">IOException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">//ファイルが見つからなかったなどの例外発生時に画面にメッセージを表示し終了</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>e<span class="op">.</span><span class="fu">getMessage</span><span class="op">());</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">exit</span><span class="op">(</span><span class="dv">1</span><span class="op">);</span> <span class="co">//プログラムの異常終了</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">finally</span> <span class="op">{</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">//ファイルクローズ</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>fr <span class="op">!=</span> <span class="kw">null</span><span class="op">)</span> fr<span class="op">.</span><span class="fu">close</span><span class="op">();</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">IOException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>        <span class="co">//入出力時例外</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>        <span class="co">//ファイルを閉じる処理以前に、ファイル処理中で何らかの原因によりファイルが勝手に閉じられてしまった場合などに例外が発生します。</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>e<span class="op">.</span><span class="fu">getMessage</span><span class="op">());</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">exit</span><span class="op">(</span><span class="dv">1</span><span class="op">);</span> <span class="co">//プログラムの異常終了</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">finally</span> <span class="op">{</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>        fr <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    <span class="co">//バッファクローズ</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>br <span class="op">!=</span> <span class="kw">null</span><span class="op">)</span> br<span class="op">.</span><span class="fu">close</span><span class="op">();</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">IOException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>        <span class="co">//入出力時例外</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>        <span class="co">//ファイルを閉じる処理以前に、ファイル処理中で何らかの原因によりファイルが勝手に閉じられてしまった場合などに例外が発生します。</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>e<span class="op">.</span><span class="fu">getMessage</span><span class="op">());</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">exit</span><span class="op">(</span><span class="dv">1</span><span class="op">);</span> <span class="co">//プログラムの異常終了</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">finally</span> <span class="op">{</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>        br <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>複数のストリームを確実に開放する処理が増え、さらに面倒くさい雰囲気になりました。<br />
+ただ、テキストが1行ずつ読み込めるようになったことを考えると先ほどのソースコードよりは幾分かマシです。</p>
+<h2 id="新ファイル読み込み処理">(新)ファイル読み込み処理</h2>
+<p>古い書き方は、実際多くのプログラマを混乱させ、数多くのバグを発生させる悩みのタネでした。<br />
+それを改善するために、新しいバージョンのJavaが出るたびに改良されてきました。Java
+SE 7で新しくなった書き方を見てみましょう。</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">//import java.io.BufferedReader;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">//import java.io.IOException;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">//import java.io.UncheckedIOException;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">//import java.nio.file.Files;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">//import java.nio.file.Paths;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="bu">String</span> filename <span class="op">=</span> <span class="st">&quot;hoge.txt&quot;</span><span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">//try-with-resources構文を用いてclose()を省略</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span> <span class="op">(</span><span class="bu">BufferedReader</span> br <span class="op">=</span> Files<span class="op">.</span><span class="fu">newBufferedReader</span><span class="op">(</span>Paths<span class="op">.</span><span class="fu">get</span><span class="op">(</span>filename<span class="op">)))</span> <span class="op">{</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">String</span> line<span class="op">;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">((</span>line <span class="op">=</span> br<span class="op">.</span><span class="fu">readLine</span><span class="op">())</span> <span class="op">!=</span> <span class="kw">null</span><span class="op">)</span> <span class="op">{</span> <span class="co">// 1行読み込みとNull比較を同時に行う</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>line<span class="op">);</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">IOException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 本来はファイルが見つからない、ロックされてて開けないなどのファイル入力時例外として捕捉されることが想定されます。</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">// UncheckedIOExceptionは、検査例外であるIOExceptionを非検査例外としてラッピングし、送出し直すための例外クラスです。</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">throw</span> <span class="kw">new</span> <span class="fu">UncheckedIOException</span><span class="op">(</span>e<span class="op">);</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>非常にシンプルになりました。<br />
+これなら間違いも少なくなりそうです。</p>
+<p>この、リソースを指定して行う <code>try</code> 構文は、
+<em><strong>try-with-resources構文</strong></em>
+と呼ばれ、1つ以上のリソースを宣言するtry構文です。<br />
+BufferedReaderなどのストリームのリソースは、プログラムでの使用が終わったら閉じられなければいけないオブジェクトです。<br />
+try-with-resources構文は、<code>try (  )</code>内で宣言とインスタンス化をしたリソースについて、こちらで明示的に書かなくてもtry文の終わりで内部的に各リソースが確実に閉じられるようにします。finallyが要らなくなったということですね。</p>
+<p>また、<code>try ( )</code>内には、複数のリソースを指定できます。その場合は、通常の行末と同じように<code>;</code>で区切りましょう。</p>
+<p><code>Files.newBufferedReader(file.toPath())</code>の部分については、Filesのstaticなメソッド<code>newBufferedReader</code>を用いてBufferedReaderを生成しています。FileReaderなどのファイル読み込み用ストリームを用意する必要がなくなりました。</p>
+<p>さらに<code>java.util.Scanner</code>でBufferedReaderを読み込むようにすると、while文の条件を簡略化できます。</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">// BufferedReaderのインスタンスは、Scannerの初期化にのみ使われるので変数定義は不要</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span> <span class="op">(</span><span class="bu">Scanner</span> sc <span class="op">=</span> <span class="kw">new</span> <span class="bu">Scanner</span><span class="op">(</span>Files<span class="op">.</span><span class="fu">newBufferedReader</span><span class="op">(</span>Path<span class="op">.</span><span class="fu">of</span><span class="op">(</span>filename<span class="op">))))</span> <span class="op">{</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span>sc<span class="op">.</span><span class="fu">hasNextLine</span><span class="op">())</span> <span class="op">{</span>      <span class="co">// ここが簡略化される</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">String</span> line <span class="op">=</span> sc<span class="op">.</span><span class="fu">nextLine</span><span class="op">();</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>line<span class="op">);</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">IOException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">throw</span> <span class="kw">new</span> <span class="fu">UncheckedIOException</span><span class="op">(</span>e<span class="op">);</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h4 id="余談try-with-resourcesでリソースとして使える条件">余談：try-with-resourcesでリソースとして使える条件</h4>
+<p>try-with-resourcesの構文内で、リソースとして指定できるオブジェクトは、<code>java.io.Closeable</code>インターフェイスを実装しているすべてのオブジェクトも含め、<code>java.lang.AutoCloseable</code>インタフェースを実装しているオブジェクトです。</p>
+<h3 id="stream-apiとラムダを用いた記法">Stream
+APIとラムダを用いた記法</h3>
+<p><code>java.nio.file.Files</code>には、テキストファイルの読み込み時、ストリーム処理を内包して利用者にそれを見せず、Java
+8から実装されたStreamクラスを返す便利なメソッドが存在します。</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">//import java.io.IOException;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">//import java.io.UncheckedIOException;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">//import java.nio.file.Paths;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">//import java.nio.file.Files;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  Files<span class="op">.</span><span class="fu">lines</span><span class="op">(</span>Paths<span class="op">.</span><span class="fu">get</span><span class="op">(</span><span class="st">&quot;hoge.txt&quot;</span><span class="op">)).</span><span class="fu">forEach</span><span class="op">(</span>l <span class="op">-&gt;</span> <span class="op">{</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>      <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>l<span class="op">);</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="op">});</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">catch</span><span class="op">(</span><span class="bu">IOException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">throw</span> <span class="kw">new</span> <span class="fu">UncheckedIOException</span><span class="op">(</span>e<span class="op">);</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>BufferedReaderを使用しないので、try-with-resources構文すら使用する必要もなくなりました。</p>
+<h2 id="ファイルパスファイル操作関連クラス">ファイルパス・ファイル操作関連クラス</h2>
+<p>パスやファイルの操作を行う際に、便利なメソッドを持ったクラスがいくつかあります。</p>
+<h3 id="javaiofileクラス">java.io.Fileクラス</h3>
+<p>Fileクラスのインスタンスには、指定されたパスにファイルが存在するかを確認するexists()メソッドや、読み込み可能か確認するcanRead()メソッドや、ファイル生成・消去などの制御を可能とするメソッドがあります。こういったメソッドを使用すると「ファイルが存在しない」などの例外をチェックすることや、空のファイルを作成するなどができるようになります。</p>
+<p>参考：<a href="https://docs.oracle.com/javase/jp/17/docs/api/java.base/java/io/File.html">File
+(Java SE 17 &amp; JDK 17 )</a></p>
+<h3 id="javaniofileパッケージ">java.nio.fileパッケージ</h3>
+<p>Javaの<code>new I/O</code>パッケージです。</p>
+<p>Javaにおけるファイル処理は、度重なる仕様変更によってどんどん便利な機能が追加されています。<code>java.nio.file</code>パッケージは、Java
+SE
+4以降に追加されたパッケージで、この内容はJavaのバージョンが新しくなるに連れてクラスやメソッドが追加されています。</p>
+<p>上記のサンプルソースなどで用いられているFilesやPathsなどのクラスが含まれており、FilesやPathsなどはとくに新しいため<code>new I/O 2</code>などと呼ばれます。<br />
+<code>new I/O 2</code>は、今まで煩雑だった書き方のファイル処理を簡潔に書けるようになるいくつかのファイル関連操作クラスが含まれています。</p>
+<p>たとえば、Filesクラスや、Pathsクラスのstaticなメソッドを利用して、指定したパスのテキストファイルが読み込みできるかどうかを判断するには以下のようにできます。</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(!</span>Files<span class="op">.</span><span class="fu">isReadable</span><span class="op">(</span>Paths<span class="op">.</span><span class="fu">get</span><span class="op">(</span><span class="st">&quot;hoge.txt&quot;</span><span class="op">)))</span> <span class="op">{</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 読み込み不可・・・</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>参考：<a href="https://docs.oracle.com/javase/jp/17/docs/api/java.base/java/nio/file/package-summary.html">java.nio.file
+(Java SE 17 &amp; JDK 17)</a></p>
+<p>自分で全部やろうとしないで、こういったクラスライブラリを使用することで、極力バグを減らすことにつながります。<br />
+時間があるときに、上記リンク先に目を通しておくとよいでしょう。 　</p>
+<p>　</p>
+<p>　</p>
+<hr />
+<h2 id="旧ファイル書き込み処理">(旧)ファイル書き込み処理</h2>
+<p>割愛します。読み込みと同様、非常に面倒です。</p>
+<h2 id="新ファイル書き込み処理">(新)ファイル書き込み処理</h2>
+<p>サンプルソースは以下のとおりです。</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">//import java.io.*;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">//import java.nio.charset.Charset;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">//import java.nio.file.Files;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">//import java.nio.file.Paths;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">//import java.nio.file.StandardOpenOption;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">//import java.util.Arrays;</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">// 書き込みたいデータ</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> lines <span class="op">=</span> <span class="bu">Arrays</span><span class="op">.</span><span class="fu">asList</span><span class="op">(</span><span class="st">&quot;いろはにほへと&quot;</span><span class="op">,</span> <span class="st">&quot;ちりぬるを&quot;</span><span class="op">,</span> <span class="st">&quot;わかよたれそ&quot;</span><span class="op">,</span> <span class="st">&quot;つねならむ&quot;</span><span class="op">,</span> <span class="st">&quot;うゐのおくやま&quot;</span><span class="op">,</span> <span class="st">&quot;けふこえて&quot;</span><span class="op">,</span> <span class="st">&quot;あさきゆめみし&quot;</span><span class="op">,</span> <span class="st">&quot;ゑひもせすん&quot;</span><span class="op">);</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span> <span class="op">(</span> <span class="bu">BufferedWriter</span> bw <span class="op">=</span> Files<span class="op">.</span><span class="fu">newBufferedWriter</span><span class="op">(</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        Paths<span class="op">.</span><span class="fu">get</span><span class="op">(</span><span class="st">&quot;hige.txt&quot;</span><span class="op">),</span>                 <span class="co">// hige.txt</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        <span class="bu">Charset</span><span class="op">.</span><span class="fu">defaultCharset</span><span class="op">(),</span>                   <span class="co">// システムの標準文字コード(Macの場合UTF-8)で新規作成する</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>        StandardOpenOption<span class="op">.</span><span class="fu">CREATE</span><span class="op">,</span>                  <span class="co">// ファイルが見つからない場合は新規作成</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>        StandardOpenOption<span class="op">.</span><span class="fu">WRITE</span><span class="op">,</span>                   <span class="co">// 書き込みモード</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        StandardOpenOption<span class="op">.</span><span class="fu">TRUNCATE_EXISTING</span><span class="op">)</span>       <span class="co">// ファイルがある場合は、データを消去する</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="bu">String</span> line <span class="op">:</span> lines<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>        <span class="co">//一行書き込み</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>        bw<span class="op">.</span><span class="fu">write</span><span class="op">(</span>line<span class="op">);</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>        bw<span class="op">.</span><span class="fu">newLine</span><span class="op">();</span> <span class="co">//改行を入れる</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">IOException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">throw</span> <span class="kw">new</span> <span class="fu">UncheckedIOException</span><span class="op">(</span>e<span class="op">);</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>文字列の配列を、要素ごとに改行を入れながらテキストファイルに書き込みするサンプルです。
+こちらも、読み込みと同様に、try-with-resources構文を用いてファイルクローズ処理を省略しています。</p>
+<p>読み込みの際には省略してしまいましたが、<code>newBufferedWriter</code>メソッドを呼び出す時、文字コードをシステム標準の文字コードを指定するようにしました。
+テキストファイルには、どうしても文字コードが異なることによる文字化けなど、嵌ってしまいやすい部分があります。
+本来は、読み込み・書き込みどちらでも、文字コードを正しく指定することが望ましいのですが、都度書くのは手間がかかります。
+文字化け等の不具合が起きる場合はこのように文字コードを指定できることを知っておきましょう。
+文字コード自体の詳細については割愛しますが、テキストファイルには文字コードがつきものだ、と覚えておいてください。</p>
+<p>また、<code>java.nio.file.StandardOpenOption</code>には、他にもいくつかのオプションが存在しています。以下のドキュメントを見ておきましょう。</p>
+<ul>
+<li><a href="https://docs.oracle.com/javase/jp/17/docs/api/java.base/java/nio/file/StandardOpenOption.html">StandardOpenOption
+(Java SE 17 &amp; JDK 17 )</a></li>
+</ul>
+<hr />
+<h1 id="テキストファイルのアクセス方式">テキストファイルのアクセス方式</h1>
+<p>これまでのテキストファイルの入出力は、すべて特定の場所から順に読み込みを行う方式で行っています。<br />
+通常のテキストファイルに対する処理は、こういった<strong>シーケンシャルアクセス(Sequential
+Access)</strong> で対応できます。</p>
+<p>しかし、「読み書きしたい場所とデータ」を都度指定する<strong>ランダムアクセス(Random
+Access)</strong> をしたい場合もあります。</p>
+<p>その様な場合には、ランダムアクセスを専用に行うAPIがあります。<br />
+詳しい説明は割愛しますが、<code>java.io.RandomAccessFile</code>クラスなどが使えます。</p>
+<p><code>java.io.RandomAccessFile</code>クラスの<code>seek()</code>メソッドでは、ファイルの先頭から何バイト目に移動するかどうかを決定してから<code>readByte()</code>メソッドや<code>writeByte()</code>メソッドで読み書きが可能です。</p>
+<h2 id="シーケンシャルアクセスとランダムアクセスのメリットデメリット">シーケンシャルアクセスとランダムアクセスのメリット・デメリット</h2>
+<p>それぞれ、先頭から順にアクセスする方法（シーケンシャルアクセス）と、指定した箇所を始めとしたアクセス方式（ランダムアクセス）では、それぞれメリット・デメリットがあります。その違いよ良く知っておきましょう。</p>
+<h3 id="シーケンシャルアクセス">シーケンシャルアクセス</h3>
+<h4 id="メリット">メリット</h4>
+<ul>
+<li>読み書きの速度が高速</li>
+<li>大きなファイルでも速度に違いが少ない</li>
+</ul>
+<h4 id="デメリット">デメリット</h4>
+<ul>
+<li>先頭から順にしか読み書きできない</li>
+</ul>
+<h3 id="ランダムアクセス">ランダムアクセス</h3>
+<h4 id="メリット-1">メリット</h4>
+<ul>
+<li>ファイルの読み書きしたい場所を指定することができる</li>
+</ul>
+<h4 id="デメリット-1">デメリット</h4>
+<ul>
+<li>ファイルの変更によって、指定箇所のずれが生じる可能性あり</li>
+<li>読み書きの速度が遅い（指定箇所を探す処理などが必要なため）</li>
+<li>大きなファイルになると速度が顕著に遅くなる</li>
+</ul>
+<h3 id="とくに理由がなければシーケンシャルアクセスを使う">とくに理由がなければシーケンシャルアクセスを使う</h3>
+<p>理由は、ファイルと言うプログラムでの管理外にある外部資源に対するアクセスを行うため、ランダムアクセスによるデメリットが大きくなります。<br />
+とくに<code>java.io.RandomAccessFile</code>クラスの<code>seek()</code>メソッドを使った場合、先頭から何バイト目という方法でアクセスすることとなりますが、ファイルの変更によって変更箇所以降の読み込み・書き込み位置がずれていくことになります。ファイルを変更する都度、読み込みをし直す必要が出てきます。</p>
+<p>ランダムアクセスを使用する場合には、操作したいファイルの特性をよく理解した上で扱うようにしましょう。
+　</p>
+<p>　</p>
+<p>　</p>
+<hr />
+<h1 id="テキストファイルのさまざまな形式">テキストファイルのさまざまな形式</h1>
+<p>単純なテキスト形式ファイルの他に、データを保存することに適した汎用フォーマットのファイル形式がいくつかあります。</p>
+<p>代表的なものとしては、カンマ区切りでデータを羅列するCSV形式、Javaで使用されるプロパティファイル、タグによるデータへの意味付けを行いデータのネストが可能なXML形式、同様にネストが可能でWebでよく使用されるJSON形式などがあります。</p>
+<p>それぞれの形式についてざっくりと解説致します。</p>
+<h2 id="csv形式-comma-separated-values">CSV形式 (Comma-Separated
+Values)</h2>
+<p>データを以下のように<code>,</code>（カンマ）で区切るファイル形式です。</p>
+<pre class="csv"><code>たろう,100,50</code></pre>
+<p>単純なテキスト処理で書き出しが可能でシンプルな形式のため、単純なデータを格納する際に用いられることが多いです。</p>
+<p>データはすべて文字列形式で記録されます。<br />
+数値や日付などの値も文字列になって保存、取得されますので、数値の場合は変換処理が必要です。</p>
+<p>一般的に、各データの区切り記号にはカンマが使用されますが、まれにスペースや、タブ（タブ区切りの場合はTab-Separated
+Values - TSVと呼びます）などを区切り記号とする場合もあります。<br />
+この区切り記号のことをデリミタ（delimiter）と呼びます。</p>
+<p>CSVを扱うには、テキストファイルを1行ずつ読み込み、カンマごとに分割して処理を行います。<br />
+（この方法は、あくまでもJavaの標準APIを使ったもっとも簡単な方法で、融通が利きません。後述する方法も試してみましょう。）</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">String</span> data <span class="op">=</span> <span class="st">&quot;たろう,じろう,さぶろう&quot;</span><span class="op">;</span>  <span class="co">//データはCSVの1行を想定</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="bu">String</span><span class="op">[]</span> cols <span class="op">=</span> data<span class="op">.</span><span class="fu">split</span><span class="op">(</span><span class="st">&quot;,&quot;</span><span class="op">,</span> <span class="op">-</span><span class="dv">1</span><span class="op">);</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span><span class="bu">String</span> datum <span class="op">:</span> cols<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>datum<span class="op">);</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><code>String</code>のインスタンスメソッドである<code>split</code>を使うと、指定文字をデリミタとして分割しStringの配列を返します。</p>
+<h3 id="csvファイルのフォーマット">CSVファイルのフォーマット</h3>
+<p>CSV形式は、非常に古くから存在するファイル形式であり、数多くの方言が存在します。</p>
+<p>たとえば、以下のような方言があります。</p>
+<ol type="1">
+<li>文字列は必ずダブルクォーテーションで囲う</li>
+<li>レコードの区切り文字をCR+LFとして、セル内改行はCRのみで表す</li>
+<li>ダブルクォーテーションで囲った文字列内であれば改行を入れて良い</li>
+<li>文字コードは<code>Shift-JIS</code>のみ</li>
+<li>1行目には必ずヘッダを設け、各列の名前を設定する</li>
+<li><code>#</code>で始まる行はコメントとする</li>
+</ol>
+<p>など、ちょっと考えただけでもどうやって実装すればよいか分からなくなるもの（とくに改行に関するもの※後述）があり、かつ全部の方言を仕様として制御しようと思っても矛盾が生じてしまうため不可能と言って良いです。<br />
+（金額項目に3桁区切りで<code>,</code>が入ってくるデータとか送られてくると軽く発狂します。）</p>
+<p>統一の仕様については、<code>RFC 4180</code>で定められており、この仕様に準拠しようとすると、以下のCSVデータも正しく読まないといけません。</p>
+<pre class="csv"><code># これはコメント
+&quot;aaa&quot;,&quot;bbb
+#コメントじゃない&quot;,&quot;ccc&quot;</code></pre>
+<p>このデータは、以下の様なデータとして区切られます。</p>
+<table>
+<thead>
+<tr class="header">
+<th>1</th>
+<th>2</th>
+<th>3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>aaa</td>
+<td>bbb<br>#コメントじゃない</td>
+<td>ccc</td>
+</tr>
+</tbody>
+</table>
+<p>先ほど紹介した1行ずつ読み込む、という処理方法で、この仕様は満たせるでしょうか？（当然ながら無理なのはわかると思います。）</p>
+<p>では、RFC4180に準拠したCSV読み込みの方法はどうすれば良いのかというと、外部ライブラリに頼りましょう。という結論になります。</p>
+<p>外部ライブラリの使い方については、「Mavenを使った外部ライブラリの利用」という資料にまとめました。そちらをご覧いただきつつ、以下のライブラリを紹介しておきます。</p>
+<ul>
+<li><a href="https://commons.apache.org/proper/commons-csv/">Commons CSV
+– Home</a></li>
+<li><a href="http://opencsv.sourceforge.net/">opencsv –</a></li>
+</ul>
+<h2 id="javaプロパティファイル">Javaプロパティファイル</h2>
+<p>CSV形式では、それぞれのデータの意味が分かりずらいです。
+データにきちんと意味づけを行いたい場合はデータをキーと値のペアとして保存できる形式<code>*.properties</code>を使います。</p>
+<p>javaのプロパティファイルに関するルールは以下のとおりです。</p>
+<ol type="1">
+<li>データはすべて文字列として扱われ、テキストファイルとして保存される</li>
+<li>各行には「キー」と「値」をペアとして、「ペアデリミタ」で区切り記述する</li>
+<li>ペアデリミタには、<code>=</code>（イコール）、<code>:</code>（コロン）、<code> </code>（スペース）のどれかの文字を使用する</li>
+<li><code>#</code>（シャープ）、<code>!</code>（感嘆符）で始まる行は、コメントとして無視される</li>
+<li>ファイルの拡張子は<code>*.properties</code>を使用するのが一般的だがテキストファイルであれば拡張子は関係ない</li>
+</ol>
+<p>プロパティファイルの読み書きには、<code>java.util.Properties</code>クラスを使用します。</p>
+<p>単純な単一データの保持にはテキストやCSVよりこちらを使ったほうが便利です。</p>
+<p>Javaプロパティファイルは、以下のようにデータの名前とデータを「=」でつなぎます。</p>
+<pre><code># プロパティファイル名は、「hoge.properties」です。
+# 拡張子は.propertiesじゃなくてもOK。
+# コメントは＃記号で
+name=hoge
+mail=hoge@aitech.ac.jp</code></pre>
+<p>プロパティファイルの読み込みは、以下のソースコードを参考にしてください。</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">//import java.io.FileInputStream;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co">//import java.io.IOException;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">//import java.util.Properties;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="bu">String</span> configFile <span class="op">=</span> <span class="st">&quot;hoge.properties&quot;</span><span class="op">;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="bu">Properties</span> prop <span class="op">=</span> <span class="kw">new</span> <span class="bu">Properties</span><span class="op">();</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">// プロパティファイルの読込</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  prop<span class="op">.</span><span class="fu">load</span><span class="op">(</span><span class="kw">new</span> <span class="bu">FileInputStream</span><span class="op">(</span>configFile<span class="op">));</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">IOException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">throw</span> <span class="kw">new</span> <span class="fu">UncheckedIOException</span><span class="op">(</span>e<span class="op">);</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>prop<span class="op">.</span><span class="fu">isEmpty</span><span class="op">())</span> <span class="op">{</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;プロパティファイルの読み込みに失敗しました。&quot;</span><span class="op">);</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="bu">String</span> name <span class="op">=</span> prop<span class="op">.</span><span class="fu">getProperty</span><span class="op">(</span><span class="st">&quot;name&quot;</span><span class="op">);</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="bu">String</span> mail <span class="op">=</span> prop<span class="op">.</span><span class="fu">getProperty</span><span class="op">(</span><span class="st">&quot;mail&quot;</span><span class="op">);</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;name: &quot;</span> <span class="op">+</span> name<span class="op">);</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;mail: &quot;</span> <span class="op">+</span> mail<span class="op">);</span></span></code></pre></div>
+<h2 id="xml形式-extensible-markup-language">XML形式 (eXtensible Markup
+Language)</h2>
+<p>XML形式は、データに意味付けを行うと同時にデータのネストを可能とするテキスト形式です。</p>
+<p>たとえば、名前とHPと攻撃力と武器（名前と攻撃力）を持つ勇者のデータをXML形式で表すと以下のようになります。</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">hero</span>&gt;</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">name</span>&gt;たろう&lt;/<span class="kw">name</span>&gt;</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">hp</span>&gt;100&lt;/<span class="kw">hp</span>&gt;</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">atk</span>&gt;50&lt;/<span class="kw">atk</span>&gt;</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">weapon</span>&gt;</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">name</span>&gt;きのぼう&lt;/<span class="kw">name</span>&gt;</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">rate</span>&gt;1.3&lt;/<span class="kw">rate</span>&gt;</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">weapon</span>&gt;</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">hero</span>&gt;</span></code></pre></div>
+<p>親子構造を保持するので、データへのアクセス方法は、若干特殊です。
+上記の例で、hpを取り出す方法をまとめると、以下のようになります。</p>
+<ol type="1">
+<li>ファイル全体を取得</li>
+<li>一番外側のheroタグを探す</li>
+<li>その中のhpタグを取得</li>
+<li>hpタグの中身を文字列で取り出す</li>
+</ol>
+<p>XML形式の取り扱いは、<code>java.xml.parsersパッケージ</code>などで構成されるAPIを使用します。</p>
+<p>サンプルソースについては割愛します。</p>
+<h2 id="json形式-javascript-object-nortation">JSON形式 (JavaScript
+Object Nortation)</h2>
+<p>XML形式と似たようなデータ・フォーマットで、データのネストが可能です。<br />
+名前から見てもわかるように、もともとはJavaScriptのために用意されたデータ形式で、JavaScriptではこのデータ形式を自動的にインスタンス化してオブジェクトとして利用できるメリットがあります。<br />
+また、XMLに比べ軽量で、Webシステムなどでよく利用されるデータ・フォーマットです。</p>
+<p>上記XMLサンプルと同じデータをJSONで表現すると以下のようになります。</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;hero&quot;</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;たろう&quot;</span><span class="fu">,</span><span class="dt">&quot;hp&quot;</span><span class="fu">:</span><span class="dv">100</span><span class="fu">,</span><span class="dt">&quot;atk&quot;</span><span class="fu">:</span><span class="dv">50</span><span class="fu">,</span> <span class="dt">&quot;weapon&quot;</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">&quot;name&quot;</span><span class="fu">:</span><span class="st">&quot;きのぼう&quot;</span><span class="fu">,</span><span class="dt">&quot;rate&quot;</span><span class="fu">:</span><span class="fl">1.3</span><span class="fu">}</span> <span class="fu">}</span> <span class="fu">}</span></span></code></pre></div>
+<p>特徴としては、数値を数値として保持できるところと、データ量がXMLに比べ軽量であるところです。</p>
+<p>ただ、Javaの強力な型システムとはかなり相性が悪く、JSONの柔軟な項目の表現をそのまま扱うことは難しいです。
+サンプルソースについては割愛しますが、以下のライブラリを検討すると良いと思います。</p>
+<ul>
+<li><a href="https://github.com/google/gson">google/gson: A Java
+serialization/deserialization library to convert Java Objects into JSON
+and back</a></li>
+<li><a href="https://github.com/FasterXML/jackson">FasterXML/jackson:
+Main Portal page for the Jackson project</a></li>
+</ul>
+<h1 id="バイナリファイルの読み書き">バイナリファイルの読み書き</h1>
+<p>ファイルには、テキスト形式で書き込まれたファイルの他に、2進数の01で表現されるバイナリファイルがあります。</p>
+<p>テキストファイルもバイナリファイルの内の1つではありますが、扱うデータが文字かバイナリかで処理方法が大きく異なります。</p>
+<h2 id="バイナリファイルを扱うストリーム">バイナリファイルを扱うストリーム</h2>
+<p>テキストファイルを扱うストリームとして、代表的なものに<code>FileReader</code>や<code>FileWriter</code>があります。</p>
+<p>それに対して、バイナリファイルを扱うストリームは、代表的なものに<code>FileInputStream</code>、<code>FileOutputStream</code>があります。</p>
+<h2 id="fileinputstreamfileoutputstream">FileInputStream,FileOutputStream</h2>
+<p>コンストラクタやメソッドは、FileReaderやFileWriterとよく似ていますが、取り扱うデータが文字から<strong>バイト配列</strong>に変わっています。</p>
+<p>また、<code>write()</code>メソッドや、<code>read()</code>メソッドの読み書きの単位は、1バイト（8bit）ずつとなっています。</p>
+<h2 id="テキストデータをバイナリで操作する場合の注意点">テキストデータをバイナリで操作する場合の注意点</h2>
+<p>テキストデータをバイナリで操作する場合には、<strong>文字コード</strong>
+に気をつける必要があります。</p>
+<p>人間から見たら同じ <code>あ</code>
+という文字であったとしても、UTF-8で保存した場合は<code>1110 0011 1000 0001 (0xE381)</code>
+と、Shift-JISで保存した場合は<code>1000 0010 1010 0000 (0x82A0)</code>
+で値が異なります。<br />
+文字コードが異なれば、バイナリデータも異なってきます。とくに日本語のデータを扱う場合には注意が必要ですので覚えておきましょう。</p>
+<h3 id="バイナリデータの確認方法">バイナリデータの確認方法</h3>
+<p>バイナリエディタと呼ばれるバイナリデータの閲覧（または編集）が可能なツールを使います。</p>
+<p>Macの場合は、App Storeで配布されている「Hex
+Field」がオススメです。</p>
+<ul>
+<li><a href="https://apps.apple.com/jp/app/hex-fiend/id1342896380?mt=12">「Hex
+Fiend」をMac App Storeで</a></li>
+</ul>
+<p>または、VS
+Codeなどのテキストエディタの拡張機能として、バイナリエディタが配布されていたりします。
+自分の環境に合わせてバイナリエディタを探してみるとよいでしょう。</p>
+<h3 id="テキストファイルの文字コードを指定して読み込み">テキストファイルの文字コードを指定して読み込み</h3>
+<p>文字コードを指定する場合、<code>Files.newBufferedReader</code>にて第2引数で指定します。</p>
+<p>以下は<code>Shift-JIS</code>(<code>ms932</code>)の文字コードのファイルを読み込みます。</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">//import java.io.IOException;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co">//import java.io.UncheckedIOException;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">//import java.nio.file.Files;</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co">//import java.nio.file.Path;</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co">//import java.util.Scanner;</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co">//import java.nio.charset.Charset;</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span> <span class="op">(</span><span class="bu">Scanner</span> sc <span class="op">=</span> <span class="kw">new</span> <span class="bu">Scanner</span><span class="op">(</span>Files<span class="op">.</span><span class="fu">newBufferedReader</span><span class="op">(</span>Path<span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="st">&quot;path/to/file.txt&quot;</span><span class="op">),</span> <span class="bu">Charset</span><span class="op">.</span><span class="fu">forName</span><span class="op">(</span><span class="st">&quot;ms932&quot;</span><span class="op">))))</span> <span class="op">{</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span>sc<span class="op">.</span><span class="fu">hasNextLine</span><span class="op">())</span> <span class="op">{</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>sc<span class="op">.</span><span class="fu">nextLine</span><span class="op">());</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">IOException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">throw</span> <span class="kw">new</span> <span class="fu">UncheckedIOException</span><span class="op">(</span>e<span class="op">);</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>古い日本語テキストファイルには、<code>Shift-JIS</code>(<code>ms932</code>)という文字コードが使用されていることがあり、これを使うことで文字化けを回避できます。</p>
+<p>また、<code>Charset.defaultCharset()</code>を使用するとシステム標準文字コードを指定でき、<code>java.nio.charset.StandardCharsets</code>には、標準的に使用される文字コード数種類の定数が用意されています。</p>
+<p>ここで紹介している読み込みメソッドには、このコードと同様に文字コードを指定して開くことができるものもあります。必要な場合は各自調べて使いましょう。</p>
+<h3 id="shift-jisの文字コードを持ったファイル処理">Shift-JISの文字コードを持ったファイル処理</h3>
+<p>Javaにおいて、Shift-JISとして使用できる文字コードには、<code>Shift-JIS</code>,<code>cp932</code>,<code>ms932</code>の3種類があり、それぞれ歴史的経緯により<code>Shift-JIS</code>
+→ <code>cp932</code> →
+<code>ms932</code>の順に新しくなっております。(cp932は正式名称ですが、ms932はcp932のJavaでの実装上の名称であり正式名称ではありません。)</p>
+<p>また厄介なことに、Javaで<code>Shift-JIS</code>を指定してファイルを読み取りすると、MalformedInputExceptionによる文字コードミスマッチの例外は発生しない状況が存在します。<br />
+その1つが、BufferedReaderを使った際に<code>Shift-JIS</code>では認識できないが<code>ms932</code>では認識できる文字を<code>Shift-JIS</code>として指定すると、その文字でEOFが発生してしまい、ファイルが最後まで読み込まれないことがあるという点です。</p>
+<p>現在のJavaでは、基本的にShift-JISの文字コードのファイルはすべて<code>ms932</code>で読み込めば問題なく読み取れます。</p>
+<p>以下、歴史的経緯を学ぶのに最適な外部サイト</p>
+<ul>
+<li><a href="https://weblabo.oscasierra.net/shift_jis-windows31j/">Shift_JIS と
+Windows-31J (MS932) の違いを整理してみよう |</a></li>
+<li><a href="https://tools.m-bsys.com/ex/sjis.php">Shift_JIS系文字一覧イメージとSJIS・MS932・CP943・SJIS2004の違い
+- instant tools</a></li>
+</ul>
+<p>　</p>
+<p>　</p>
+<hr />
+<h1 id="ideを使った場合のデフォルトファイル参照先">IDEを使った場合のデフォルトファイル参照先</h1>
+<p>たとえば、以下のソースコードでファイルを開こうとした場合、どのディレクトリの<code>hoge.txt</code>が読みこまれるか、という話です。</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">//import java.io.*;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co">//import java.nio.file.Files;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co">//import java.nio.file.Path;</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="bu">String</span> filename <span class="op">=</span> <span class="st">&quot;hoge.txt&quot;</span><span class="op">;</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span> <span class="op">(</span><span class="bu">Scanner</span> sc <span class="op">=</span> <span class="kw">new</span> <span class="bu">Scanner</span><span class="op">(</span>Files<span class="op">.</span><span class="fu">newBufferedReader</span><span class="op">(</span>Path<span class="op">.</span><span class="fu">of</span><span class="op">(</span>filename<span class="op">))))</span> <span class="op">{</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span>sc<span class="op">.</span><span class="fu">hasNextLine</span><span class="op">())</span> <span class="op">{</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">String</span> line <span class="op">=</span> sc<span class="op">.</span><span class="fu">nextLine</span><span class="op">();</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>line<span class="op">);</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">IOException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">throw</span> <span class="kw">new</span> <span class="fu">UncheckedIOException</span><span class="op">(</span>e<span class="op">);</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>この場合は、プロジェクトフォルダ直下のファイルが読みこまれます。</p>
+<ul>
+<li>［プロジェクト名ディレクトリ］
+<ul>
+<li>［.idea］&lt;- IntelliJ
+IDEAのプロジェクト設定ファイル等IDE用のファイルが格納されます</li>
+<li>［out］&lt;-
+コンパイル済みの中間コードやjarファイルなどの成果物が入ります</li>
+<li>［src］&lt;- プロジェクトのパッケージ、ソースコードが入ってます</li>
+<li>［プロジェクト名］.iml &lt;-
+プロジェクトのビルドに関する設定ファイル</li>
+<li><em><strong>hoge.txt</strong></em> &lt;- これが読みこまれます。</li>
+</ul></li>
+</ul>
+</body>
+</html>

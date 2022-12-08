@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="generator" content="pandoc">
+  <title>java.util.Scannerクラス</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+<style type="text/css">
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+code {
+  white-space: pre-wrap;
+}
+
+span.smallcaps {
+  font-variant: small-caps;
+}
+
+span.underline {
+  text-decoration: underline;
+}
+
+div.column {
+  display: inline-block;
+  vertical-align: top;
+  width: 50%;
+}
+
+body {
+  font-size: 14pt;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN,
+    Arial, "メイリオ", Meiryo, sans-serif;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 2em;
+  background-color: #f8f8f8;
+  color: #232323;
+}
+
+hr {
+  height: 4px;
+  padding: 0;
+  margin: 6rem 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+  background:
+    url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC");
+}
+
+p,
+table {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  line-height: 2rem;
+  letter-spacing: 0.03rem;
+}
+
+strong {
+  text-decoration: none;
+  color: hsla(0, 75%, 55%, 1);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+  color: #232323;
+  letter-spacing: 0.05rem;
+  margin-top: 2rem;
+}
+
+h1 {
+  font-size: 2rem;
+  margin: 2rem auto 1rem;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2rem 0 1rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+  margin: 2rem 0 1rem;
+}
+
+h5 {
+  font-size: 1.2rem;
+  margin: 2rem 0 1rem;
+}
+
+h6 {
+  font-size: 1.1rem;
+  margin: 2rem 0 1rem;
+}
+
+ul,
+ol {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  line-height: 1.6;
+  letter-spacing: 0.025rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding-left: 2rem;
+}
+
+ul li,
+ol li {
+  padding-left: .5rem;
+}
+
+ul ul,
+ol ul,
+ul ol,
+ol ol {
+  padding-left: 1.5rem;
+}
+
+table {
+  border-collapse: collapse;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  max-width: 100%;
+  width: 100% !important;
+  font-size: 1rem;
+  overflow: auto;
+}
+
+table th {
+  text-align: center;
+  font-weight: nomal;
+  background-color: #f0f0f0;
+  color: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+table tr {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+table td {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+}
+
+a {
+  color: #5484c8;
+}
+
+.margin-clear {
+  margin-left: 0;
+}
+
+blockquote {
+  border-left: 4px #ddd solid;
+  padding: 0;
+  margin: 2rem;
+}
+
+blockquote * {
+  color: #999;
+}
+
+blockquote p {
+  padding: 0 1rem;
+  text-indent: 0;
+}
+
+img,
+iframe,
+figure {
+  max-width: 100%;
+}
+
+p img {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+pre,
+code,
+var,
+samp,
+kbd,
+.mono {
+  font-family: "Ricty Diminished", "Consolas", 'Courier New', Courier, Monaco, monospace;
+  line-height: 1.2;
+}
+
+table code,
+p code,
+ul code,
+ol code {
+  display: inline-block;
+  border: 1px solid #eaeaea;
+  background-color: rgb(119, 119, 119);
+  color: #f8f8f8;
+  white-space: nowrap;
+  border-radius: 2px;
+  display: inline-block;
+  padding-top: 6px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 0px;
+  margin: 0 4px;
+}
+
+pre code {
+  border: 1px solid #eaeaea;
+  background-color: #f5f5f5;
+  border-radius: 2px;
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  font-size: 1rem;
+}
+
+.highlight pre {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+div.sourceCode {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+div.sourceCode pre,
+div.sourceCode code {
+  background-color: transparent;
+  margin: 0;
+}
+
+pre code,
+pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+table.sourceCode,
+tr.sourceCode,
+td.lineNumbers,
+td.sourceCode {
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
+  border: none;
+}
+
+table.sourceCode pre {
+  padding: 2px;
+  margin: 0;
+  border: none;
+  color: inherit;
+}
+table.sourceCode code {
+  color: inherit;
+}
+
+table.sourceCode {
+  width: 100%;
+  line-height: 100%;
+}
+
+td.lineNumbers {
+  text-align: right;
+  color: #aaaaaa;
+  border-right: 1px solid #aaaaaa;
+}
+</style>
+</head>
+<body>
+  <header>
+  <h1 class="title">java.util.Scannerクラス</h1>
+        </header>
+<blockquote>
+<p>オブジェクト指向プログラミングおよび演習1 第5回</p>
+</blockquote>
+<h1>標準入力の余談</h1>
+<p>現在標準入力から文字列を受け取るプログラムを作成する際、java.util.Scannerクラスを使用しています。</p>
+<p>Scannerが実装されるまでは、すべて<code>BufferedReader</code>を使用して、<code>System.in</code>の標準入力を<code>InputStreamReader</code>を経由して受け取る方法で行ってきました。</p>
+<p>Scannerクラスが実装された現在では、画面からのデータの入力はScannerクラスを使用すれば事足りるようになりました。</p>
+<h3 id="bufferedreader">ちなみにBufferedReaderを用いた標準入力</h3>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">import</span><span class="im"> java.io.BufferedReader;</span>
+<span class="kw">import</span><span class="im"> java.io.IOException;</span>
+<span class="kw">import</span><span class="im"> java.io.InputStreamReader;</span>
+
+<span class="kw">public</span> <span class="kw">class</span> BufferedReaderSample {
+  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) <span class="kw">throws</span> <span class="bu">IOException</span> {
+    <span class="co">// ↑検査例外であるIOExceptionは、InputStreamReaderなどの入出力関連プログラムで発生します。</span>
+    <span class="co">// 本来例外処理を適切に行わなければなりませんが、このメソッド内ではその例外発生時に対処できないため</span>
+    <span class="co">// throws構文を用いて例外を呼び出しもとへ伝播させます。</span>
+
+    <span class="co">// InputStreamReaderをSystem.inから生成 (InputStreamReaderは1byteずつ順次読み込み)</span>
+    <span class="bu">InputStreamReader</span> isr = <span class="kw">new</span> <span class="bu">InputStreamReader</span>(<span class="bu">System</span>.<span class="fu">in</span>);
+    <span class="co">// 改行コードが送信されるまで待ち、</span>
+    <span class="co">// バッファに溜め込んでおいてくれるBufferedReaderをInputStreamReaderから生成</span>
+    <span class="bu">BufferedReader</span> bf = <span class="kw">new</span> <span class="bu">BufferedReader</span>(isr);
+
+    <span class="co">// 改行コードが送信されるのを待って1行分をString型として返す</span>
+    <span class="bu">String</span> str = bf.<span class="fu">readLine</span>();
+
+    <span class="co">// 入力された文字列がそのまま返される</span>
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(str);
+
+  }
+}</code></pre></div>
+<h2 id="scanner">Scannerクラス</h2>
+<p><a href="https://docs.oracle.com/javase/jp/11/docs/api/java.base/java/util/Scanner.html" target="_blank">Scanner (Java SE 11 &amp; JDK 11 )</a></p>
+<p>Scannerクラスを使って、入力された文字列を型変換しながら値として受け取る方法があります。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">import</span><span class="im"> java.util.Scanner;</span>
+
+<span class="kw">public</span> <span class="kw">class</span> Main {
+  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {
+    <span class="bu">Scanner</span> in = <span class="kw">new</span> <span class="bu">Scanner</span>(<span class="bu">System</span>.<span class="fu">in</span>);  <span class="co">// IOExceptionは内部でコントロールされているため発生しない</span>
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;文字列を入力してください。&quot;</span>);
+    <span class="bu">String</span> str = in.<span class="fu">nextLine</span>();
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;入力した文字列は &quot;</span> + str + <span class="st">&quot; です。&quot;</span>);
+  }
+}</code></pre></div>
+<p>上記プログラムでは、BufferedReaderを使用する方法と同じく、1行ずつ画面から入力させることが可能です。 <code>str</code>には、入力された1行の文字が入ります。</p>
+<p>Scannerクラスは、これの他に、型を指定して値を受け取ることが可能です。 幾つかサンプルを挙げます。</p>
+<h3>文字を複数分けて読み取り</h3>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">import</span><span class="im"> java.util.Scanner;</span>
+
+<span class="kw">public</span> <span class="kw">class</span> Main {
+  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {
+    <span class="bu">Scanner</span> in = <span class="kw">new</span> <span class="bu">Scanner</span>(<span class="bu">System</span>.<span class="fu">in</span>);
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;単語を２つスペースで区切って入力してください。&quot;</span>);
+    <span class="bu">String</span> str1 = in.<span class="fu">next</span>();
+    <span class="bu">String</span> str2 = in.<span class="fu">next</span>();
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;入力した単語１は &quot;</span> + str1 + <span class="st">&quot; です。&quot;</span>);
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;入力した単語２は &quot;</span> + str2 + <span class="st">&quot; です。&quot;</span>);
+  }
+}</code></pre></div>
+<p>Scannerクラスでは、通常半角スペースの空白文字をデリミタとします。</p>
+<p>上記例では、以下の様な実行結果になります。</p>
+<pre><code>単語を２つスペースで区切って入力してください。
+aaa bbb
+入力した単語１は aaa です。
+入力した単語２は bbb です。</code></pre>
+<p>これで1行に複数の値を持たせることが可能になります。</p>
+<p>また、標準ではデリミタは半角スペースになっていますが、以下のメソッドで変更可能です。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java">in.<span class="fu">useDelimiter</span>(<span class="st">&quot;,&quot;</span>);</code></pre></div>
+<p>上記のコードを<code>next()</code>メソッドの前に呼び出しておくことで、以下のようなカンマ区切りでの標準入力が作成できます。</p>
+<pre><code>単語を２つカンマで区切って入力してください。
+aaa,bbb
+入力した単語１は aaa です。
+入力した単語２は bbb です。</code></pre>
+<h3>入力された値を整数として複数分けて読み取り</h3>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">import</span><span class="im"> java.util.Scanner;</span>
+
+<span class="kw">public</span> <span class="kw">class</span> Main {
+  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {
+    <span class="bu">Scanner</span> in = <span class="kw">new</span> <span class="bu">Scanner</span>(<span class="bu">System</span>.<span class="fu">in</span>);
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;整数を２つ入力してください。&quot;</span>);
+    <span class="dt">int</span> x = in.<span class="fu">nextInt</span>();
+    <span class="dt">int</span> y = in.<span class="fu">nextInt</span>();
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;入力した整数１は &quot;</span> + x + <span class="st">&quot; です。&quot;</span>);
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;入力した整数２は &quot;</span> + y + <span class="st">&quot; です。&quot;</span>);
+  }
+}</code></pre></div>
+<p>上記サンプルで、以下の様な処理が実現できます。</p>
+<pre><code>整数を２つ入力してください。
+10 20
+入力した整数１は 10 です。
+入力した整数２は 20 です。</code></pre>
+<h4>入力された文字列が対応する型でなかった場合</h4>
+<p>上記サンプルで、以下のように数値以外を入力させた場合は<code>java.util.InputMismatchException</code>が発生します。</p>
+<pre><code>整数を２つ入力してください。
+あああ いいい
+Exception in thread &quot;main&quot; java.util.InputMismatchException
+    at java.util.Scanner.throwFor(Scanner.java:864)
+    at java.util.Scanner.next(Scanner.java:1485)
+    at java.util.Scanner.nextInt(Scanner.java:2117)
+    at java.util.Scanner.nextInt(Scanner.java:2076)
+    at scannersample.ScannerSample.main(ScannerSample.java:23)
+/Users/Nagatani/Library/Caches/NetBeans/8.1/executor-snippets/run.xml:53: Java returned: 1</code></pre>
+<p>この例外は、実行時例外ですので、try構文を使用しなくても良いです。</p>
+<p>ただし、標準入力のように型が判断できない文字列を入力されることが想定される場合は、きちんとtry構文を使用して例外処理を書きましょう。</p>
+<p>以下のように例外処理を入れてあげることができます。</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">import</span><span class="im"> java.util.Scanner;</span>
+
+<span class="kw">public</span> <span class="kw">class</span> Main {
+  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {
+    <span class="bu">Scanner</span> in = <span class="kw">new</span> <span class="bu">Scanner</span>(<span class="bu">System</span>.<span class="fu">in</span>);
+    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;整数を２つ入力してください。&quot;</span>);
+    <span class="kw">try</span> {
+      <span class="dt">int</span> x = in.<span class="fu">nextInt</span>();
+      <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;入力した整数１は &quot;</span> + x + <span class="st">&quot; です。&quot;</span>);
+      <span class="dt">int</span> y = in.<span class="fu">nextInt</span>();
+      <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;入力した整数２は &quot;</span> + y + <span class="st">&quot; です。&quot;</span>);
+  } <span class="kw">catch</span>(<span class="bu">InputMismatchException</span> e) {
+      <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;入力された文字列は整数値に変換できません&quot;</span>);
+    }
+  }
+}</code></pre></div>
+<h3>他の型</h3>
+<p>Scannerクラスでは、Stringやintの他に、以下の型での変換が可能です。</p>
+<table>
+<thead>
+<tr class="header">
+<th>型</th>
+<th>対応するnextメソッド</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>byte</code></td>
+<td><code>nextByte()</code></td>
+</tr>
+<tr class="even">
+<td><code>short</code></td>
+<td><code>nextShort()</code></td>
+</tr>
+<tr class="odd">
+<td><code>long</code></td>
+<td><code>nextLong()</code></td>
+</tr>
+<tr class="even">
+<td><code>float</code></td>
+<td><code>nextFloat()</code></td>
+</tr>
+<tr class="odd">
+<td><code>double</code></td>
+<td><code>nextDouble()</code></td>
+</tr>
+<tr class="even">
+<td><code>boolean</code></td>
+<td><code>nextBoolean()</code></td>
+</tr>
+</tbody>
+</table>
+<p>対応している型は、Stringとプリミティブ型全部です。</p>
+<h3 id="scanner">Scannerクラスのメリット</h3>
+<p>なんといっても、IOExceptionが発生しないことです。</p>
+<p>そもそもターミナルなどからキーボードによる入力を受け付ける標準入力では、IOExceptionはなかなか発生しにくいです。 新しく追加されたScannerクラスは、検査例外であるIOExceptionではなく、実行時例外しか出力しないようになっています。</p>
+<p>ただし、Scannerクラスには、<code>IOException ioException()</code>メソッドが定義されており、必要に応じてIOExceptionを取り出すことも可能です。例外が発生していない場合には、nullが返されます。</p>
+<p>これだけで、メソッドの宣言時に、<strong><em>throws</em></strong> が要らないという素晴らしいメリットがあります。</p>
+</body>
+</html>
